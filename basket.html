@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Basket</title>
+</head>
+<body>
+
+<div class="Movie-basket">
+    <h2>Your Basket</h2>
+    <ul class="basket-items" id="basketItems"></ul>
+    <p>Total: $<span id="totalPrice">0</span></p>
+
+    <div class="input-field">
+        <input type="text" id="movieName" placeholder="Movie Name" />
+        <input type="number" id="moviePrice" placeholder="Price" />
+        <button onclick="addToBasket()">Add to Basket</button>
+    </div>
+
+    <button onclick="proceedToPayment()">Proceed to Payment</button>
+</div>
+
+<script>
+    let basket = [];
+    let totalPrice = 0;
+
+    function addToBasket() {
+        const movieName = document.getElementById('movieName').value;
+        const moviePrice = parseFloat(document.getElementById('moviePrice').value);
+
+        if (movieName && !isNaN(moviePrice)) {
+            const movie = {
+                name: movieName,
+                price: moviePrice
+            };
+
+            basket.push(movie);
+
+            totalPrice += moviePrice;
+
+            document.getElementById('movieName').value = '';
+            document.getElementById('moviePrice').value = '';
+            updateBasketDisplay();
+        } else {
+            alert('Please enter valid movie name and price.');
+        }
+    }
+
+    function updateBasketDisplay() {
+        const basketItems = document.getElementById('basketItems');
+        basketItems.innerHTML = '';
+
+        basket.forEach(movie => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${movie.name} - $${movie.price.toFixed(2)}`;
+            basketItems.appendChild(listItem);
+        });
+
+        document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+    }
+
+    function proceedToPayment() {
+        if (basket.length === 0) {
+            alert('Your basket is empty.');
+            return;
+        }
+        alert(`Proceeding to payment for total: $${totalPrice.toFixed(2)}`);
+    }
+</script>
+
+</body>
+</html>
