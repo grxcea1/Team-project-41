@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Basket - Film Fuse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header and Logo Styles */
+        header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        .circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .circle::before,
+        .circle::after {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid transparent;
+        }
+
+        .circle::before {
+            border-top-color: #f72585;
+            border-left-color: #7209b7;
+            border-right-color: #7209b7; 
+            border-width: 4px 8px 4px 8px; 
+            transform: rotate(10deg);
+        }
+
+        .circle::after {
+            border-bottom-color: #4361ee;
+            border-right-color: #4cc9f0;
+            transform: rotate(-10deg);
+        }
+
+        .text {
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .initials {
+            font-size: 50px;
+            font-family: 'Impact', sans-serif;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .logo-name {
+            font-size: 16px;
+            margin-top: 8px;
+            color: #ffffff;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Movie Basket Styles */
+        .movie-basket {
+            background-color: #25274d;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .basket-items, .saved-items {
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+
+        .basket-items li, .saved-items li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total, .discount {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .action-buttons, .discount-input, .input-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .action-buttons a, .action-buttons button, .discount-input button {
+            background-color: #4361ee;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            width: 48%;
+        }
+
+        .discount-input input {
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .remove-btn, .save-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <header>
+        <div class="logo-container">
+            <div class="circle">
+                <div class="text">
+                    <span class="initials">FF</span>
+                </div>
+            </div>
+            <div class="logo-name">Film Fuse</div>
+        </div>
+    </header>
+
+    <!-- Movie Basket Section -->
+    <div class="movie-basket">
+        <h2>Your Basket</h2>
+        <ul class="basket-items" id="basketItems"></ul>
+        <p class="total">Total: $<span id="totalPrice">0.00</span></p>
+
+        <div class="discount-input">
+            <input type="text" id="discountCode" placeholder="Enter Discount Code">
+            <button onclick="applyDiscount()">Apply</button>
+        </div>
+        <p class="discount" id="discountMessage"></p>
+
+        <div class="action-buttons">
+            <a href="products.html">Add More Movies</a>
+            <button onclick="proceedToPayment()">Check Out</button>
+        </div>
+
+        <!-- Saved for Later Section -->
+        <div id="savedContainer" style="display: none;">
+            <h3>Saved for Later</h3>
+            <ul class="saved-items" id="savedItems"></ul>
+        </div>
+    </div>
+
+    <script>
+        let basket = [];
+        let savedForLater = [];
+        let totalPrice = 0;
+        let discount = 0;
+
+        function addToBasket(movie) {
+            basket.push(movie);
+            updateBasketDisplay();
+        }
+
+        function updateBasketDisplay() {
+            const basketItems = document.getElementById('basketItems');
+            basketItems.innerHTML = '';
+            totalPrice = 0;
+
+            basket.forEach((movie, index) => {
+                totalPrice += movie.price * movie.quantity;
+                basketItems.innerHTML += `
+                    <li>
+                        ${movie.name} - $${movie.price.toFixed(2)} x 
+                        <input type="number" min="1" value="${movie.quantity}" onchange="updateQuantity(${index}, this.value)">
+                        <button class="remove-btn" onclick="removeFromBasket(${index})">X</button>
+                        <button class="save-btn" onclick="saveForLater(${index})">Save</button>
+                    </li>
+                `;
+            });
+
+            document.getElementById('totalPrice').textContent = (totalPrice - discount).toFixed(2);
+        }
+
+        function updateQuantity(index, quantity) {
+            basket[index].quantity = parseInt(quantity);
+            updateBasketDisplay();
+        }
+
+        function removeFromBasket(index) {
+            basket.splice(index, 1);
+            updateBasketDisplay();
+        }
+
+        function saveForLater(index) {
+            const item = basket.splice(index, 1)[0];
+            savedForLater.push(item);
+            updateBasketDisplay();
+            updateSavedItemsDisplay();
+        }
+
+        function updateSavedItemsDisplay() {
+            const savedItems = document.getElementById('savedItems');
+            const savedContainer = document.getElementById('savedContainer');
+            savedItems.innerHTML = '';
+
+            if (savedForLater.length > 0) {
+                savedContainer.style.display = 'block';
+                savedForLater.forEach((movie, index) => {
+                    savedItems.innerHTML += `
+                        <li>
+                            ${movie.name} - $${movie.price.toFixed(2)} x ${movie.quantity}
+                            <button onclick="moveBackToBasket(${index})">Move Back</button>
+                            <button class="remove-btn" onclick="removeFromSaved(${index})">Remove</button>
+                        </li>
+                    `;
+                });
+            } else {
+                savedContainer.style.display = 'none';
+            }
+        }
+
+        function moveBackToBasket(index) {
+            const item = savedForLater.splice(index, 1)[0];
+            basket.push(item);
+            updateBasketDisplay();
+            updateSavedItemsDisplay();
+        }
+
+        function removeFromSaved(index) {
+            savedForLater.splice(index, 1);
+            updateSavedItemsDisplay();
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value;
+            if (code === 'DISCOUNT10') {
+                discount = totalPrice * 0.10;
+                document.getElementById('discountMessage').textContent = '10% discount applied!';
+            } else {
+                discount = 0;
+                document.getElementById('discountMessage').textContent = 'Invalid discount code.';
+            }
+            updateBasketDisplay();
+        }
+
+        function proceedToPayment() {
+            if (basket.length === 0) {
+                alert('Your basket is empty.');
+                return;
+            }
+            alert(`Proceeding to payment. Total: $${(totalPrice - discount).toFixed(2)}`);
+        }
+    </script>
+</body>
+</html>
