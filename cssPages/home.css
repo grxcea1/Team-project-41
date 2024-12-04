@@ -16,6 +16,12 @@
     object-fit: cover;
     z-index: -1;
   }
+
+  html{
+    scrollbar-width: thin;
+    scrollbar-color: rgb(108, 21, 247) black;
+
+  }
   
   /* Body and Container Styling */
   body, html {
@@ -23,6 +29,66 @@
     overflow-x: hidden;
     color: white;
   }
+
+  .logo-container {
+    text-align: center;
+}
+
+.circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.circle::before,
+.circle::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+}
+
+.circle::before {
+    border-top-color: #f72585;
+    border-left-color: #7209b7;
+    border-right-color: #7209b7; 
+    border-width: 4px 8px 4px 8px; 
+    transform: rotate(10deg);
+}
+
+.circle::after {
+    border-bottom-color: #4361ee;
+    border-right-color: #4cc9f0;
+    transform: rotate(-10deg);
+}
+
+.text {
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+.initials {
+    font-size: 50px;
+    font-family: 'Impact', sans-serif;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.logo-name {
+    font-size: 16px;
+    margin-top: 8px;
+    color: #ffffff;
+    font-family: 'Helvetica', sans-serif;
+}
   
   /* Navigation Sidebox */
   .sidebox {
@@ -43,15 +109,28 @@
   }
   
   .nav-bar a {
+    display: block;
+    padding: 15px 35px;
+    background: rgba(100, 100, 255, 0.7); 
     color: #fefeff;
     text-decoration: none;
     font-size: 1;
   }
   
   /* Categories Section */
-  #categories .header {
+
+  #categories .container{
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+  }
+  #categories .header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 15px;
     margin-top: 20px;
   }
@@ -74,6 +153,7 @@
     z-index: 2;
 }
 
+
   /* Movie Poster Boxes */
   .container {
     margin-top: 40px;
@@ -82,15 +162,32 @@
   .poster-box img {
     width: 100%;
     border-radius: 8px;
+    position: relative;
   }
   
+  #categories li a {
+    display: block;
+    padding: 15px 35px;
+    background: rgba(100, 100, 255, 0.7); 
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 150px;
+    transition: background-color 0.3s ease;
+}
 
 /* Slideshow Container */
 .slideshow-container {
-    position: relative;
-    width: 100vw;
-    height: 60vh;
+    position: static;
+    width: 100%; 
+    height: 500px;
+    overflow: hidden;
     margin-top: 30px;
+    align-items: center;
+    justify-content: center;
   }
  
   .mySlides {
@@ -98,11 +195,25 @@
     width: 100%;
     height: 500%;
   }
+
+  .myslides.active{
+    display:block;
+  }
+
+  .dot{
+    cursor: pointer;
+  }
+
+  .dot.active{
+    background-color: red;
+  }
  
   .mySlides img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 800%;
+    height: 500%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
   }
  
   .prev, .next {

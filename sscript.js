@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", function() {
     showSlides(slideIndex);//keeps track of current slide (staring at 0)
     
     // Next/previous controls n is either the next or previous slide 
-    function plusSlides(n) {
+    window.plusSlides = function (n) {
       showSlides(slideIndex += n);
     }
     
     // allows user to jump to specific slide and n is the current slide
-    function currentSlide(n) {
+    window.currentSlide = function (n) {
       showSlides(slideIndex = n);
     }
     
