@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Page</title>
-    <link rel="stylesheet" href="ffLoginPage.css"> <!-- Linking your CSS file -->
+    <link rel="stylesheet" href="ffLoginPage.css"> <!-- Linking CSS file -->
 </head>
 <body>
     
     <section>
         <!-- Background Video -->
-        <video src="12080630-uhd_3456_2160_30fps.mp4" loop muted autoplay id="bg-video" type="video/mp4"></video>
+        <video src="images/image 4.mp4" loop muted autoplay id="bg-video" type="video/mp4"></video>
         
         <!-- Login Form -->
         <div class="box">
             <div class="form-value">
-                <!-- Form submits to your PHP script -->
+                <!-- Form submits to PHP script -->
                 <form method="post" action="ffLoginPage.php">
                     <h2>Login</h2>
 
@@ -72,8 +72,8 @@ if (isset($_POST['login'])){
             if (password_verify($_POST['password'], $row['password'])){ 
                 session_start();
                 $_SESSION["Email"]=$_POST['email'];
-                //header("Location:Home.php");
-                echo "Logged in";
+                header("Location:home.html");
+                echo "Your Logged in";
                 exit();
             } else {
              echo "<p style='color:red'>Error logging in, password does not match </p>";
