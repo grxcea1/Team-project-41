@@ -2,7 +2,7 @@
  $host = "localhost";
  $username ="root";
  $password = "";
- $dbname = "filmfuse_db";
+ $dbname = "filmfuse_db"; 
 
  
 try{
