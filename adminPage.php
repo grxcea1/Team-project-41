@@ -1,116 +1,108 @@
+<?php
+session_start();
+require_once 'ffdbConn.php';
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['add_product'])) {
+        $p_Name = htmlspecialchars($_POST['p_Name']);
+        $p_Price = filter_var($_POST['p_Price'], FILTER_VALIDATE_FLOAT);
+        $p_Stock = filter_var($_POST['p_Stock'], FILTER_VALIDATE_INT);
+        $categoryID = filter_var($_POST['categoryID'], FILTER_VALIDATE_INT);
+        
+        if ($p_Name && $p_Price !== false && $p_Stock !== false && $categoryID !== false) {
+            $stmt = $pdo->prepare("INSERT INTO product (p_Name, p_Price, p_Stock, categoryID) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$p_Name, $p_Price, $p_Stock, $categoryID]);
+        }
+    }
+    
+    if (isset($_POST['update_product'])) {
+        $pid = filter_var($_POST['pid'], FILTER_VALIDATE_INT);
+        $p_Name = htmlspecialchars($_POST['p_Name']);
+        $p_Price = filter_var($_POST['p_Price'], FILTER_VALIDATE_FLOAT);
+        $p_Stock = filter_var($_POST['p_Stock'], FILTER_VALIDATE_INT);
+        
+        if ($pid && $p_Name && $p_Price !== false && $p_Stock !== false) {
+            $stmt = $pdo->prepare("UPDATE product SET p_Name = ?, p_Price = ?, p_Stock = ? WHERE pid = ?");
+            $stmt->execute([$p_Name, $p_Price, $p_Stock, $pid]);
+        }
+    }
+    
+    if (isset($_POST['delete_product'])) {
+        $pid = filter_var($_POST['pid'], FILTER_VALIDATE_INT);
+        if ($pid) {
+            $stmt = $pdo->prepare("DELETE FROM product WHERE pid = ?");
+            $stmt->execute([$pid]);
+        }
+    }
+}
+
+$stmt = $pdo->query("SELECT * FROM product");
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FilmFuse - Inventory Management</title>
+    <title>FilmFuse - Admin</title>
     <link rel="stylesheet" href="adminPage.css">
-    <link rel="stylesheet" href="adminPage2.css">
-    <script src="./index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <div class="circle">
-                <div class="text">
-                    <span class="initials">FF</span>
-                </div>
-            </div>
-            <div class="logo-name">FilmFuse</div>
-        </div>
-    </header>
+<header>
+    <h1>Inventory Management</h1>
+    <a href="logout.php">Logout</a>
+</header>
 
-    <div class="sidebox">
-        <nav class="nav-bar">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="inventory.php">Inventory</a>
-            <a href="orders.php">Orders</a>
-            <a href="customers.php">Customers</a>
-            <a href="reports.php">Reports</a>
-            <a href="profile.php">Profile</a>
-            <a href="settings.php">Settings</a>
-            <a href="logout.php">Logout</a>
-        </nav>
-    </div>
+<div class="sidebar">
+    <nav>
+        <ul>
+            <li><a href="orders.php">Orders</a></li>
+            <li><a href="password.php">Password</a></li>
+            <li><a href="add_product.php">Add Product</a></li>
+        </ul>
+    </nav>
+</div>
 
-    <div class="main-container">
-        <h1>Inventory Management</h1>
-        <div class="buttons">
-            <a href="add_product.php" class="btn">Add Product</a>
-        </div>
+<table id="productTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($products as $product): ?>
+            <tr>
+                <form action="" method="POST">
+                    <td><?= htmlspecialchars($product['pid']) ?></td>
+                    <td><input type="text" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
+                    <td><input type="number" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
+                    <td><input type="number" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
+                    <td><?= htmlspecialchars($product['categoryID']) ?></td>
+                    <td>
+                        <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
+                        <button type="submit" name="update_product">Update</button>
+                        <button type="submit" name="delete_product">Delete</button>
+                    </td>
+                </form>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
-        <?php
-require_once 'ffdbConn.php'; 
-
-if (!$pdo) {
-    die("Error: Database connection failed.");
-}
-
-$products = [];
-try {
-    $stmt = $pdo->prepare("SELECT pid, p_Name, p_Price, p_Stock, categoryID FROM product");
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error fetching products: " . $e->getMessage();
-    exit;
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $pid = $_POST['pid'] ?? null;
-    $p_Name = $_POST['p_Name'] ?? '';
-    $p_Price = $_POST['p_Price'] ?? 0;
-    $p_Stock = $_POST['p_Stock'] ?? 0;
-    
-    if (!empty($pid) && !empty($p_Name)) {
-        try {
-            $stmt = $pdo->prepare("UPDATE product SET p_Name = ?, p_Price = ?, p_Stock = ? WHERE pid = ?");
-            $stmt->execute([$p_Name, $p_Price, $p_Stock, $pid]);
-            echo "<p style='color: green;'>Product updated successfully!</p>";
-        } catch (PDOException $e) {
-            echo "<p style='color: red;'>Error updating product: " . $e->getMessage() . "</p>";
-        }
-    } else {
-        echo "<p style='color: red;'>Invalid input! Make sure all fields are filled.</p>";
-    }
-}
-?>
-
-        <div class="inventory-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($product['pid']) ?></td>
-                        <td><?= htmlspecialchars($product['p_Name']) ?></td>
-                        <td><?= htmlspecialchars($product['p_Price']) ?></td>
-                        <td><?= htmlspecialchars($product['p_Stock']) ?></td>
-                        <td><?= htmlspecialchars($product['categoryID']) ?></td>
-                        <td>
-                            <form action="inventory.php" method="POST">
-                                <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
-                                <input type="text" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required>
-                                <input type="number" name="p_Price" step="0.01" value="<?= $product['p_Price'] ?>" required>
-                                <input type="number" name="p_Stock" value="<?= $product['p_Stock'] ?>" required>
-                                <button type="submit">Update</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<script>
+    $(document).ready(function() {
+        $('#productTable').DataTable();
+    });
+</script>
 </body>
 </html>
