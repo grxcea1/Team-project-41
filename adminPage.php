@@ -2,42 +2,42 @@
 session_start();
 require_once 'ffdbConn.php';
 
+$categories = [
+    1 => 'Action',
+    2 => 'Animation',
+    3 => 'Romance',
+    4 => 'Comedy',
+    5 => 'Thriller',
+    6 => 'Horror'
+];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['add_product'])) {
-        $p_Name = htmlspecialchars($_POST['p_Name']);
-        $p_Price = filter_var($_POST['p_Price'], FILTER_VALIDATE_FLOAT);
-        $p_Stock = filter_var($_POST['p_Stock'], FILTER_VALIDATE_INT);
-        $categoryID = filter_var($_POST['categoryID'], FILTER_VALIDATE_INT);
-        
-        if ($p_Name && $p_Price !== false && $p_Stock !== false && $categoryID !== false) {
-            $stmt = $pdo->prepare("INSERT INTO product (p_Name, p_Price, p_Stock, categoryID) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$p_Name, $p_Price, $p_Stock, $categoryID]);
-        }
-    }
-    
-    if (isset($_POST['update_product'])) {
-        $pid = filter_var($_POST['pid'], FILTER_VALIDATE_INT);
-        $p_Name = htmlspecialchars($_POST['p_Name']);
-        $p_Price = filter_var($_POST['p_Price'], FILTER_VALIDATE_FLOAT);
-        $p_Stock = filter_var($_POST['p_Stock'], FILTER_VALIDATE_INT);
-        
-        if ($pid && $p_Name && $p_Price !== false && $p_Stock !== false) {
-            $stmt = $pdo->prepare("UPDATE product SET p_Name = ?, p_Price = ?, p_Stock = ? WHERE pid = ?");
-            $stmt->execute([$p_Name, $p_Price, $p_Stock, $pid]);
-        }
-    }
-    
-    if (isset($_POST['delete_product'])) {
-        $pid = filter_var($_POST['pid'], FILTER_VALIDATE_INT);
-        if ($pid) {
-            $stmt = $pdo->prepare("DELETE FROM product WHERE pid = ?");
-            $stmt->execute([$pid]);
-        }
-    }
+$categoryFilter = $_GET['category'] ?? '';
+$minPrice = $_GET['min_price'] ?? '';
+$maxPrice = $_GET['max_price'] ?? '';
+$searchName = $_GET['search_name'] ?? '';
+
+$query = "SELECT * FROM product WHERE 1=1";
+$params = [];
+
+if (!empty($categoryFilter)) {
+    $query .= " AND categoryID = ?";
+    $params[] = $categoryFilter;
+}
+if (!empty($minPrice)) {
+    $query .= " AND p_Price >= ?";
+    $params[] = $minPrice;
+}
+if (!empty($maxPrice)) {
+    $query .= " AND p_Price <= ?";
+    $params[] = $maxPrice;
+}
+if (!empty($searchName)) {
+    $query .= " AND p_Name LIKE ?";
+    $params[] = "%$searchName%";
 }
 
-$stmt = $pdo->query("SELECT * FROM product");
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -63,19 +63,36 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <ul>
             <li><a href="orders.php">Orders</a></li>
             <li><a href="password.php">Password</a></li>
-            <li><a href="add_product.php">Add Product</a></li>
+            <li><a href="add_Product.php">Add Product</a></li>
         </ul>
     </nav>
 </div>
+
+<form method="GET">
+    <input type="text" name="search_name" placeholder="Search by Name" value="<?= htmlspecialchars($searchName) ?>">
+    <select name="category">
+        <option value="">All Categories</option>
+        <?php foreach ($categories as $id => $name): ?>
+            <option value="<?= $id ?>" <?= ($categoryFilter == $id) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($name) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <input type="number" name="min_price" placeholder="Min Price" value="<?= htmlspecialchars($minPrice) ?>">
+    <input type="number" name="max_price" placeholder="Max Price" value="<?= htmlspecialchars($maxPrice) ?>">
+    <button type="submit">Filter</button>
+</form>
 
 <table id="productTable">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Image</th>
             <th>Price</th>
             <th>Stock</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -85,13 +102,16 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <form action="" method="POST">
                     <td><?= htmlspecialchars($product['pid']) ?></td>
                     <td><input type="text" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
+                    <td><input type="text" name="p_Image" value="<?= htmlspecialchars($product['p_Image'] ?? '') ?>" required></td>
                     <td><input type="number" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
                     <td><input type="number" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
-                    <td><?= htmlspecialchars($product['categoryID']) ?></td>
+                    <td><?= htmlspecialchars($categories[$product['categoryID']] ?? 'Unknown') ?></td>
+                    <td><textarea name="p_Description" required><?= htmlspecialchars($product['p_Description'] ?? '') ?></textarea></td>
                     <td>
                         <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
                         <button type="submit" name="update_product">Update</button>
                         <button type="submit" name="delete_product">Delete</button>
+                        <a href="edit_Product.php?pid=<?= $product['pid'] ?>">Edit</a>
                     </td>
                 </form>
             </tr>
@@ -106,3 +126,4 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </script>
 </body>
 </html>
+
