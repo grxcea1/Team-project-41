@@ -72,7 +72,7 @@ if (isset($_POST['login'])){
             if (password_verify($_POST['password'], $row['password'])){ 
                 session_start();
                 $_SESSION["Email"]=$_POST['email'];
-                header("Location:home.html");
+                header("Location:home.php");
                 echo "Your Logged in";
                 exit();
             } else {
