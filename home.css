@@ -77,6 +77,15 @@
     z-index: -1;
   }
 
+  .movie-price {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fbf7f7;
+    margin-top: 5px;
+}
+
+
   html{
     scrollbar-width: thin;
     scrollbar-color: rgb(108, 21, 247) black;
