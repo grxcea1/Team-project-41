@@ -9,11 +9,19 @@
          <!-- Bootstrap CSS -->
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <!--css link for this page -->
-         <link rel="stylesheet" href="home.css">
+         <link rel="stylesheet" href="cssPages/home.css">
          <!--fav Icon -->
          <link rel="shortcut icon" href="fav">
          <!--box icons-->
          <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        
+        <div class="search">
+        <form method="post" action="searchbar.php">
+         <p>Search Movies or Categories</p>
+         <input class="input" type="text" name="searchKeyword" id="searchKeyword" required>
+         <button class="search-button" type="submit" name="search">Search</button>
+        </form>
+        </div>
     </head>
     
 <body>
@@ -42,19 +50,10 @@
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.html">Home</a>
-            <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="basket.html">Basket</a>
-            <a href="account.html">Accounts</a>
-            <a href="contact.html">Contact us</a>
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Basket</a>
         </nav>
-            <a href="home.html">Home</a>
-            <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="basket.html">Basket</a>
-            <a href="account.html">Accounts</a>
-            <a href="contact.html">Contact us</a>
     </div>
 
 
@@ -117,34 +116,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/A family affair.jpg" alt="movie 1" class="img-fluid">
-            <p class="movie-price">£12.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/Alone.jpg" alt="movie 2" class="img-fluid">
-            <p class="movie-price">£10.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/apartment 7a.jpg" alt="movie 3" class="img-fluid">
-            <p class="movie-price">£13.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/blink twice.jpg" alt="movie 4" class="img-fluid">
-            <p class="movie-price">£15.99</p> 
-        </a>
         </div>
     </div>
 </div>
@@ -156,34 +143,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/deadpool&wolverine.jpg" alt="movie 5" class="img-fluid">
-            <p class="movie-price">£15.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/family switch.jpg" alt="movie 6" class="img-fluid">
-            <p class="movie-price">£13.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/Fly Me to the Moon (2024).jpg" alt="movie 7" class="img-fluid">
-            <p class="movie-price">£14.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/Nowhere (2023).jpg" alt="movie 8" class="img-fluid">
-            <p class="movie-price">£11.99</p> 
-        </a>
         </div>
     </div>
 </div>
@@ -195,34 +170,22 @@
 <div class="row">
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/Look Away (2018).jpg" alt="movie 9" class="img-fluid">
-            <p class="movie-price">£8.99</p> 
-        </a>
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
-            <img src="images/Inside Out (2015).jpg" alt="movie 10" class="img-fluid">
-            <p class="movie-price">£14.99</p> 
-        </a>
+            <img src="images/The Fall Guy (2024).jpg" alt="movie 10" class="img-fluid">
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
-            <img src="images/wish.webp" alt="movie 11" class="img-fluid">
-            <p class="movie-price">£9.99</p> 
-        </a>
+            <img src="images/Rebel Ridge (2024).jpg" alt="movie 11" class="img-fluid">
         </div>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
-        <a href="movieinfo.html">
             <img src="images/Rio (2011).jpg" alt="movie 12" class="img-fluid">
-            <p class="movie-price">£11.99</p> 
-        </a>
         </div>
     </div>
 </div>
@@ -240,14 +203,7 @@
       </div>
 
 
-   <footer class="footer">
-    <hr>
-    <P> 
-    Join the Film Fuse community today, and let us bring the world of cinema to you.
-    Whether you're planning a cozy night in or looking for your next movie obsession,
-    we’re here to make it memorable.
-    </P>
-   </footer>
+   
 </body>
 </html>
 
