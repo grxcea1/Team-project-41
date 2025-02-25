@@ -8,7 +8,7 @@
 ::placeholder{
   color: #000;
   opacity: 2;
-  font-size: 30px;
+  font-size: 16px;
   line-height: normal;
 }
 .search input{
@@ -17,7 +17,7 @@
   background: transparent;
   flex: 1;
   border: 0;
-  font-size: 25px;
+  font-size: 12px;
 }
 .search{
   width: 100%;
@@ -39,7 +39,7 @@
 
 }
 
-/* Search Button, Used An Image */
+
 .searchButton img{
   width: 40px;
 }
@@ -353,6 +353,7 @@
     margin: auto;
   }
 
+ .prev, .next{
     position: absolute;
     top: 50%;
     color: white;
