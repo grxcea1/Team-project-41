@@ -353,6 +353,7 @@
     margin: auto;
   }
 
+  .prev, .next{
     position: absolute;
     top: 50%;
     color: white;
