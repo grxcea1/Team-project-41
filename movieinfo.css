@@ -2,6 +2,19 @@ main {
     display: flex;
 }
 
+.movie-pic {
+    width: 50%;
+}
+
+.movie-pic img {
+    width: 100%;
+    height: auto;
+}
+
 #description{
     margin-left: 20px;
+}
+
+form label {
+    color: white;
 }
