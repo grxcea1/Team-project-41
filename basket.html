@@ -216,7 +216,7 @@
         <p class="discount" id="discountMessage"></p>
 
         <div class="action-buttons">
-            <a href="products.html">Add More Movies</a>
+            <a href="home.html">Add More Movies</a>
             <button onclick="proceedToPayment()">Check Out</button>
         </div>
 
@@ -310,7 +310,7 @@
 
         function applyDiscount() {
             const code = document.getElementById('discountCode').value;
-            if (code === 'DISCOUNT10') {
+            if (code === 'FILMFUSE10') {
                 discount = totalPrice * 0.10;
                 document.getElementById('discountMessage').textContent = '10% discount applied!';
             } else {

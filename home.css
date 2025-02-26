@@ -1,3 +1,63 @@
+/* Search Bar */
+.searchContainer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+/* Placeholder Design */
+::placeholder{
+  color: #000;
+  opacity: 2;
+  font-size: 16px;
+  line-height: normal;
+}
+.search input{
+  outline: none;
+  padding: 2px 2px;
+  background: transparent;
+  flex: 1;
+  border: 0;
+  font-size: 12px;
+}
+.search{
+  width: 100%;
+  height: 65px;
+  max-width: 700px;
+  background: rgba(225,225,225,0.5);
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 50px;
+}
+
+.searchButton {
+  margin-top: 0%;
+  border: 0;
+  width: 70px;
+  height: 60px;
+  cursor: pointer;
+
+}
+
+
+.searchButton img{
+  width: 40px;
+}
+
+#suggestionBox {
+  position: relative;
+  width: auto;
+  margin-left: 100px;
+  margin-right: 100px;
+  text-align: center;
+  color: #000;
+  background: rgb(211, 208, 208);
+  font-size: 30px;
+  margin-top: 20px;
+  border-radius: 15px;
+}
+
+
 /* Base Styles */
 * {
     margin: 0;
@@ -5,9 +65,10 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
+
   
-  /* Background Video Fullscreen */
-  .video-background {
+
+  .mode-image {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,7 +76,23 @@
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-  }
+    transition: opacity 0.5s ease;
+    
+}
+
+
+#toggle-mode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
 
   .movie-price {
     text-align: center;
@@ -103,7 +180,18 @@
     color: #ffffff;
     font-family: 'Helvetica', sans-serif;
 }
-  
+
+/*search bar design*/
+#search-container {
+  width: 300px;
+  height: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+
   /* Navigation Sidebox */
   .sidebox {
     color: #ffffff;
@@ -133,6 +221,20 @@
     font-size: 1;
   }
   
+  .sidebox .nav-bar span{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    position: relative;
+    top: 2px;
+    right: -20px;
+
+  }
   /* Categories Section */
 
   #categories .container{
@@ -143,6 +245,7 @@
 
   }
   #categories .header {
+    list-style-type: none;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -171,13 +274,21 @@
 
 
   /* Movie Poster Boxes */
-  .container {
+  /* .container {
     margin-top: 40px;
+  } */
+  
+  .poster-box {
+    overflow: hidden; 
+    border-radius: 10px; 
   }
   
+  
   .poster-box img {
+    margin: 10px;
     width: 100%;
-    border-radius: 8px;
+    height: auto;
+    border-radius: 5px;
     position: relative;
   }
 
@@ -188,7 +299,7 @@
   
   .img-fluid {
     max-width: 100%;
-    height: 270px;
+    max-height:fit-content;
   }
 
   #categories li a {
@@ -241,15 +352,15 @@
     display: block;
     margin: auto;
   }
- 
-  .prev, .next {
-    position: relative;
+
+ .prev, .next{
+    position: absolute;
     top: 50%;
     color: white;
     font-size: 24px;
     padding: 10px;
     cursor: pointer;
-    z-index: 1;
+    z-index: 9999;
     background-color: rgba(0,0,0,0.5);
     border-radius: 5px;
   }
@@ -259,17 +370,23 @@
 
 
 .section {
-    margin-bottom: 30px;
     border: 1px solid rgb(100, 100, 255);
     color: #f9f2f2;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    text-align: center;
 }
 h1, h2 {
     color: #f7f4f4;
-    
+    text-align: center;
 }
+
+p {
+    text-align: center;
+}
+    
+
 .footer {
   text-align: center; 
   margin-top: 40px; 
@@ -413,8 +530,15 @@ button{
   margin-bottom: 30px;
 }
 
- 
-
-
-
+.A2Cbutton {
+    background-color: #4705a9;
+    width: 100px;
+    border: none;
+    outline: none;
+    color: #fff;
+    height: 35px;
+    border-radius: 30px;
+    margin-top: 5px;
+    box-shadow: 0px 5px 15px 0px rgba(38, 0, 181, 0.3);
+}
 
