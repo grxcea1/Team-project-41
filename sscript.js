@@ -29,5 +29,16 @@ document.addEventListener("DOMContentLoaded", function() {
       dots[slideIndex-1].className += " active";
     }
     });
+
     
+    function toggleMode() {
+      const body = document.body;
+      const lightImage = document.getElementById('light-image');
+      const darkImage = document.getElementById('dark-image');
+  
+      body.classList.toggle('dark-mode');
+      lightImage.style.display = lightImage.style.display === 'none' ? 'block' : 'none';
+      darkImage.style.display = darkImage.style.display === 'none' ? 'block' : 'none';
+  }
+  
     
