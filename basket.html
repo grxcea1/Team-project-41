@@ -217,7 +217,7 @@
 
         <div class="action-buttons">
             <a href="home.html">Add More Movies</a>
-            <button onclick="proceedToPayment()">Check Out</button>
+           <a href="checkOut.html"><button onclick="proceedToPayment()">Check Out</button></a>
         </div>
 
         <!-- Saved for Later Section -->
@@ -228,105 +228,155 @@
     </div>
 
     <script>
-        let basket = [];
-        let savedForLater = [];
-        let totalPrice = 0;
+        // let basket = [];
+        // let savedForLater = [];
+        // let totalPrice = 0;
+        // let discount = 0;
+
+        // function addToBasket(movie) {
+        //     basket.push(movie);
+        //     updateBasketDisplay();
+        // }
+
+        // function updateBasketDisplay() {
+        //     const basketItems = document.getElementById('basketItems');
+        //     basketItems.innerHTML = '';
+        //     totalPrice = 0;
+
+        //     basket.forEach((movie, index) => {
+        //         totalPrice += movie.price * movie.quantity;
+        //         basketItems.innerHTML += `
+        //             <li>
+        //                 ${movie.name} - $${movie.price.toFixed(2)} x 
+        //                 <input type="number" min="1" value="${movie.quantity}" onchange="updateQuantity(${index}, this.value)">
+        //                 <button class="remove-btn" onclick="removeFromBasket(${index})">X</button>
+        //                 <button class="save-btn" onclick="saveForLater(${index})">Save</button>
+        //             </li>
+        //         `;
+        //     });
+
+        //     document.getElementById('totalPrice').textContent = (totalPrice - discount).toFixed(2);
+        // }
+
+        // function updateQuantity(index, quantity) {
+        //     basket[index].quantity = parseInt(quantity);
+        //     updateBasketDisplay();
+        // }
+
+        // function removeFromBasket(index) {
+        //     basket.splice(index, 1);
+        //     updateBasketDisplay();
+        // }
+
+        // function saveForLater(index) {
+        //     const item = basket.splice(index, 1)[0];
+        //     savedForLater.push(item);
+        //     updateBasketDisplay();
+        //     updateSavedItemsDisplay();
+        // }
+
+        // function updateSavedItemsDisplay() {
+        //     const savedItems = document.getElementById('savedItems');
+        //     const savedContainer = document.getElementById('savedContainer');
+        //     savedItems.innerHTML = '';
+
+        //     if (savedForLater.length > 0) {
+        //         savedContainer.style.display = 'block';
+        //         savedForLater.forEach((movie, index) => {
+        //             savedItems.innerHTML += `
+        //                 <li>
+        //                     ${movie.name} - $${movie.price.toFixed(2)} x ${movie.quantity}
+        //                     <button onclick="moveBackToBasket(${index})">Move Back</button>
+        //                     <button class="remove-btn" onclick="removeFromSaved(${index})">Remove</button>
+        //                 </li>
+        //             `;
+        //         });
+        //     } else {
+        //         savedContainer.style.display = 'none';
+        //     }
+        // }
+
+        // function moveBackToBasket(index) {
+        //     const item = savedForLater.splice(index, 1)[0];
+        //     basket.push(item);
+        //     updateBasketDisplay();
+        //     updateSavedItemsDisplay();
+        // }
+
+        // function removeFromSaved(index) {
+        //     savedForLater.splice(index, 1);
+        //     updateSavedItemsDisplay();
+        // }
+
+        // function applyDiscount() {
+        //     const code = document.getElementById('discountCode').value;
+        //     if (code === 'FILMFUSE10') {
+        //         discount = totalPrice * 0.10;
+        //         document.getElementById('discountMessage').textContent = '10% discount applied!';
+        //     } else {
+        //         discount = 0;
+        //         document.getElementById('discountMessage').textContent = 'Invalid discount code.';
+        //     }
+        //     updateBasketDisplay();
+        // }
+
+        // function proceedToPayment() {
+        //     if (basket.length === 0) {
+        //         alert('Your basket is empty.');
+        //         return;
+        //     }
+        //     alert(`Proceeding to payment. Total: $${(totalPrice - discount).toFixed(2)}`);
+        // }
+
         let discount = 0;
-
-        function addToBasket(movie) {
-            basket.push(movie);
-            updateBasketDisplay();
-        }
-
-        function updateBasketDisplay() {
-            const basketItems = document.getElementById('basketItems');
-            basketItems.innerHTML = '';
+        let totalPrice = 0;
+        function loadBasket() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || {};
+            let basketItems = document.getElementById("basketItems");
             totalPrice = 0;
-
-            basket.forEach((movie, index) => {
-                totalPrice += movie.price * movie.quantity;
+            basketItems.innerHTML = "";
+            
+            Object.keys(cart).forEach(movie => {
+                let price = 10.00; // Example price per movie
+                let quantity = cart[movie];
+                totalPrice += price * quantity;
                 basketItems.innerHTML += `
                     <li>
-                        ${movie.name} - $${movie.price.toFixed(2)} x 
-                        <input type="number" min="1" value="${movie.quantity}" onchange="updateQuantity(${index}, this.value)">
-                        <button class="remove-btn" onclick="removeFromBasket(${index})">X</button>
-                        <button class="save-btn" onclick="saveForLater(${index})">Save</button>
-                    </li>
-                `;
+                        ${movie} - $${price.toFixed(2)} x ${quantity}
+                        <button onclick="removeFromBasket('${movie}')">Remove</button>
+                    </li>`;
             });
-
-            document.getElementById('totalPrice').textContent = (totalPrice - discount).toFixed(2);
+            updateTotalPrice();
         }
-
-        function updateQuantity(index, quantity) {
-            basket[index].quantity = parseInt(quantity);
-            updateBasketDisplay();
+        
+        function updateTotalPrice() {
+            document.getElementById("totalPrice").textContent = (totalPrice - discount).toFixed(2);
         }
-
-        function removeFromBasket(index) {
-            basket.splice(index, 1);
-            updateBasketDisplay();
+        
+        function removeFromBasket(movie) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || {};
+            delete cart[movie];
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadBasket();
         }
-
-        function saveForLater(index) {
-            const item = basket.splice(index, 1)[0];
-            savedForLater.push(item);
-            updateBasketDisplay();
-            updateSavedItemsDisplay();
-        }
-
-        function updateSavedItemsDisplay() {
-            const savedItems = document.getElementById('savedItems');
-            const savedContainer = document.getElementById('savedContainer');
-            savedItems.innerHTML = '';
-
-            if (savedForLater.length > 0) {
-                savedContainer.style.display = 'block';
-                savedForLater.forEach((movie, index) => {
-                    savedItems.innerHTML += `
-                        <li>
-                            ${movie.name} - $${movie.price.toFixed(2)} x ${movie.quantity}
-                            <button onclick="moveBackToBasket(${index})">Move Back</button>
-                            <button class="remove-btn" onclick="removeFromSaved(${index})">Remove</button>
-                        </li>
-                    `;
-                });
-            } else {
-                savedContainer.style.display = 'none';
-            }
-        }
-
-        function moveBackToBasket(index) {
-            const item = savedForLater.splice(index, 1)[0];
-            basket.push(item);
-            updateBasketDisplay();
-            updateSavedItemsDisplay();
-        }
-
-        function removeFromSaved(index) {
-            savedForLater.splice(index, 1);
-            updateSavedItemsDisplay();
-        }
-
+        
         function applyDiscount() {
-            const code = document.getElementById('discountCode').value;
+            const code = document.getElementById("discountCode").value;
             if (code === 'FILMFUSE10') {
                 discount = totalPrice * 0.10;
-                document.getElementById('discountMessage').textContent = '10% discount applied!';
+                document.getElementById("discountMessage").textContent = '10% discount applied!';
             } else {
                 discount = 0;
-                document.getElementById('discountMessage').textContent = 'Invalid discount code.';
+                document.getElementById("discountMessage").textContent = 'Invalid discount code.';
             }
-            updateBasketDisplay();
+            updateTotalPrice();
         }
-
+        
         function proceedToPayment() {
-            if (basket.length === 0) {
-                alert('Your basket is empty.');
-                return;
-            }
-            alert(`Proceeding to payment. Total: $${(totalPrice - discount).toFixed(2)}`);
+            alert("Proceeding to payment.");
         }
+        
+        loadBasket();
     </script>
 </body>
 </html>
