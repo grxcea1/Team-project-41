@@ -35,7 +35,7 @@
                 <a href="home.php">Home</a>
                 <a href="ffLoginPage.php">Login</a>
                 <a href="aboutus.html">About Us</a>
-                <a href="basket.html">Basket</a>
+                <a href="checkOut.html">Checkout</a>
                 <a href="account.html">Accounts</a>
                 <a href="contact.html">Contact us</a>
             </nav>
