@@ -4,18 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Page</title>
-    <link rel="stylesheet" href="ffLoginPage.css"> <!-- Linking your CSS file -->
+    <link rel="stylesheet" href="home.css"> <!-- Linking CSS file -->
 </head>
 <body>
     
     <section>
-        <!-- Background Video -->
-        <video src="12080630-uhd_3456_2160_30fps.mp4" loop muted autoplay id="bg-video" type="video/mp4"></video>
-        
+         <!--link to js-->
+    <script src="sscript.js"></script>
+
+<!-- Toggle Button to Switch Backgrounds -->
+<button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+
+  <!-- Light Mode and Dark Mode Images -->
+  <div id="image-container">
+    <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+    <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+</div>
+
+<!-- LOGO BAR -->
+<header>
+        <div class="logo-container">
+            <div class="circle">
+                <div class="text">
+                    <span class="initials">FF</span>
+                </div>
+            </div>
+            <div class="logo-name">Film Fuse</div>
+        </div>
+    </header>
+     <!-- Navigation menu -->
+     <div class="sidebox">
+        <nav class="nav-bar">
+            <a href="home.html">Home</a>
+            <a href="ffLoginPage.php">Login</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="basket.html">Basket<span id="insideCart">0</span></a>
+            <a href="account.html">Accounts</a>
+            <a href="contact.html">Contact us</a>
+
+       
+            <div id="search-container">
+                <input type="text" id="search-bar" placeholder="Search...">
+                <button id="search-button">Go</button>
+            </div>
+
+
+
+            </section>
+
         <!-- Login Form -->
-        <div class="box">
+    
             <div class="form-value">
-                <!-- Form submits to your PHP script -->
+                <!-- Form submits to PHP script -->
                 <form method="post" action="ffLoginPage.php">
                     <h2>Login</h2>
 
@@ -48,9 +88,8 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </section>
-
+        
+   
     <!-- Ionicons Scripts -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -72,8 +111,8 @@ if (isset($_POST['login'])){
             if (password_verify($_POST['password'], $row['password'])){ 
                 session_start();
                 $_SESSION["Email"]=$_POST['email'];
-                //header("Location:Home.php");
-                echo "Logged in";
+                header("Location:home.php");
+                echo "Your Logged in";
                 exit();
             } else {
              echo "<p style='color:red'>Error logging in, password does not match </p>";
