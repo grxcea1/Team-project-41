@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Movie Basket Styles */
+.movie-basket {
+    background-color: #25274d;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+}
+
+.basket-items, .saved-items {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 10px 0;
+}
+
+.basket-items li, .saved-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.total, .discount {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.action-buttons, .discount-input, .input-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.action-buttons a, .action-buttons button, .discount-input button {
+    background-color: #4361ee;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    width: 48%;
+}
+
+.discount-input input {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.remove-btn, .save-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
