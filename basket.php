@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="basket.css">
     </head>
     <body>
-        <!-- Toggle Button to Switch Backgrounds -->
+       
         <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
 
-        <!-- Light Mode and Dark Mode Images -->
+       
         <div id="image-container">
             <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
             <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
