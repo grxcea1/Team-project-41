@@ -43,7 +43,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.html">About Us</a>
-            <a href="checkOut.html">Checkout</a>
+            <a href="checkOut.php">Checkout</a>
             <a href="account.html">Accounts</a>
             <a href="contact.html">Contact us</a>
         </nav>
@@ -64,7 +64,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="action-buttons">
                 <a href="home.php"><button>Add More Movies</button></a>
-                <a href="checkOut.html"><button onclick="proceedToPayment()">Check Out</button></a>
+                <a href="checkOut.php"><button onclick="proceedToPayment()">Check Out</button></a>
             </div>
         </div>
     </main>
@@ -126,6 +126,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         function updateTotalPrice() {
             document.getElementById("totalPrice").textContent = (totalPrice - discount).toFixed(2);
+            localStorage.setItem("totalPrice", totalPrice.toFixed(2));
         }
 
         function applyDiscount() {

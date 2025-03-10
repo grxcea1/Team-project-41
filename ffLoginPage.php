@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Page</title>
     <link rel="stylesheet" href="ffLoginPage.css"> <!-- Linking CSS file -->
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
     
@@ -35,10 +36,10 @@
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.html">Home</a>
+            <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.html">About Us</a>
-            <a href="basket.html">Basket<span id="insideCart">0</span></a>
+            <a href="basket.php">Basket<span id="insideCart">0</span></a>
             <a href="account.html">Accounts</a>
             <a href="contact.html">Contact us</a>
 
@@ -111,6 +112,12 @@ if (isset($_POST['login'])){
             if (password_verify($_POST['password'], $row['password'])){ 
                 session_start();
                 $_SESSION["Email"]=$_POST['email'];
+
+                $stat = $pdo->prepare('SELECT uid FROM customer WHERE email = ?');
+                $stat->execute(array($_POST['email']));
+                $row=$stat->fetch();
+                $_SESSION["uid"]=$row['uid'];
+
                 header("Location:home.php");
                 echo "Your Logged in";
                 exit();
