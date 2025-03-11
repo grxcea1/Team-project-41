@@ -54,21 +54,15 @@
             <a href="account.html">Accounts</a>
             <a href="contact.html">Contact us</a>
 
-       
             <div id="search-container">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button id="search-button">Go</button>
+                <form action="searchResults.php" method="GET">
+                <input type="text" id="search-bar" placeholder="Search..." name="query">
+                <button type="submit" id="search-button">Go</button>
+                </form>
             </div>
 
-        
     </div>
-    <!-- <div class="searchContainer">
-        <form class="search" action="search.php" method="GET">
-            <input type="text" id="searchInput" placeholder="Enter here...">
-            <button class="searchButton" type="submit"><img src="search.png" alt=""></button>
-        </form>
-    </div>
-    <div id="suggestionBox" class="suggestions"></div> -->
+
 
     <!-- Header section -->
      <div id="categories">
@@ -104,7 +98,6 @@
 
         <div class="mySlides">
             <div class="numbertext">3 / 5</div>
-            <!-- Add toy story link -->
                 <img src="images/Toy Story 4 (2019).jpg" style="width:100%; height:20%;">
 
         </div>
