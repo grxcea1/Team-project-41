@@ -28,7 +28,6 @@ if (isset($_GET['query'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -111,7 +110,15 @@ if (isset($_GET['query'])) {
                         <h3 class="movie-title"><?= htmlspecialchars($row['p_Name']) ?></h3>
                         <p class="movie-price">£<?= htmlspecialchars($row['p_Price']) ?></p>
                     </div>
-                    <button class="A2Cbutton btn-sm" onclick="addToCart()">Add to Cart</button>
+                    <button class="A2Cbutton" 
+                        onclick="addToCart(
+                            '<?=$row['pid']; ?>', 
+                            '<?=($row['p_Name']); ?>', 
+                            '<?=$row['p_Price']; ?>', 
+                            'images/<?=addslashes($row['p_Image']); ?>'
+                        )">
+                        Add to Cart
+                    </button>
                 </div>
             <?php endforeach; ?>
         <?php else:  ?>
@@ -162,6 +169,34 @@ if (isset($_GET['query'])) {
         </p>
     </footer>
 </body>
+<script>
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        let totalCount = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
+        document.getElementById("insideCart").innerText = totalCount;
+    }
+
+    function addToCart(productId, movieName, price, imageUrl) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+    if (cart[productId]) {
+        cart[productId].quantity += 1;
+    } else {
+        cart[productId] = { 
+            name: movieName, 
+            price: parseFloat(price),  
+            imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
+            quantity: 1 
+        };
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert(movieName + " added to cart!");
+}
+
+    updateCartCount();
+    </script>
 </html>
 
 
