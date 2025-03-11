@@ -56,22 +56,12 @@
             <a href="contact.html">Contact us</a>
 
        
-            <form id="searchform">
-                <input type="text" id="name" name="name" placeholder="Search by name">
-                <select id="category" name="category">
-                    <option value="">All Categories</option>
-                    <option value="Action">Action</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Comedy">Comedy</option>
-                    <option value="Thriller">thriller</option>
-                    <option value="Horror">horror</option>
-                    <option value="Animation">animation</option>
-                </select>
-                <input type="number" id="minPrice" name="minPrice" placeholder="Min Price">
-                <input type="number" id="maxPrice" name="maxPrice" placeholder="Max Price">
-                <button type="submit">Search</button>
-            </form>
-            <div id="results"></div>
+            <div id="search-container">
+                <form action="searchResults.php" method="GET">
+                <input type="text" id="search-bar" placeholder="Search..." name="query">
+                <button type="submit" id="search-button">Go</button>
+                </form>
+            </div>
 
 
         

@@ -1,17 +1,20 @@
 <?php
- $host = "localhost";
- $username ="root";
- $password = "";
- $dbname = "filmfuse_db"; 
+$host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "filmfuse_db";
 
- 
-try{
 
+
+
+try {
+    // Create a PDO instance
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     
-}catch(PDOException $ex){
-    echo("Failed to connect to the database. <br>");
-    echo($ex->getMessage());
+    // Set PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
     exit;
 }
 ?>
