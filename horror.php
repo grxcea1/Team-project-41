@@ -75,7 +75,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
            <div class="header">
             <li><a href="comedyPage.php">Comedy</a></li>
             <li><a href="romance.php">Romance</a></li>
-            <li><a href="thriller.phpphp">Thriller</a></li>
+            <li><a href="thriller.php">Thriller</a></li>
             <li><a href="action.php">Action</a></li>
             <li><a href="animation.php">Animation</a></li>
            
