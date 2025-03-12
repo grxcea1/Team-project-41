@@ -11,12 +11,18 @@
          <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
-        <script src="sscript.js"></script>
-        <!-- Video background -->
-        <video class="video-background" autoplay loop muted>
-            <source src="images/image 4.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+     <!--link to js-->
+    <script src="sscript.js"></script>
+
+ 
+    <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+
+      <div id="image-container">
+        <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+        <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+    </div>
+
+ 
         <header>
             <div class="logo-container">
                 <div class="circle">

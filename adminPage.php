@@ -58,11 +58,18 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     </head>
     <body>
-        <video class="video-background" autoplay muted loop>
-            <source src="images/image 4.mp4" type="video/mp4">
-        </video>
+            <!--link to js-->
         <script src="sscript.js"></script>
-        <header>
+
+    
+    <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+
+    <div id="image-container">
+        <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+        <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+    </div>
+
+
             <div class="logo-container">
                 <a href="home.html" class="logo-link">
                     <div class="circle">

@@ -1,3 +1,11 @@
+<?php
+require_once("ffdbConn.php");
+
+// Fetch all movies from the database
+$stmt = $pdo->query("SELECT pid, p_Name, p_Image, p_Price FROM product");
+$movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,17 +25,12 @@
     </head>
     
 <body>
-    <?php
-        require_once("ffdbConn.php");
-    ?>
-
     <!--link to js-->
     <script src="sscript.js"></script>
 
-    <!-- Toggle Button to Switch Backgrounds -->
+ 
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
 
-      <!-- Light Mode and Dark Mode Images -->
       <div id="image-container">
         <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
         <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
@@ -55,32 +58,26 @@
             <a href="account.html">Accounts</a>
             <a href="contact.html">Contact us</a>
 
-       
             <div id="search-container">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button id="search-button">Go</button>
+                <form action="searchResults.php" method="GET">
+                <input type="text" id="search-bar" placeholder="Search..." name="query">
+                <button type="submit" id="search-button">Go</button>
+                </form>
             </div>
 
-        
     </div>
-    <!-- <div class="searchContainer">
-        <form class="search" action="search.php" method="GET">
-            <input type="text" id="searchInput" placeholder="Enter here...">
-            <button class="searchButton" type="submit"><img src="search.png" alt=""></button>
-        </form>
-    </div>
-    <div id="suggestionBox" class="suggestions"></div> -->
+
 
     <!-- Header section -->
      <div id="categories">
         <div class="container">
            <div class="header">
-            <li><a href="ComedyPage.html">Comedy</a></li>
-            <li><a href="romance.html">Romance</a></li>
-            <li><a href="horror.html">Horror</a></li>
-            <li><a href="thriller.html">Thriller</a></li>
-            <li><a href="action.html">Action</a></li>
-            <li><a href="animation.html">Animation</a></li>
+            <li><a href="comedyPage.php">Comedy</a></li>
+            <li><a href="romance.php">Romance</a></li>
+            <li><a href="horror.php">Horror</a></li>
+            <li><a href="thriller.php">Thriller</a></li>
+            <li><a href="action.php">Action</a></li>
+            <li><a href="animation.php">Animation</a></li>
       
           </div>
         </div>
@@ -105,7 +102,6 @@
 
         <div class="mySlides">
             <div class="numbertext">3 / 5</div>
-            <!-- Add toy story link -->
                 <img src="images/Toy Story 4 (2019).jpg" style="width:100%; height:20%;">
 
         </div>
@@ -151,7 +147,15 @@
             $buyprice = $result['p_Price'];
             echo "<p>£".$buyprice."</p>";
         ?>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+       <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -166,7 +170,15 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -181,7 +193,15 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -196,7 +216,15 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
 </div>
 </div>
@@ -218,7 +246,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -233,7 +270,15 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -248,7 +293,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -263,7 +317,15 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
     </div>
 </div>
 </div>
@@ -285,7 +347,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -300,7 +371,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -315,7 +395,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
     <div class="col-md-3">
         <div class="poster-box">
@@ -330,7 +419,16 @@
             echo "<p>£".$buyprice."</p>";
         ?>
         </div>
-        <button class="A2Cbutton" onclick="addToCart()">Add to Cart</button>
+        <button class="A2Cbutton" 
+            onclick="addToCart(
+                <?php echo $result['pid']; ?>, 
+                '<?php echo addslashes($result['p_Name']); ?>', 
+                <?php echo $result['p_Price']; ?>, 
+                'images/<?php echo addslashes($result['p_Image']); ?>'
+            )">
+            Add to Cart
+        </button>
+
     </div>
 </div>
 </div>
@@ -355,19 +453,33 @@
     <script src="sscript.js"></script>
     <script src="search.js"></script>
     <script>
-        function updateCartCount() {
-            let cart = JSON.parse(localStorage.getItem("cart")) || {};
-            let totalCount = Object.values(cart).reduce((acc, count) => acc + count, 0);
-            document.getElementById("insideCart").innerText = totalCount;
-        }
-        function addToCart(productId) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || {};
-            cart[productId] = (cart[productId] || 0) + 1;
-            localStorage.setItem("cart", JSON.stringify(cart));
-            updateCartCount();
-            alert("Item added to cart!");
-        }
-        updateCartCount();
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        let totalCount = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
+        document.getElementById("insideCart").innerText = totalCount;
+    }
+
+    function addToCart(productId, movieName, price, imageUrl) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+    if (cart[productId]) {
+        cart[productId].quantity += 1;
+    } else {
+        cart[productId] = { 
+            name: movieName, 
+            price: parseFloat(price),  
+            imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
+            quantity: 1 
+        };
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert(movieName + " added to cart!");
+    }
+
+    updateCartCount();
+
     </script>
 </html>
 

@@ -1,3 +1,14 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION["uid"])) {
+        header("Location: ffLoginPage.php");
+        exit;
+    }
+
+    $email = $_SESSION['Email'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +33,9 @@
     </header>
     <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.html">Home</a>
+            <a href="home.php">Home</a>
             <a href="aboutus.html">About Us</a>
-            <a href="basket.html">Basket</a>
+            <a href="basket.php">Basket</a>
         </nav>
     </div>
 
@@ -35,7 +46,7 @@
             <button class="member">Sign Up</a></button> 
         </form>
         <form id="checkoutForm" action="processOrder.php" method="POST">
-            <h3>Guest Checkout</h3>
+            <h3>Checkout</h3>
             <div class="form1">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required>
