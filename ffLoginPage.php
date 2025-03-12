@@ -32,7 +32,7 @@
             </div>
             <div class="logo-name">Film Fuse</div>
         </div>
-    </header>
+</header>
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
