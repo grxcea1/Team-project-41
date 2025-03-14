@@ -82,10 +82,6 @@
                     6 => 'Horror',
                 ];
 
-                if ($result['pid'] == 2) {
-                    $stock = 0;
-                }
-
                 if ($stock == 0) {
                     echo '<script>alert("This movie is out of stock")</script>';
                 }
@@ -133,7 +129,7 @@
                 </form>
                 <br><br>
                 <section id="trailer">
-                    <iframe src="https://www.youtube.com/embed/73_1biulkYk"></iframe>
+                    <iframe src="<?=$result['p_Trailer']?>"></iframe>
                 </section>
             </div>
         </main>
