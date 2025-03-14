@@ -32,7 +32,7 @@
             </div>
             <div class="logo-name">Film Fuse</div>
         </div>
-    </header>
+</header>
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
@@ -97,41 +97,40 @@
 </html>
 
 <?php
-if (isset($_POST['login'])){
-    if ( !isset($_POST['email'], $_POST['password']) ) {
-     exit('Please fill both the username and password fields!');
+session_start();
+if (isset($_POST['login'])) {
+    if (!isset($_POST['email'], $_POST['password'])) {
+        exit('Please fill both the email and password fields!');
     }
-    require_once ("ffdbConn.php");
+    
+    require_once("ffdbConn.php");
+    
     try {
-        $stat = $pdo->prepare('SELECT password FROM customer WHERE email = ?');
+        $stat = $pdo->prepare('SELECT uid, password FROM customer WHERE email = ?');
         $stat->execute(array($_POST['email']));
-        if ($stat->rowCount()>0){ 
-            $row=$stat->fetch();
-            if (password_verify($_POST['password'], $row['password'])){ 
-                session_start();
-                $_SESSION["Email"]=$_POST['email'];
+        
+        if ($stat->rowCount() > 0) {
+            $row = $stat->fetch();
+            
+            if (password_verify($_POST['password'], $row['password'])) {
+                $_SESSION["uid"] = $row['uid'];  
+                $_SESSION["Email"] = $_POST['email'];
 
-                $stat = $pdo->prepare('SELECT uid FROM customer WHERE email = ?');
-                $stat->execute(array($_POST['email']));
-                $row=$stat->fetch();
-                $_SESSION["uid"]=$row['uid'];
-
-                header("Location:home.php");
-                echo "Your Logged in";
+                header("Location: home.php");
                 exit();
             } else {
-             echo "<p style='color:red'>Error logging in, password does not match </p>";
-             }
+                echo "<p style='color:red'>Error logging in, password does not match</p>";
+            }
         } else {
-          echo "<p style='color:red'>Error logging in, Username not found </p>";
-        } 
-    }
-    catch(PDOException $ex) {
-        echo("Failed to connect to the database.<br>");
-        echo($ex->getMessage());
+            echo "<p style='color:red'>Error logging in, email not found</p>";
+        }
+    } catch (PDOException $ex) {
+        echo "Failed to connect to the database.<br>";
+        echo $ex->getMessage();
         exit;
     }
 }
 ?>
+
 
 

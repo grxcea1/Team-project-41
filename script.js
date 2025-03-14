@@ -25,3 +25,30 @@ function searchFunction() {
         searchResults.appendChild(li);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("review-form");
+    const reviewList = document.getElementById("review-list");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const reviewText = document.getElementById("review-text").value.trim();
+        const rating = document.getElementById("rating").value;
+
+        if (reviewText === "") {
+            alert("Please enter a review before submitting.");
+            return;
+        }
+
+        const reviewEntry = document.createElement("div");
+        reviewEntry.classList.add("review-item");
+        reviewEntry.innerHTML = `<p><strong>Rating:</strong> ${"★".repeat(rating)} (${rating} stars)</p>
+                                <p>${reviewText}</p><hr>`;
+
+        reviewList.appendChild(reviewEntry);
+
+        form.reset();
+    });
+});
+

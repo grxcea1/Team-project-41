@@ -116,7 +116,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">Filter</button>
             </form>
 
-            <table id="productTable" class="table table-light table-striped">
+            <table id="productTable" class="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>

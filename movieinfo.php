@@ -9,6 +9,49 @@
         <link rel="stylesheet" href="movieinfo.css">
     </head>
     <body>
+    <style>
+            #reviews {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 2px solid #ddd;
+}
+
+
+h3{
+    text-align: left;
+} 
+
+
+p{
+    text-align:left;
+}
+#review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+#review-text {
+    width: 100%;
+    padding: 8px;
+}
+
+
+#rating {
+    width: 150px;
+}
+
+
+.review-item {
+    margin-top: 10px;
+    padding: 8px;
+    background:rgb(12, 12, 12);
+    border-radius: 5px;
+}
+
+        </style>
+
         <!--link to js-->
         <script src="sscript.js"></script>
 
@@ -57,8 +100,8 @@
                     $movieID = $_GET['movie'];
                 }
 
-                $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = $movieID");
-                $stmt->execute();
+                $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = ?");
+                $stmt->execute([$movieID]);
                 $result = $stmt->fetch();
                 $imgpath = $result['p_Image'];
                 $name = $result['p_Name'];
@@ -99,7 +142,7 @@
                 <h2><?php echo $name ?></h2>
                 <br>
                 <section id="synopsis">
-                    <p><?php echo $synopsis ?></p>
+                    <h3><?php echo $synopsis ?></h3>
                     <br>
                 </section>
                 <section id="buy-info">
@@ -128,12 +171,45 @@
                 <form>
                     <input type="checkbox" id="add-cart">
                     <label for="add-cart">Add to cart</label>
-                    <input type="checkbox" id="add-wish">
-                    <label for="add-wish">Add to wishlist</label>
                 </form>
                 <br><br>
                 <section id="trailer">
                     <iframe src="https://www.youtube.com/embed/73_1biulkYk"></iframe>
+                <form id="review-form" method="POST" action="submitReview.php">
+                <label for="review-text">Leave a review:</label>
+                <textarea id="review-text" name="review-text" rows="4" placeholder="Write your review here..."></textarea>
+                
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating">
+                    <option value="5">★★★★★ (5 stars)</option>
+                    <option value="4">★★★★☆ (4 stars)</option>
+                    <option value="3">★★★☆☆ (3 stars)</option>
+                    <option value="2">★★☆☆☆ (2 stars)</option>
+                    <option value="1">★☆☆☆☆ (1 star)</option>
+                </select>
+
+                <input type="hidden" name="movie_id" value="<?php echo $movieID; ?>">
+                <button type="submit">Submit Review</button>
+            </form>
+            <?php
+            $stmt = $pdo->prepare("SELECT * FROM reviews WHERE product_id = ?");
+            $stmt->execute([$movieID]);
+            $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+
+            <div id="review-list">
+                <?php if (count($reviews) > 0): ?>
+                    <?php foreach ($reviews as $review): ?>
+                        <div class="review-item">
+                            <p><strong>Rating:</strong> <?php echo str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']); ?></p>
+                            <p><?php echo htmlspecialchars($review['description']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No reviews yet. Be the first to review!</p>
+                <?php endif; ?>
+            </div>
+
                 </section>
             </div>
         </main>
