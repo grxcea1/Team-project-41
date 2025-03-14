@@ -46,7 +46,7 @@
             <button class="member">Sign Up</a></button> 
         </form>
         <form id="checkoutForm" action="processOrder.php" method="POST">
-            <h3>Guest Checkout</h3>
+            <h3>Checkout</h3>
             <div class="form1">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required>

@@ -55,7 +55,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.html">About Us</a>
             <a href="basket.php">Basket<span id="insideCart">0</span></a>
-            <a href="account.html">Accounts</a>
+            <a href="account.php">Accounts</a>
             <a href="contact.html">Contact us</a>
 
             <div id="search-container">
@@ -72,12 +72,12 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
      <div id="categories">
         <div class="container">
            <div class="header">
-            <li><a href="ComedyPage.html">Comedy</a></li>
-            <li><a href="romance.html">Romance</a></li>
-            <li><a href="horror.html">Horror</a></li>
-            <li><a href="thriller.html">Thriller</a></li>
-            <li><a href="action.html">Action</a></li>
-            <li><a href="animation.html">Animation</a></li>
+            <li><a href="comedyPage.php">Comedy</a></li>
+            <li><a href="romance.php">Romance</a></li>
+            <li><a href="horror.php">Horror</a></li>
+            <li><a href="thriller.php">Thriller</a></li>
+            <li><a href="action.php">Action</a></li>
+            <li><a href="animation.php">Animation</a></li>
       
           </div>
         </div>
@@ -476,7 +476,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
     alert(movieName + " added to cart!");
-}
+    }
 
     updateCartCount();
 
