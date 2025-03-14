@@ -42,8 +42,6 @@
             <a href="basket.php">Basket<span id="insideCart">0</span></a>
             <a href="account.html">Accounts</a>
             <a href="contact.html">Contact us</a>
-
-       
             <div id="search-container">
                 <input type="text" id="search-bar" placeholder="Search...">
                 <button id="search-button">Go</button>
@@ -76,9 +74,9 @@
 
                     <!-- Remember Me Checkbox & Forgotten Password Link -->
                     <div class="forget">
-                        <label><input type="checkbox"> Remember Me <a href="#">Forgotten password?</a></label>
-                    </div>
-
+                        <label><input type="checkbox"> Remember Me</label> 
+                        <a href="#">Forgotten password?</a>
+                        <br>
                     <!-- Submit Button -->
                     <button class="input-button" type="submit" name="login">Login</button>
 

@@ -84,7 +84,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="sidebox">
             <nav class="nav-bar">
-                <a href="home.html">Home</a> 
+                <a href="home.php">Home</a> 
                 <a href="orders.php">Orders</a>
                 <a href="password.php">Password</a>
                 <a href="add_Product.php">Add Products</a>

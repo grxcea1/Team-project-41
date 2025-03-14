@@ -6,6 +6,7 @@ $stmt = $pdo->query("SELECT pid, p_Name, p_Image, p_Price FROM product");
 $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+
 <!DOCTYPE html> 
 <html>
     <head>
@@ -25,73 +26,74 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </head>
     
 <body>
-    <!--link to js-->
-    <script src="sscript.js"></script>
 
-    <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+      <!--link to js-->
+      <script src="sscript.js"></script>
 
-     
-      <div id="image-container">
-        <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
-        <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
-    </div>
-
- 
-     <!-- LOGO BAR -->
-     <header>
-        <div class="logo-container">
-            <div class="circle">
-                <div class="text">
-                    <span class="initials">FF</span>
-                </div>
-            </div>
-            <div class="logo-name">Film Fuse</div>
-        </div>
-    </header>
-
-     <!-- Navigation menu -->
-     <div class="sidebox">
-        <nav class="nav-bar">
-            <a href="home.php">Home</a>
-            <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="basket.php">Basket<span id="insideCart">0</span></a>
-            <a href="account.html">Accounts</a>
-            <a href="contact.html">Contact us</a>
-
-       
-            <div id="search-container">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button id="search-button">Go</button>
-            </div>
-
-        
-    </div>
-
-
-
+      <!-- Toggle Button to Switch Backgrounds -->
+      <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+  
+        <!-- Light Mode and Dark Mode Images -->
+        <div id="image-container">
+          <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+          <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+      </div>
+  
+   
+       <!-- LOGO BAR -->
+       <header>
+          <div class="logo-container">
+              <div class="circle">
+                  <div class="text">
+                      <span class="initials">FF</span>
+                  </div>
+              </div>
+              <div class="logo-name">Film Fuse</div>
+          </div>
+      </header>
+  
+       <!-- Navigation menu -->
+       <div class="sidebox">
+          <nav class="nav-bar">
+              <a href="home.php">Home</a>
+              <a href="ffLoginPage.php">Login</a>
+              <a href="aboutus.php">About Us</a>
+              <a href="basket.php">Basket<span id="insideCart">0</span></a>
+              <a href="account.php">Accounts</a>
+              <a href="contact.php">Contact us</a>
+  
+         
+              <div id="search-container">
+                  <input type="text" id="search-bar" placeholder="Search...">
+                  <button id="search-button">Go</button>
+              </div>
+  
+          
+      </div>
+  
      <!-- Header section -->
      <div id="categories">
         <div class="container">
            <div class="header">
-            <li><a href="comedyPage.php">Comedy</a></li>
+            <li><a href="animation.php">Animation</a></li>
             <li><a href="horror.php">Horror</a></li>
             <li><a href="thriller.php">Thriller</a></li>
             <li><a href="action.php">Action</a></li>
-            <li><a href="animation.php">Animation</a></li>
+            <li><a href="comedyPage.php">Comedy</a></li>
            
           </div>
         </div>
 
         <!-- Movie grid -->
         <div class="movie-grid container">
-            <h2>romance movies</h2>
+            <h2>Romance Movies</h2>
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=14">
+                    <a href="movieinfo.php?movie=16">
                         <img src="images/The Idea of You (2024).jpg" alt="movie 1" class="img-fluid">
                     </a>
+                    </div>
                     <?php
                         $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = 14");
                         $stmt->execute();
@@ -99,23 +101,22 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         $buyprice = $result['p_Price'];
                         echo "<p>£".$buyprice."</p>";
                     ?>
-                </div>
-                <button class="A2Cbutton" 
-                    onclick="addToCart(
-                        <?php echo $result['pid']; ?>, 
-                        '<?php echo addslashes($result['p_Name']); ?>', 
-                        <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
-                    )">
-                    Add to Cart
-                </button>
-                    </div>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $result['pid']; ?>, 
+                                '<?php echo addslashes($result['p_Name']); ?>', 
+                                <?php echo $result['p_Price']; ?>, 
+                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                            )">
+                            Add to Cart
+                    </button>
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=11">
+                    <a href="movieinfo.php?movie=17">
                         <img src="images/A family affair.jpg" alt="movie 2" class="img-fluid">
                     </a>
+                    </div>
                     <?php
                         $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = 11");
                         $stmt->execute();
@@ -123,23 +124,22 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         $buyprice = $result['p_Price'];
                         echo "<p>£".$buyprice."</p>";
                     ?>
-                </div>
-                <button class="A2Cbutton" 
-                    onclick="addToCart(
-                        <?php echo $result['pid']; ?>, 
-                        '<?php echo addslashes($result['p_Name']); ?>', 
-                        <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
-                    )">
-                    Add to Cart
-                </button>
-                    </div>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $result['pid']; ?>, 
+                                '<?php echo addslashes($result['p_Name']); ?>', 
+                                <?php echo $result['p_Price']; ?>, 
+                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                            )">
+                            Add to Cart
+                    </button>
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=12">
+                    <a href="movieinfo.php?movie=19">
                         <img src="images/Pride & Prejudice (2005).jpg" alt="movie 3" class="img-fluid">
                     </a>
+                    </div>
                     <?php
                         $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = 12");
                         $stmt->execute();
@@ -147,23 +147,22 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         $buyprice = $result['p_Price'];
                         echo "<p>£".$buyprice."</p>";
                     ?>
-                </div>
-                <button class="A2Cbutton" 
-                    onclick="addToCart(
-                        <?php echo $result['pid']; ?>, 
-                        '<?php echo addslashes($result['p_Name']); ?>', 
-                        <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
-                    )">
-                    Add to Cart
-                </button>
-                    </div>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $result['pid']; ?>, 
+                                '<?php echo addslashes($result['p_Name']); ?>', 
+                                <?php echo $result['p_Price']; ?>, 
+                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                            )">
+                            Add to Cart
+                    </button>
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=13">
+                    <a href="movieinfo.php?movie=18">
                         <img src="images/The Fault in Our Stars (2014).jpg" alt="movie 4" class="img-fluid">
                     </a>
+                    </div>
                     <?php
                         $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = 13");
                         $stmt->execute();
@@ -171,23 +170,22 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         $buyprice = $result['p_Price'];
                         echo "<p>£".$buyprice."</p>";
                     ?>
-                </div>
-                <button class="A2Cbutton" 
-                    onclick="addToCart(
-                        <?php echo $result['pid']; ?>, 
-                        '<?php echo addslashes($result['p_Name']); ?>', 
-                        <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
-                    )">
-                    Add to Cart
-                </button>
-                    </div>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $result['pid']; ?>, 
+                                '<?php echo addslashes($result['p_Name']); ?>', 
+                                <?php echo $result['p_Price']; ?>, 
+                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                            )">
+                            Add to Cart
+                    </button>
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=15">
+                    <a href="movieinfo.php?movie=20">
                         <img src="images/To All the Boys I've Loved Before (2018).jpg" alt="movie 4" class="img-fluid">
                     </a>
+                    </div>
                     <?php
                         $stmt = $pdo->prepare("SELECT * FROM product WHERE pid = 15");
                         $stmt->execute();
@@ -195,17 +193,15 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         $buyprice = $result['p_Price'];
                         echo "<p>£".$buyprice."</p>";
                     ?>
-                </div>
-                <button class="A2Cbutton" 
-                    onclick="addToCart(
-                        <?php echo $result['pid']; ?>, 
-                        '<?php echo addslashes($result['p_Name']); ?>', 
-                        <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
-                    )">
-                    Add to Cart
-                </button>
-                    </div>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $result['pid']; ?>, 
+                                '<?php echo addslashes($result['p_Name']); ?>', 
+                                <?php echo $result['p_Price']; ?>, 
+                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                            )">
+                            Add to Cart
+                    </button>
                 </div>
             </div>
             </div>
@@ -219,7 +215,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </P>
                </footer>
 </body>
-<script>
+    <script>
     function updateCartCount() {
         let cart = JSON.parse(localStorage.getItem("cart")) || {};
         let totalCount = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
@@ -243,7 +239,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
     alert(movieName + " added to cart!");
-    }
+}
 
     updateCartCount();
 

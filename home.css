@@ -354,7 +354,7 @@
     margin: auto;
   }
 
- .prev, .next{
+ .prevbtn, .nextbtn{
     position: absolute;
     top: 50%;
     color: white;
@@ -366,8 +366,8 @@
     border-radius: 5px;
   }
  
-  .prev { left: 20px; }
-  .next { right: 20px; }
+  .prevbtn { left: 20px; }
+  .nextbtn { right: 20px; }
 
 
 .section {
@@ -572,3 +572,17 @@ input:valid ~ label {
   border: 2px solid#1d0e16;
   border-radius: 8px;
   box-shadow: 0
+**/
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 3px;
+    border: 1px solid #ddd;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #0056b3;
+}

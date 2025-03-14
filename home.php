@@ -124,8 +124,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         <!-- Next and previous buttons -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <a class="prevbtn" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="nextbtn" onclick="plusSlides(1)">&#10095;</a>
 
     </div>
     <br>
