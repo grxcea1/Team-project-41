@@ -8,12 +8,19 @@ if (isset($_POST['action']) && isset($_POST['orderID'])) {
     try {
         if ($_POST['action'] === "authorise") {
             $newStatus = "Dispatched";
+            $stmt = $pdo->prepare("SELECT pid, quantity FROM orderdetails WHERE orderID = ?");
+            $stmt->execute([$orderID]);
+            $orderDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($orderDetails as $detail) {
+                $stmt = $pdo->prepare("UPDATE product SET p_Stock = p_Stock - ? WHERE pid = ?");
+                $stmt->execute([$detail['quantity'], $detail['pid']]);
+            }
         } elseif ($_POST['action'] === "decline") {
             $newStatus = "Declined";
         }
-      
         $stmt = $pdo->prepare("UPDATE orders SET orderStatus = ? WHERE orderID = ?");
         $stmt->execute([$newStatus, $orderID]);
+        
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } catch (PDOException $e) {

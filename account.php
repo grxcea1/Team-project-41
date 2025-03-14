@@ -15,10 +15,10 @@ $stmt->execute();
 $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt->closeCursor();
 
-$orderQuery = "SELECT o.orderID, o.orderAmount, o.orderDate, od.quantity, od.price 
-               FROM orders o
-               JOIN orderdetails od ON o.orderID = od.orderID
-               WHERE o.uid = ?";
+$orderQuery = "SELECT * 
+               FROM orders
+               WHERE uid = ?
+               ORDER BY orderDate DESC";
 $stmt = $pdo->prepare($orderQuery);
 $stmt->bindParam(1, $uid, PDO::PARAM_INT);
 $stmt->execute();
@@ -36,6 +36,7 @@ $stmt->closeCursor();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film Fuse - Account Page</title>
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="account.css">
 </head>
 <body>
     <video class="video-background" autoplay loop muted>
@@ -71,29 +72,74 @@ $stmt->closeCursor();
             <li><strong>Last Name:</strong> <?php echo htmlspecialchars($customer['last_name']); ?></li>
             <li><strong>Email:</strong> <?php echo htmlspecialchars($customer['email']); ?></li>
             <li><button onclick="window.location.href='accountUpdate.php'">Edit</button></li>
+            <li><button onclick="window.location.href='password.php'">Change Password</button></li>
         </ul>
     </div>
 
     <div class="section">
         <h2>Order History</h2>
-        <table>
+        <?php if (empty($orders)) {
+            echo "No previous orders";
+        }
+        else {
+        ?>
+        <table style="border-spacing: 20px 10px">
             <tr>
                 <th>Order ID</th>
                 <th>Order Amount</th>
                 <th>Order Date</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th>Order Status</th>
             </tr>
             <?php foreach ($orders as $order) { ?>
             <tr>
                 <td><?php echo htmlspecialchars($order['orderID']); ?></td>
-                <td><?php echo htmlspecialchars($order['orderAmount']); ?></td>
+                <td>£<?php echo htmlspecialchars($order['orderAmount']); ?></td>
                 <td><?php echo htmlspecialchars($order['orderDate']); ?></td>
-                <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                <td><?php echo htmlspecialchars($order['price']); ?></td>
+                <td><?php echo htmlspecialchars($order['orderStatus']); ?></td>
+                <td><button type="button" class="details" onclick="toggleDetails(<?= $order['orderID'] ?>)">Details</button></td>
             </tr>
-            <?php } ?>
+            <table id="movies-<?= $order['orderID'] ?>" class="movie-details" style="display: none">
+                <?php
+                $stmt = $pdo->prepare("SELECT * FROM orderdetails WHERE orderID = ?");
+                $stmt->execute([$order['orderID']]);
+                $movies = $stmt->fetchAll();
+
+                foreach($movies as $movie) {
+                    $stmt = $pdo->prepare("SELECT p_Name FROM product WHERE pid = ?");
+                    $stmt->execute([$movie['pid']]);
+                    $name = $stmt->fetch();
+                    $wholeprice = ($movie['quantity']*$movie['price']);
+                ?>
+                        <tr id="movies-<?= $order['orderID'] ?>-<?= $movie['pid'] ?>">
+                            <td><?=$name['p_Name']?></td>
+                            <td>x<?=$movie['quantity']?></td>
+                            <td>£<?=number_format($wholeprice,2)?></td>
+                            <td>
+                                <button class=movie-return onclick="returnMovie(<?= $order['orderID'] ?>,<?= $movie['pid']?>)">Return</button>
+                            </td>
+                        </tr>
+                <?php
+                }
+                ?>
+            </table>
+            <?php }} ?>
         </table>
     </div>
+    <script>
+        function toggleDetails(orderID) {
+            let moviesDiv = document.getElementById("movies-"+orderID);
+            if (moviesDiv.style.display === "none") {
+                moviesDiv.style.display = "block";
+            }
+            else {
+                moviesDiv.style.display = "none";
+            }
+        }
+
+        function returnMovie(orderID,pid) {
+            let movieRow = document.getElementById("movies-"+orderID+"-"+pid);
+            movieRow.remove();
+        }
+    </script>
 </body>
 </html>

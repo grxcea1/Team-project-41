@@ -125,10 +125,6 @@ p{
                     6 => 'Horror',
                 ];
 
-                if ($result['pid'] == 2) {
-                    $stock = 0;
-                }
-
                 if ($stock == 0) {
                     echo '<script>alert("This movie is out of stock")</script>';
                 }
@@ -174,7 +170,7 @@ p{
                 </form>
                 <br><br>
                 <section id="trailer">
-                    <iframe src="https://www.youtube.com/embed/73_1biulkYk"></iframe>
+                    <iframe src="<?=$result['p_Trailer']?>"></iframe>
                 <form id="review-form" method="POST" action="submitReview.php">
                 <label for="review-text">Leave a review:</label>
                 <textarea id="review-text" name="review-text" rows="4" placeholder="Write your review here..."></textarea>
