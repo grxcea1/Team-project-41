@@ -11,6 +11,38 @@ $categories = [
     6 => 'Horror'
 ];
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image']) && isset($_POST['pid'])) {
+    $pid = $_POST['pid'];
+    
+    if ($_FILES['new_image']['error'] === UPLOAD_ERR_OK) {
+        $imageData = file_get_contents($_FILES['new_image']['tmp_name']);
+        
+        $updateQuery = "UPDATE product SET p_Image = ? WHERE pid = ?";
+        $stmt = $pdo->prepare($updateQuery);
+        $stmt->execute([$imageData, $pid]);
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        echo "Error uploading file.";
+    }
+}
+
+$reportQuery = "SELECT 
+    p.pid, 
+    p.p_Name AS Product_Name, 
+    SUM(od.quantity) AS Total_Orders, 
+    r.description AS Review_Description, 
+    r.rating AS Review_Rating 
+FROM orderdetails od 
+JOIN product p ON od.pid = p.pid 
+LEFT JOIN reviews r ON p.pid = r.product_id 
+GROUP BY p.pid, p.p_Name, r.description, r.rating 
+ORDER BY Total_Orders DESC";
+$reportStmt = $pdo->prepare($reportQuery);
+$reportStmt->execute();
+$popularProducts = $reportStmt->fetchAll(PDO::FETCH_ASSOC);
+
 $categoryFilter = $_GET['category'] ?? '';
 $minPrice = $_GET['min_price'] ?? '';
 $maxPrice = $_GET['max_price'] ?? '';
@@ -91,6 +123,31 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
         </div>
 
+        <div class="container mt-5">
+        <h2>Product Report</h2>
+        <table class="table table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Orders</th>
+                    <th>Reviews</th>
+                    <th>Review Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($popularProducts as $product): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($product['Product_Name']) ?></td>
+                        <td><?= htmlspecialchars($product['Total_Orders']) ?></td>
+                        <td><?= htmlspecialchars($product['Review_Description'] ?? 'No reviews') ?></td>
+                        <td><?= htmlspecialchars($product['Review_Rating'] ?? 'N/A') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <button id="showMoreReport" class="btn btn-primary">More</button>
+    </div>
+
         <div class="container mt-5 section">
             <h2>Manage Products</h2>
             <form method="GET">
@@ -130,32 +187,52 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($products as $product): ?>
-                        <tr>
-                            <form action="" method="POST">
-                                <td><?= htmlspecialchars($product['pid']) ?></td>
-                                <td><input type="text" class="form-control" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
-                                <td><input type="text" class="form-control" name="p_Image" value="<?= htmlspecialchars($product['p_Image'] ?? '') ?>" required></td>
-                                <td class="movie-price"><input type="number" class="form-control" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
-                                <td><input type="number" class="form-control" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
-                                <td><?= htmlspecialchars($categories[$product['categoryID']] ?? 'Unknown') ?></td>
-                                <td><textarea class="form-control" name="p_Description" required><?= htmlspecialchars($product['p_Description'] ?? '') ?></textarea></td>
-                                <td>
-                                    <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
-                                    <button type="submit" name="update_product" class="btn btn-success">Update</button>
-                                    <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
-                                    <a href="edit_Product.php?pid=<?= $product['pid'] ?>" class="btn btn-info">Edit</a>
-                                </td>
-                            </form>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <td><?= htmlspecialchars($product['pid']) ?></td>
+                            <td><input type="text" class="form-control" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
+                            <td>
+                                <?php 
+                                if (!empty($product['p_Image'])) {
+                                    $imageData = base64_encode($product['p_Image']);
+                                    echo '<img src="data:image/jpeg;base64,' . $imageData . '" width="100" height="100"/>';
+                                } else {
+                                    echo 'No Image';
+                                }
+                                ?>
+                                <input type="file" name="new_image" class="form-control mt-2">
+                            </td>
+                            <td><input type="number" class="form-control" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
+                            <td><input type="number" class="form-control" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
+                            <td><?= htmlspecialchars($categories[$product['categoryID']] ?? 'Unknown') ?></td>
+                            <td><textarea class="form-control" name="p_Description" required><?= htmlspecialchars($product['p_Description'] ?? '') ?></textarea></td>
+                            <td>
+                                <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
+                                <button type="submit" name="update_product" class="btn btn-success">Update</button>
+                                <a href="edit_Product.php?pid=<?= $product['pid'] ?>" class="btn btn-info">Edit</a>
+                                <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
+                            </td>
+                        </form>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
             </table>
         </div>
         <script>
-            $(document).ready(function() {
-                $('#productTable').DataTable();
+            // $(document).ready(function() {
+            //     $('#productTable').DataTable();
+            // });
+
+            $("#showMoreManage").on("click", function() {
+                $(".manage-products-row:hidden").slice(0, 5).slideDown();
+                if ($(".manage-products-row:hidden").length === 0) {
+                    $(this).hide();
+                }
             });
+        function selectImage(element) {
+            $(element).siblings('.image-input').click();
+        }
         </script>
     </body>
 </html>

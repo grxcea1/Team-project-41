@@ -71,6 +71,7 @@ $stmt->closeCursor();
             <li><strong>Last Name:</strong> <?php echo htmlspecialchars($customer['last_name']); ?></li>
             <li><strong>Email:</strong> <?php echo htmlspecialchars($customer['email']); ?></li>
             <li><button onclick="window.location.href='accountUpdate.php'">Edit</button></li>
+            <li><button onclick="window.location.href='password.php'">Change Password</button></li>
         </ul>
     </div>
 
