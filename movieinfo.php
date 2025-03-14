@@ -202,8 +202,7 @@ p{
                     <?php foreach ($reviews as $review): ?>
                         <div class="review-item">
                             <p><strong>Rating:</strong> <?php echo str_repeat("★", $review['rating']) . str_repeat("☆", 5 - $review['rating']); ?></p>
-                            <p><?php echo htmlspecialchars($review['review_text']); ?></p>
-                            <small>Posted on: <?php echo $review['created_at']; ?></small>
+                            <p><?php echo htmlspecialchars($review['description']); ?></p>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

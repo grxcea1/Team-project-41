@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rating = (int) $_POST["rating"];
         $movie_id = (int) $_POST["movie_id"];
 
-        $stmt = $pdo->prepare("INSERT INTO reviews (product_id, review_text, rating) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO reviews (product_id, description, rating) VALUES (?, ?, ?)");
         $stmt->execute([$movie_id, $review_text, $rating]);
 
         header("Location: movieinfo.php?movie=$movie_id");
