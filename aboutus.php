@@ -47,10 +47,10 @@
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.html">Home</a>
+            <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
-            <a href="basket.html">Basket</a>
-            <a href="account.html">Accounts</a>
+            <a href="basket.php">Basket</a>
+            <a href="account.php">Accounts</a>
 
         <div id="search-container">
             <input type="text" id="search-bar" placeholder="Search...">

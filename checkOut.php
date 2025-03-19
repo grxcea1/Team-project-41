@@ -34,7 +34,7 @@
     <div class="sidebox">
         <nav class="nav-bar">
             <a href="home.php">Home</a>
-            <a href="aboutus.html">About Us</a>
+            <a href="aboutus.php">About Us</a>
             <a href="basket.php">Basket</a>
         </nav>
     </div>
