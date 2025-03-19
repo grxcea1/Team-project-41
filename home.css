@@ -612,3 +612,13 @@ input:valid ~ label {
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background-color: #0056b3;
 }
+
+
+input.form-control.mt-2 {
+  width: 240px;
+  background-color: darkgray;
+}
+
+.btn{
+  margin: 2px;
+}
