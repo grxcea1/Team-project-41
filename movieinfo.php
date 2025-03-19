@@ -115,6 +115,7 @@ p{
                 $age = $result['p_ageRating'];
                 $director = $result['p_Director'];
                 $starring = $result['p_Starring'];
+                $trailer = $result['p_Trailer'];
 
                 $genreList = [
                     1 => 'Action',
@@ -170,7 +171,8 @@ p{
                 </form>
                 <br><br>
                 <section id="trailer">
-                    <iframe src="<?=$result['p_Trailer']?>"></iframe>
+                    <?php echo "<iframe src=https://www.youtube.com/embed/v=".$trailer." title='trailer'></iframe>" ?>
+                </section>
                 <form id="review-form" method="POST" action="submitReview.php">
                 <label for="review-text">Leave a review:</label>
                 <textarea id="review-text" name="review-text" rows="4" placeholder="Write your review here..."></textarea>
@@ -205,8 +207,6 @@ p{
                     <p>No reviews yet. Be the first to review!</p>
                 <?php endif; ?>
             </div>
-
-                </section>
             </div>
         </main>
         <footer></footer>
