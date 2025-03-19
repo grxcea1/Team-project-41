@@ -60,7 +60,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <a href="aboutus.php">About Us</a>
               <a href="basket.php">Basket<span id="insideCart">0</span></a>
               <a href="account.php">Accounts</a>
-              <a href="contact.php">Contact us</a>
+           
   
          
               <div id="search-container">
