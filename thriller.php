@@ -90,7 +90,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=16">
+                    <a href="movieinfo.php?movie=25">
                         <img src="images/Alone.jpg" alt="movie 16" class="img-fluid">
                     </a>
                     </div>
@@ -113,7 +113,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=17">
+                    <a href="movieinfo.php?movie=21">
                         <img src="images/blink twice.jpg" alt="movie 2" class="img-fluid">
                     </a>
                     </div>
@@ -136,7 +136,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=19">
+                    <a href="movieinfo.php?movie=22">
                         <img src="images/Intrusion (2021).jpg" alt="movie 3" class="img-fluid">
                     </a>
                     </div>
@@ -159,7 +159,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=18">
+                    <a href="movieinfo.php?movie=23">
                         <img src="images/Fractured.jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
@@ -182,7 +182,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
+                    <a href="movieinfo.php?movie=24">
                         <img src="images/Nowhere (2023).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>

@@ -90,7 +90,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=16">
+                    <a href="movieinfo.php?movie=14">
                         <img src="images/The Idea of You (2024).jpg" alt="movie 1" class="img-fluid">
                     </a>
                     </div>
@@ -113,7 +113,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=17">
+                    <a href="movieinfo.php?movie=11">
                         <img src="images/A family affair.jpg" alt="movie 2" class="img-fluid">
                     </a>
                     </div>
@@ -136,7 +136,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=19">
+                    <a href="movieinfo.php?movie=12">
                         <img src="images/Pride & Prejudice (2005).jpg" alt="movie 3" class="img-fluid">
                     </a>
                     </div>
@@ -159,7 +159,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=18">
+                    <a href="movieinfo.php?movie=13">
                         <img src="images/The Fault in Our Stars (2014).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
@@ -182,7 +182,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
+                    <a href="movieinfo.php?movie=15">
                         <img src="images/To All the Boys I've Loved Before (2018).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
