@@ -90,8 +90,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=16">
-                        <img src="images/Toy Story 4 (2019).jpg" alt="movie 1" class="img-fluid">
+                    <a href="movieinfo.php?movie=6">
+                        <img src="images/Toy Story 4 (2019).jpg" alt="movie 6" class="img-fluid">
                     </a>
                     </div>
                     <?php
@@ -113,8 +113,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=17">
-                        <img src="images/wish.webp" alt="movie 2" class="img-fluid">
+                    <a href="movieinfo.php?movie=7">
+                        <img src="images/wish.webp" alt="movie 7" class="img-fluid">
                     </a>
                     </div>
                     <?php
@@ -136,8 +136,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=19">
-                        <img src="images/Inside Out (2015).jpg" alt="movie 3" class="img-fluid">
+                    <a href="movieinfo.php?movie=8">
+                        <img src="images/Inside Out (2015).jpg" alt="movie 8" class="img-fluid">
                     </a>
                     </div>
                     <?php
@@ -159,8 +159,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=18">
-                        <img src="images/The Boxtrolls(2014).jpg" alt="movie 4" class="img-fluid">
+                    <a href="movieinfo.php?movie=9">
+                        <img src="images/The Boxtrolls(2014).jpg" alt="movie 9" class="img-fluid">
                     </a>
                     </div>
                     <?php
@@ -182,8 +182,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
-                        <img src="images/Rio (2011).jpg" alt="movie 4" class="img-fluid">
+                    <a href="movieinfo.php?movie=10">
+                        <img src="images/Rio (2011).jpg" alt="movie 10" class="img-fluid">
                     </a>
                     </div>
                     <?php

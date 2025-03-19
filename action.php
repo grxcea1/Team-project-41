@@ -90,8 +90,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=16">
-                        <img src="images/Lift (2024).jpg" alt="movie 16" class="img-fluid">
+                    <a href="movieinfo.php?movie=5">
+                        <img src="images/Lift (2024).jpg" alt="movie 5" class="img-fluid">
                     </a>
                     </div>
                     <?php
@@ -113,7 +113,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=17">
+                    <a href="movieinfo.php?movie=2">
                         <img src="images/deadpool&wolverine.jpg" alt="movie 2" class="img-fluid">
                     </a>
                     </div>
@@ -136,7 +136,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=19">
+                    <a href="movieinfo.php?movie=3">
                         <img src="images/Trigger Warning (2024).jpg" alt="movie 3" class="img-fluid">
                     </a>
                     </div>
@@ -159,7 +159,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=18">
+                    <a href="movieinfo.php?movie=4">
                         <img src="images/Hit Man (2023).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
@@ -182,8 +182,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
-                        <img src="images/Rebel Ridge (2024).jpg" alt="movie 4" class="img-fluid">
+                    <a href="movieinfo.php?movie=1">
+                        <img src="images/Rebel Ridge (2024).jpg" alt="movie 1" class="img-fluid">
                     </a>
                     </div>
                     <?php

@@ -90,7 +90,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=17">
+                    <a href="movieinfo.php?movie=26">
                         <img src="images/apartment 7a.jpg" alt="movie 2" class="img-fluid">
                     </a>
                     </div>
@@ -113,7 +113,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=19">
+                    <a href="movieinfo.php?movie=27">
                         <img src="images/smile.jpeg" alt="movie 3" class="img-fluid">
                     </a>
                     </div>
@@ -136,7 +136,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=18">
+                    <a href="movieinfo.php?movie=28">
                         <img src="images/The Nightingale (2018).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
@@ -159,7 +159,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
+                    <a href="movieinfo.php?movie=29">
                         <img src="images/Look Away (2018).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
@@ -182,7 +182,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="col-md-3">
                     <div class="poster-box">
-                    <a href="movieinfo.php?movie=20">
+                    <a href="movieinfo.php?movie=30">
                         <img src="images/Truth or Dare (2018).jpg" alt="movie 4" class="img-fluid">
                     </a>
                     </div>
