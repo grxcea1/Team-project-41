@@ -72,14 +72,13 @@ try {
     </header>
 
     <div class="sidebox">
-        <nav class="nav-bar">
-            <a href="home.php">Home</a>
-            <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.php">About Us</a>
-            <a href="basket.php">Basket</a>
-            <a href="account.php">Accounts</a>
-            <a href="contact.php">Contact us</a>
-        </nav>
+     <nav class="nav-bar">
+        <a href="home.php">Home</a>
+        <a href="adminPage.php">Inventory</a>
+        <a href="add_Product.php">Add Products</a>
+        <a href="password.php">Password</a>
+     </nav>
+
     </div>
 
     <div class="container mt-5">
