@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Page</title>
+    <link rel="stylesheet" href="ffRegistrationForm.css">
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -37,18 +38,9 @@
         <nav class="nav-bar">
             <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.html">About Us</a>
-            <a href="basket.php">Basket<span id="insideCart">0</span></a>
-            <a href="account.html">Accounts</a>
+           
             <a href="contact.html">Contact us</a>
 
-       
-            <div id="search-container">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button id="search-button">Go</button>
-            </div>
-
-        
     </div>
     
     <section>
@@ -104,11 +96,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Ionicons Scripts -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
 </body>
 </html>
 

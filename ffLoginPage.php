@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Page</title>
-    <link rel="stylesheet" href="ffLoginPage.css"> <!-- Linking CSS file -->
+    <link rel="stylesheet" href="ffRegistrationForm.css"> <!-- Linking CSS file -->
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -36,16 +36,16 @@
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.php">Home</a>
+            <!-- <a href="home.php">Home</a> -->
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.php">About Us</a>
-            <a href="basket.php">Basket<span id="insideCart">0</span></a>
-            <a href="account.php">Accounts</a>
+            <!-- <a href="basket.php">Basket<span id="insideCart">0</span></a> -->
+            <!-- <a href="account.php">Accounts</a> -->
             <a href="contact.php">Contact us</a>
-            <div id="search-container">
+            <!-- <div id="search-container">
                 <input type="text" id="search-bar" placeholder="Search...">
                 <button id="search-button">Go</button>
-            </div>
+            </div> -->
 
 
 
@@ -74,16 +74,15 @@
 
                     <!-- Remember Me Checkbox & Forgotten Password Link -->
                     <div class="forget">
-                        <label><input type="checkbox"> Remember Me</label> 
-                        <a href="#">Forgotten password?</a>
+                        <a href="password.php">Forgotten password?</a>
                         <br>
                     <!-- Submit Button -->
                     <button class="input-button" type="submit" name="login">Login</button>
 
                     <!-- Registration & Guest Links -->
                     <div class="register">
-                        <p>Not Already Registered? <a href="ffRegistrationForm.php">Register here</a></p>
-                        <p>Or <a href="guestHome.php">Enter as Guest</a></p>
+                        <p>Not Already Registered?<a href="ffRegistrationForm.php">Register here</a></p>
+                        <a href="ffLoginPageAdministrator.php">Administrator?</a></p>
                     </div>
                 </form>
             </div>

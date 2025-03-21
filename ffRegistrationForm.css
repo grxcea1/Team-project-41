@@ -1,145 +1,158 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+:root {
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --primary-color: #007bff;
+  --secondary-color: #ff4b5c;
+  --body-font: "Poppins", sans-serif;
+  --h1-font-size: 2rem;
+  --normal-font-size: 1rem;
+  --small-font-size: 0.875rem;
+  --font-medium: 500;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(255, 255, 255, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
 
 * {
-    font-family: "poppins", sans-serif;
-    margin: 0px;
-    padding: 0px;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-#bg-video {
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    object-fit: cover;
-}
-
-section {
+body {
+    font-size: var(--normal-font-size);
+    font-family: var(--body-font);
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    color: var(--white-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
+    min-height: 150vh;
+    padding: 40px 20px;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+.login-container, .registration-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 10px 30px var(--shadow-color);
+  border: 2px solid var(--border-color);
+  padding: 2.5rem;
+  border-radius: 1.2rem;
+  width: 380px;
+  text-align: center;
 }
 
-.box {
-    position: relative;
-    width: 400px;
-    height: 600px;
-    display: flex;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.663);
-    border-radius: 20px;
-    backdrop-filter: blur(2px);
-    justify-content: center;
-    align-items: center;
-    display: flex;
+.login-container h2, .registration-container h2 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-medium);
+  margin-bottom: 1.8rem;
 }
-
-h2 {
-    font-size: 2em;
-    color: rgb(255, 255, 255);
-    text-align: center;
-}
-
-
 
 .input-field {
-    position: relative;
-    margin: 30px 0;
-    width: 310px;
-    border-bottom: 2px solid white;
-}
-
-.input-field label {
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translate(-50);
-    color: rgb(255, 255, 255);
-    font-size: 1em;
-    pointer-events: none;
-    transition: .5s;
-}
-
-input:focus ~label,
-input:valid ~ label {
-    top: -5px;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .input-field input {
-    width: 100%;
-    height: 50px;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    padding: 0 35px 0 5px;
-    color: rgb(255, 255, 255);
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white-color);
+  font-size: var(--normal-font-size);
+  outline: none;
 }
 
-.input-field ion-icon {
-    position: absolute;
-    right: 8px;
-    color: rgb(255, 255, 255);
-    font-size: 1.2em;
-    top: 20px;
+.input-field label {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-size: var(--small-font-size);
+  transition: 0.3s;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.forget {
-    margin: -15px 0 15px;
-    font-size: small;
-    color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: center;
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: var(--small-font-size);
+  color: var(--primary-color);
 }
 
-.forget label input {
-    margin-right: 3px;
+.login-button, .input-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border: none;
+  border-radius: 8px;
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: 0.3s;
+  color: var(--white-color);
 }
 
-.forget label a {
-    color: #ffffff;
-    text-decoration: none;
+.login-button:hover, .input-button:hover {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
 }
 
-.forget label a:hover {
-    text-decoration: underline;
+.forgot-password, .register {
+  font-size: var(--small-font-size);
+  margin-top: 1rem;
 }
 
-button {
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    background: #ffffff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
+.forgot-password a, .register a {
+  color: var(--white-color);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: 0.3s;
 }
 
-button:hover {
-    box-shadow: 1px 5px 7px 1px rgba(241, 214, 94, 0.966); 
+.forgot-password a:hover, .register a:hover {
+  text-decoration: underline;
+  color: var(--secondary-color);
 }
 
-
-.register {
-    font-size: .9em;
-    color: #ffffff;
+.registration-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0px 10px 30px var(--shadow-color);
+    border: 2px solid var(--border-color);
+    padding: 2.5rem;
+    border-radius: 1.2rem;
+    width: 400px;
     text-align: center;
-    margin: 25px 0 10px;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .input-field {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-field input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white-color);
+    font-size: var(--normal-font-size);
+    outline: none;
+    text-align: left;
+  }
 
-
-
-.register p a {
-    text-decoration: none;
-    color: #ffffff;
-}
-
-.register p a:hover {
-    text-decoration: underline;
-    
-}
+  
