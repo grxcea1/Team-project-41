@@ -1,6 +1,13 @@
 <?php
 session_start();
-require_once 'ffdbConn.php';
+require_once("ffdbConn.php");
+
+if (isset($_POST['logout'])) {
+    session_unset(); 
+    session_destroy(); 
+    header("Location: home.php");
+    exit();
+}
 
 $categories = [
     1 => 'Action',
@@ -95,6 +102,11 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+    <?php if (isset($_SESSION["uid"]) || isset($_SESSION["Email"])): ?>
+    <form method="POST" style="float: right;">
+        <button id="log-out" name="logout">Log Out</button>
+    </form>
+    <?php endif; ?>
 
     <div id="image-container">
         <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">

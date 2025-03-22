@@ -1,6 +1,13 @@
 <?php
 session_start();
-require_once("ffdbConn.php"); 
+require_once("ffdbConn.php");
+
+if (isset($_POST['logout'])) {
+    session_unset(); 
+    session_destroy(); 
+    header("Location: home.php");
+    exit();
+}
 
 if (!isset($_SESSION['uid'])) {
     die("User not logged in");
@@ -45,6 +52,11 @@ $stmt->closeCursor();
 
 <!-- Toggle Button to Switch Backgrounds -->
   <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+  <?php if (isset($_SESSION["uid"]) || isset($_SESSION["Email"])): ?>
+    <form method="POST" style="float: right;">
+        <button id="log-out" name="logout">Log Out</button>
+    </form>
+  <?php endif; ?>
 
   <!-- Light Mode and Dark Mode Images -->
   <div id="image-container">
