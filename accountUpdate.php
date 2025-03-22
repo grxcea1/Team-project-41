@@ -69,10 +69,18 @@ if (isset($_POST['update_account'])) {
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <video class="video-background" autoplay loop muted>
-        <source src="images/image4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<section>
+         <!--link to js-->
+    <script src="sscript.js"></script>
+
+<!-- Toggle Button to Switch Backgrounds -->
+<button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+
+  <!-- Light Mode and Dark Mode Images -->
+  <div id="image-container">
+    <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+    <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+</div>
 
     <header>
         <div class="logo-container">
@@ -87,12 +95,12 @@ if (isset($_POST['update_account'])) {
 
     <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.html">Home</a>
+            <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.html">About Us</a>
-            <a href="basket.html">Basket</a>
-            <a href="account.html">Account</a>
-            <a href="contact.html">Contact us</a>
+            <a href="basket.php">Basket</a>
+            <a href="account.php">Account</a>
+            <a href="contact.php">Contact us</a>
         </nav>
     </div>
 

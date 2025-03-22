@@ -39,10 +39,18 @@ $stmt->closeCursor();
     <link rel="stylesheet" href="account.css">
 </head>
 <body>
-    <video class="video-background" autoplay loop muted>
-        <source src="images/image4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<section>
+         <!--link to js-->
+    <script src="sscript.js"></script>
+
+<!-- Toggle Button to Switch Backgrounds -->
+  <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+
+  <!-- Light Mode and Dark Mode Images -->
+  <div id="image-container">
+    <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+    <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+  </div>
 
     <header>
         <div class="logo-container">
