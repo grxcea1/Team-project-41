@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("ffdbConn.php");
 
 // Fetch all movies from the database
@@ -25,6 +26,29 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </head>
     
 <body>
+
+<!--Success message placed in the body otherwise it postionally shifts nav buttons thus not viewable-->
+<?php
+require_once("ffdbConn.php");
+
+if (isset($_SESSION['order_success'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: lightgreen; 
+            padding: 15px 30px; 
+            color: darkgreen; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['order_success'] . "
+            </div>
+          </div>";
+    unset($_SESSION['order_success']);
+}
+?>
     <!--link to js-->
     <script src="sscript.js"></script>
 

@@ -1,12 +1,15 @@
 <?php
-    session_start();
+require_once("ffdbConn.php");
+session_start();
 
-    if (!isset($_SESSION["uid"])) {
-        header("Location: ffLoginPage.php");
-        exit;
-    }
+if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    header("Location: ffLoginPage.php");
+    exit;
+}
 
-    $email = $_SESSION['Email'];
+
+$email = $_SESSION['Email'];
+$uid = $_SESSION["uid"];
 ?>
 
 <!DOCTYPE html>
@@ -40,19 +43,9 @@
     </div>
 
     <div class="checkoutBox">
-        <form action="">
-            <h3>Already A Member or Want To Join?</h3>
-            <button class="member">Login</a></button>
-            <button class="member">Sign Up</a></button> 
-        </form>
         <form id="checkoutForm" action="processOrder.php" method="POST">
             <h3>Checkout</h3>
-            <div class="form1">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-
-            <h3>Delivery</h3>
+            <h3>Delivery details: </h3>
             <div class="form1">
                 <label for="country">Country/Region</label>
                 <select id="country" name="country" required>
@@ -64,7 +57,7 @@
             </div>
             <div class="form1">
                 <label for="address">Address</label>
-                <input type="text" id="address" name="address" required placeholder="Street address, P.O. box, company name, etc.">
+                <input type="text" id="address" name="addressLine1" required placeholder="Street address, P.O. box, company name, etc.">
             </div>
             <div class="form1 form2">
                 <label for="city">City</label>
@@ -72,11 +65,11 @@
             </div>
             <div class="form1 form2">
                 <label for="zip">ZIP/Postal Code</label>
-                <input type="text" id="zip" name="zip" required>
+                <input type="text" id="zip" name="postCode" required>
             </div>
             <div class="form1">
                 <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="m_Number" required>
             </div>
 
             <div class="basketdata">
