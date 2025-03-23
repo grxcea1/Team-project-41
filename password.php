@@ -45,22 +45,23 @@
             </nav>
         </div>
 
-        <div class="container mt-5">
+        <div class="container mt-5" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <h2>Change Password</h2>
             <form method="POST" action="">
                 <div class="form-group">
-                    <label for="current_password">Current Password:</label>
+                    <label for="current_password" style="color: white;">Current Password:</label>
                     <input type="password" class="form-control" name="current_password" required>
                 </div>
                 <div class="form-group">
-                    <label for="new_password">New Password:</label>
+                    <label for="new_password" style="color: white;">New Password:</label>
                     <input type="password" class="form-control" name="new_password" required>
                 </div>
                 <div class="form-group">
-                    <label for="confirm_password">Confirm New Password:</label>
+                    <label for="confirm_password" style="color: white;">Confirm New Password:</label>
                     <input type="password" class="form-control" name="confirm_password" required>
                 </div>
                 <button type="submit" name="change_password" class="btn btn-primary">Change</button>
+                
             </form>
         </div>
 

@@ -54,7 +54,7 @@ if (isset($_SESSION['no_account'])) {
             align-items: center;'>
             <div style='background-color: red; 
             padding: 15px 30px; 
-            color: darkred; 
+            color: white; 
             border: 1px solid red; 
             margin: 20px 0; 
             font-weight: bold; 
@@ -72,7 +72,7 @@ if (isset($_SESSION['no_account2'])) {
             align-items: center;'>
             <div style='background-color: red; 
             padding: 15px 30px; 
-            color: darkred; 
+            color: white; 
             border: 1px solid red; 
             margin: 20px 0; 
             font-weight: bold; 
@@ -82,6 +82,24 @@ if (isset($_SESSION['no_account2'])) {
             </div>
           </div>";
     unset($_SESSION['no_account2']);
+}
+
+if (isset($_SESSION['no_account3'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['no_account3'] . "
+            </div>
+          </div>";
+    unset($_SESSION['no_account3']);
 }
 ?>
     

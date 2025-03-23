@@ -9,7 +9,6 @@ if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
     header("Location: ffLoginPage.php");
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
