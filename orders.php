@@ -2,6 +2,12 @@
 session_start();
 require_once("ffdbConn.php"); 
 
+if (!isset($_SESSION["aid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["noadminaccount"] = "You must be an Admin to interact with the inventory management.";
+    header("Location: home.php");
+    exit;
+}
+
 if (isset($_POST['action']) && isset($_POST['orderID'])) {
     $orderID = $_POST['orderID'];
     

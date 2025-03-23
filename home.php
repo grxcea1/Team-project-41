@@ -50,6 +50,24 @@ if (isset($_SESSION['loggedin'])) {
     unset($_SESSION['loggedin']);
 }
 
+if (isset($_SESSION['noadminaccount'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['noadminaccount'] . "
+            </div>
+          </div>";
+    unset($_SESSION['noadminaccount']);
+}
+
 if (isset($_SESSION['order_success'])) {
     echo "<div style='display: flex; 
             justify-content: center; 
