@@ -37,6 +37,16 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $orders[] = $row;
 }
 $stmt->closeCursor();
+
+$addressQuery = "SELECT addressLine1, city, postCode, country 
+                 FROM address 
+                 WHERE uid = ? 
+                 LIMIT 1";
+$stmt = $pdo->prepare($addressQuery);
+$stmt->bindParam(1, $uid, PDO::PARAM_INT);
+$stmt->execute();
+$address = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->closeCursor();
 ?>
 
 <!DOCTYPE html>
@@ -119,72 +129,88 @@ if (isset($_SESSION['aupdate5'])) {
         </ul>
     </div>
 
-    <div class="section">
-        <h2>Order History</h2>
-        <?php if (empty($orders)) {
-            echo "No previous orders";
-        }
-        else {
-        ?>
-        <table style="margin: 0 auto; text-align: center; border-spacing: 20px 10px">
-            <tr>
-                <th style="padding: 5px 10px;">Order ID</th>
-                <th style="padding: 5px 10px;">Order Amount</th>
-                <th style="padding: 5px 10px;">Order Date</th>
-                <th style="padding: 5px 10px;">Order Status</th>
-            </tr>
-            <?php foreach ($orders as $order) { ?>
-            <table style="margin: 0 auto; text-align: center;">
-            <tr>
-                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderID']); ?></td>
-                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderAmount']); ?></td>
-                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderDate']); ?></td>
-                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderStatus']); ?></td>
-                <td style="padding: 5px 10px;"><button type="button" class="details" onclick="toggleDetails(<?= $order['orderID'] ?>)">Details</button></td>
-            </tr>
-            </table>
-            <table id="movies-<?= $order['orderID'] ?>" class="movie-details" style="display: none">
-                <?php
-                $stmt = $pdo->prepare("SELECT * FROM orderdetails WHERE orderID = ?");
-                $stmt->execute([$order['orderID']]);
-                $movies = $stmt->fetchAll();
+    <div class="section" style="display: flex; justify-content: space-between; align-items: flex-start;">
+  <div style="width: 60%;">
+    <h2>Order History</h2>
+    <?php if (empty($orders)) {
+      echo "No previous orders";
+    } else { ?>
+    <table style="width: 100%; border-spacing: 0 10px; text-align: center;">
+      <tr>
+        <th>Order ID</th>
+        <th>Order Amount</th>
+        <th>Order Date</th>
+        <th>Order Status</th>
+        <th>Actions</th>
+      </tr>
+      <?php foreach ($orders as $order): ?>
+      <tr>
+        <td><?= htmlspecialchars($order['orderID']) ?></td>
+        <td><?= htmlspecialchars($order['orderAmount']) ?></td>
+        <td><?= htmlspecialchars($order['orderDate']) ?></td>
+        <td><?= htmlspecialchars($order['orderStatus']) ?></td>
+        <td><button onclick="toggleDetails(<?= $order['orderID'] ?>)">Details</button></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <table id="movies-<?= $order['orderID'] ?>" class="movie-details" style="display: none; margin: 10px auto; width: 90%; border: 1px solid #ccc;">
+            <?php
+              $stmt = $pdo->prepare("SELECT * FROM orderdetails WHERE orderID = ?");
+              $stmt->execute([$order['orderID']]);
+              $movies = $stmt->fetchAll();
 
-                foreach($movies as $movie) {
-                    $stmt = $pdo->prepare("SELECT p_Name FROM product WHERE pid = ?");
-                    $stmt->execute([$movie['pid']]);
-                    $name = $stmt->fetch();
-                    $wholeprice = ($movie['quantity']*$movie['price']);
-                ?>
-                        <tr id="movies-<?= $order['orderID'] ?>-<?= $movie['pid'] ?>">
-                            <td><?=$name['p_Name']?></td>
-                            <td>x<?=$movie['quantity']?></td>
-                            <td>£<?=number_format($wholeprice,2)?></td>
-                            <td>
-                                <button class=movie-return onclick="returnMovie(<?= $order['orderID'] ?>,<?= $movie['pid']?>)">Return</button>
-                            </td>
-                        </tr>
-                <?php
-                }
-                ?>
-            </table>
-            <?php }} ?>
-        </table>
-    </div>
-    <script>
-        function toggleDetails(orderID) {
-            let moviesDiv = document.getElementById("movies-"+orderID);
-            if (moviesDiv.style.display === "none") {
-                moviesDiv.style.display = "block";
-            }
-            else {
-                moviesDiv.style.display = "none";
-            }
-        }
+              foreach ($movies as $movie) {
+                $stmt2 = $pdo->prepare("SELECT p_Name FROM product WHERE pid = ?");
+                $stmt2->execute([$movie['pid']]);
+                $name = $stmt2->fetch();
+                $wholeprice = $movie['quantity'] * $movie['price'];
+            ?>
+            <tr id="movies-<?= $order['orderID'] ?>-<?= $movie['pid'] ?>">
+              <td><?= htmlspecialchars($name['p_Name']) ?></td>
+              <td>x<?= $movie['quantity'] ?></td>
+              <td>£<?= number_format($wholeprice, 2) ?></td>
+              <td>
+                <button class="movie-return" onclick="returnMovie(<?= $order['orderID'] ?>, <?= $movie['pid'] ?>)">Return</button>
+              </td>
+            </tr>
+            <?php } ?>
+          </table>
+        </td>
+      </tr>
+      <?php endforeach; ?>
+    </table>
+    <?php } ?>
+  </div>
 
-        function returnMovie(orderID,pid) {
-            let movieRow = document.getElementById("movies-"+orderID+"-"+pid);
-            movieRow.remove();
-        }
-    </script>
-</body>
-</html>
+  <div style="width: 35%; padding-left: 20px; background-color: black;">
+    <h2>Delivery Address</h2>
+    <?php if ($address): ?>
+    <ul>
+      <li><strong>Address:</strong> <?= htmlspecialchars($address['addressLine1']) ?></li>
+      <li><strong>City:</strong> <?= htmlspecialchars($address['city']) ?></li>
+      <li><strong>Postcode:</strong> <?= htmlspecialchars($address['postCode']) ?></li>
+      <li><strong>Country:</strong> <?= htmlspecialchars($address['country']) ?></li>
+      <li><strong>Please call: 020 2345 67890;
+    <li><strong> if you would like your delivery address changed 
+    </ul>
+    <?php else: ?>
+    <p>No address found for this user.</p>
+    <?php endif; ?>
+  </div>
+</div>
+
+<script>
+function toggleDetails(orderID) {
+  const moviesDiv = document.getElementById("movies-" + orderID);
+  if (moviesDiv.style.display === "none") {
+    moviesDiv.style.display = "table";
+  } else {
+    moviesDiv.style.display = "none";
+  }
+}
+
+function returnMovie(orderID, pid) {
+    let movieRow = document.getElementById("movies-"+orderID+"-"+pid);
+    movieRow.remove();
+}
+</script>
