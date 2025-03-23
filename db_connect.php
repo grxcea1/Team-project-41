@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $username = "root";
-$password = ""; // For the empty password
+$password = ""; // For the empty password when deployed
 $database = "filmfuse_db";
 
 $conn = new mysqli($host, $username, $password, $database);
