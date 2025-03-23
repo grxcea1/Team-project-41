@@ -2,15 +2,17 @@
 session_start();
 require_once("ffdbConn.php");
 
+if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["no_account"] = "You must be logged in or registered to view your account.";
+    header("Location: ffLoginPage.php");
+    exit;
+}
+
 if (isset($_POST['logout'])) {
     session_unset(); 
     session_destroy(); 
     header("Location: home.php");
     exit();
-}
-
-if (!isset($_SESSION['uid'])) {
-    die("User not logged in");
 }
 
 $uid = $_SESSION['uid'];

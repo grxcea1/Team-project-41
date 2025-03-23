@@ -1,3 +1,40 @@
+<?php
+session_start();
+
+if (isset($_POST['login'])) {
+    if (!isset($_POST['email'], $_POST['password'])) {
+        exit('Please fill both the email and password fields!');
+    }
+    
+    require_once("ffdbConn.php");
+    
+    try {
+        $stat = $pdo->prepare('SELECT uid, password FROM customer WHERE email = ?');
+        $stat->execute(array($_POST['email']));
+        
+        if ($stat->rowCount() > 0) {
+            $row = $stat->fetch();
+            
+            if (password_verify($_POST['password'], $row['password'])) {
+                $_SESSION["uid"] = $row['uid'];  
+                $_SESSION["Email"] = $_POST['email'];
+
+                header("Location: home.php");
+                exit();
+            } else {
+                echo "<p style='color:red'>Error logging in, password does not match</p>";
+            }
+        } else {
+            echo "<p style='color:red'>Error logging in, email not found</p>";
+        }
+    } catch (PDOException $ex) {
+        echo "Failed to connect to the database.<br>";
+        echo $ex->getMessage();
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +45,45 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
+
+<?php
+require_once("ffdbConn.php");
+if (isset($_SESSION['no_account'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: darkred; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['no_account'] . "
+            </div>
+          </div>";
+    unset($_SESSION['no_account']);
+}
+
+if (isset($_SESSION['no_account2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: darkred; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['no_account2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['no_account2']);
+}
+?>
     
     <section>
          <!--link to js-->
@@ -85,42 +161,6 @@
 
 </body>
 </html>
-
-<?php
-session_start();
-if (isset($_POST['login'])) {
-    if (!isset($_POST['email'], $_POST['password'])) {
-        exit('Please fill both the email and password fields!');
-    }
-    
-    require_once("ffdbConn.php");
-    
-    try {
-        $stat = $pdo->prepare('SELECT uid, password FROM customer WHERE email = ?');
-        $stat->execute(array($_POST['email']));
-        
-        if ($stat->rowCount() > 0) {
-            $row = $stat->fetch();
-            
-            if (password_verify($_POST['password'], $row['password'])) {
-                $_SESSION["uid"] = $row['uid'];  
-                $_SESSION["Email"] = $_POST['email'];
-
-                header("Location: home.php");
-                exit();
-            } else {
-                echo "<p style='color:red'>Error logging in, password does not match</p>";
-            }
-        } else {
-            echo "<p style='color:red'>Error logging in, email not found</p>";
-        }
-    } catch (PDOException $ex) {
-        echo "Failed to connect to the database.<br>";
-        echo $ex->getMessage();
-        exit;
-    }
-}
-?>
 
 
 

@@ -3,6 +3,7 @@ require_once("ffdbConn.php");
 session_start();
 
 if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["no_account2"] = "You must be logged in or registered to buy a movie.";
     header("Location: ffLoginPage.php");
     exit;
 }
