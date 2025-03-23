@@ -87,7 +87,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="movie-grid container">
             <h2>Comedy movies</h2>
             <div class="center-container">
-                <h6>Ever wonder what makes a comedy great? We put together a collection of the best comedies we could find so you can watch and learn from the best in the biz</h6>
+                <h6>Ever wonder what makes a comedy great? come and find out in our selection of the best of the best of the best</h6>
             </div>
              <!-- Header section -->
             <div id="categories">

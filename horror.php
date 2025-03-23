@@ -87,7 +87,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="movie-grid container">
             <h2>Horror Movies</h2>
             <div class="center-container">
-                <h6>Check out the best horror movies and shows, complete with maniacs, slashers, ghosts, goblins, and everything in between.</h6>
+                <h6>Check out the best horror movies and shows, from slasher, Ghost in the dead of night , Horror will always leave u feeling uneasy and at a lost for words </h6>
             </div>
              <!-- Header section -->
             <div id="categories">

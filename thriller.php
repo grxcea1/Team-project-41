@@ -85,7 +85,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="movie-grid container">
             <h2>Thriller Movies</h2>
             <div class="center-container">
-                <h6>The best thrillers will evoke suspense, mystery and will lead to shocking endings that leave your heart racing. Explore the dark corners of the world and discover secrets and unexpected twists that will always bring you back for more</h6>
+                <h6>The best thrillers will have you on the edge of your seat, mind wandering endlessly about the next twist . Explore the dark corners of the world and discover secrets and unexpected plots that will always bring you back for more</h6>
             </div>
              <!-- Header section -->
             <div id="categories">

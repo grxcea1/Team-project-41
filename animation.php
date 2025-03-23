@@ -86,7 +86,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="movie-grid container">
             <h2>Animation Movies</h2>
             <div class="center-container">
-                <h6>From the earliest hand-drawn cartoons to the blockbuster computer-driven events of today, the animated movies and shows you want to watch are right here.</h6>
+                <h6>from the classics like snow white to the modern inside out ,the animated movies and shows you want to watch are right here.</h6>
             </div>
              <!-- Header section -->
             <div id="categories">

@@ -87,7 +87,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="movie-grid container">
             <h2>Romance Movies</h2>
             <div class="center-container">
-                <h6>Comedies, dramas, and musicals all benefit from a little romance. From unrequited love to a funny night out, our romance collection will make your heart go pitter patter</h6>
+                <h6>action, dramas, and thriller all benefit from a little romance. From love triangle to a enemies to lovers, our romance collection will make your heart throb</h6>
             </div>
              <!-- Header section -->
             <div id="categories">
