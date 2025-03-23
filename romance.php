@@ -26,6 +26,16 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </head>
     
 <body>
+<style>
+    .center-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    height: 100%;            
+    text-align: center;      
+    }
+
+    </style>
 
       <!--link to js-->
       <script src="sscript.js"></script>
@@ -71,22 +81,25 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
           
       </div>
   
-     <!-- Header section -->
-     <div id="categories">
-        <div class="container">
-           <div class="header">
-            <li><a href="animation.php">Animation</a></li>
-            <li><a href="horror.php">Horror</a></li>
-            <li><a href="thriller.php">Thriller</a></li>
-            <li><a href="action.php">Action</a></li>
-            <li><a href="comedyPage.php">Comedy</a></li>
-           
-          </div>
-        </div>
 
         <!-- Movie grid -->
         <div class="movie-grid container">
             <h2>Romance Movies</h2>
+            <div class="center-container">
+                <h6>Comedies, dramas, and musicals all benefit from a little romance. From unrequited love to a funny night out, our romance collection will make your heart go pitter patter</h6>
+            </div>
+             <!-- Header section -->
+            <div id="categories">
+                <div class="container">
+                <div class="header">
+                    <li><a href="comedyPage.php">Comedy</a></li>
+                    <li><a href="horror.php">Horror</a></li>
+                    <li><a href="thriller.php">Thriller</a></li>
+                    <li><a href="action.php">Action</a></li>
+                    <li><a href="animation.php">Animation</a></li>
+                
+                </div>
+                </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">

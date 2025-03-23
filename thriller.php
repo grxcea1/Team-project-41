@@ -26,6 +26,16 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </head>
     
 <body>
+<style>
+    .center-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    height: 100%;            
+    text-align: center;      
+    }
+
+    </style>
 
       <!--link to js-->
       <script src="sscript.js"></script>
@@ -70,23 +80,25 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
   
           
       </div>
-  
-     <!-- Header section -->
-     <div id="categories">
-        <div class="container">
-           <div class="header">
-            <li><a href="romance.php">Romance</a></li>
-            <li><a href="horror.php">Horror</a></li>
-            <li><a href="action.php">Action</a></li>
-            <li><a href="comedyPage.php">Comedy</a></li>
-            <li><a href="animation.php">Animation</a></li>
-           
-          </div>
-        </div>
 
         <!-- Movie grid -->
         <div class="movie-grid container">
             <h2>Thriller Movies</h2>
+            <div class="center-container">
+                <h6>The best thrillers will evoke suspense, mystery and will lead to shocking endings that leave your heart racing. Explore the dark corners of the world and discover secrets and unexpected twists that will always bring you back for more</h6>
+            </div>
+             <!-- Header section -->
+            <div id="categories">
+                <div class="container">
+                <div class="header">
+                    <li><a href="romance.php">Romance</a></li>
+                    <li><a href="horror.php">Horror</a></li>
+                    <li><a href="comedyPage.php">Comedy</a></li>
+                    <li><a href="action.php">Action</a></li>
+                    <li><a href="animation.php">Animation</a></li>
+                
+                </div>
+                </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">
