@@ -49,6 +49,26 @@ $stmt->closeCursor();
     <link rel="stylesheet" href="account.css">
 </head>
 <body>
+
+<?php
+if (isset($_SESSION['aupdate5'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate5'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate5']);
+}
+?>
 <section>
          <!--link to js-->
     <script src="sscript.js"></script>

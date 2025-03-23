@@ -2,8 +2,10 @@
 session_start();
 require_once("ffdbConn.php");
 
-if (!isset($_SESSION['uid'])) {
-    exit('User not logged in');
+if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["accountupdate"] = "You must be logged in or registered to update your account.";
+    header("Location: home.php");
+    exit;
 }
 
 $uid = $_SESSION['uid'];
@@ -17,15 +19,20 @@ try {
     $customer = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$customer) {
-        exit('User data not found.');
+        $_SESSION["aupdate1"] = "User not found or customer data couldn't be retrieved, please try again later.";
+            header("Location: home.php");
+            exit;
     }
 } catch (PDOException $ex) {
-    echo 'Failed to retrieve customer data.<br>';
-    echo $ex->getMessage();
+    $_SESSION["aupdate1"] = "User not found or customer data couldn't be retrieved, please try again later.";
+            header("Location: home.php");
+            exit;
 }
 if (isset($_POST['update_account'])) {
     if (!isset($_POST['username'], $_POST['first_name'], $_POST['last_name'], $_POST['email'])) {
-        exit('<p style="color:red">Please fill in all fields.</p>');
+        $_SESSION["aupdate2"] = "Please fill in all fields.";
+            header("Location: accountUpdate.php");
+            exit;
     }
 
     try {
@@ -36,9 +43,12 @@ if (isset($_POST['update_account'])) {
         $checkEmail->execute(array($_POST['email'], $uid));
 
         if ($checkUsername->rowCount() > 0) {
-            echo '<script>alert("The username is already taken. Please choose another one.")</script>';
-        } elseif ($checkEmail->rowCount() > 0) {
-            echo '<script>alert("The email is already taken. Please choose another one.")</script>';
+            $_SESSION["aupdate3"] = "Username has already been taken, please try a different one.";
+            header("Location: accountUpdate.php");
+            exit;
+            $_SESSION["aupdate4"] = "Email has already been taken, please try a different one.";
+            header("Location: accountUpdate.php");
+            exit;
         } else {
             $updateStat = $pdo->prepare('UPDATE customer SET username = ?, first_name = ?, last_name = ?, email = ? WHERE uid = ?');
             $updateStat->execute(array(
@@ -49,13 +59,15 @@ if (isset($_POST['update_account'])) {
                 $uid
             ));
 
-            echo '<script>window.location.href = "account.php";</script>';
+            $_SESSION["aupdate5"] = "Successfully updated account details.";
+            header("Location: account.php");
             exit;
 
         }
     } catch (PDOException $ex) {
-        echo 'Failed to connect to the database.<br>';
-        echo $ex->getMessage();
+        $_SESSION["aupdate6"] = "Could not connect to database, please try again later.";
+            header("Location: home.php");
+            exit;
     }
 }
 ?>
@@ -69,6 +81,61 @@ if (isset($_POST['update_account'])) {
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
+<?php
+if (isset($_SESSION['aupdate2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate2']);
+}
+
+if (isset($_SESSION['aupdate3'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate3'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate3']);
+}
+
+if (isset($_SESSION['aupdate4'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate4'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate4']);
+}
+?>
 <section>
          <!--link to js-->
     <script src="sscript.js"></script>

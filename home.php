@@ -68,6 +68,114 @@ if (isset($_SESSION['noadminaccount'])) {
     unset($_SESSION['noadminaccount']);
 }
 
+if (isset($_SESSION['loginpassword'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['loginpassword'] . "
+            </div>
+          </div>";
+    unset($_SESSION['loginpassword']);
+}
+
+if (isset($_SESSION['aupdate1'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate1'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate1']);
+}
+
+if (isset($_SESSION['aupdate6'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['aupdate6'] . "
+            </div>
+          </div>";
+    unset($_SESSION['aupdate6']);
+}
+
+if (isset($_SESSION['accountupdate'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['accountupdate'] . "
+            </div>
+          </div>";
+    unset($_SESSION['accountupdate']);
+}
+
+if (isset($_SESSION['passwordupdate3'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['passwordupdate3'] . "
+            </div>
+          </div>";
+    unset($_SESSION['passwordupdate3']);
+}
+
+if (isset($_SESSION['passwordupdate6'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['passwordupdate6'] . "
+            </div>
+          </div>";
+    unset($_SESSION['passwordupdate6']);
+}
+
 if (isset($_SESSION['order_success'])) {
     echo "<div style='display: flex; 
             justify-content: center; 
