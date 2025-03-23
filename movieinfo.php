@@ -88,8 +88,8 @@ p{
 
                 <div id="search-container">
                     <form action="searchResults.php" method="GET">
-                    <input type="text" id="search-bar" placeholder="Search..." name="query">
-                    <button type="submit" id="search-button">Go</button>
+                        <input type="text" id="search-bar" placeholder="Search..." name="query">
+                        <button type="submit" id="search-button">Go</button>
                     </form>
                 </div>
             </nav>
@@ -182,6 +182,7 @@ p{
                 <section id="trailer">
                     <?php echo "<iframe src=https://www.youtube.com/embed/".$trailer." title='trailer' frameborder='0' allowfullscreen></iframe>" ?>
                 </section>
+                <br>
                 <form id="review-form" method="POST" action="submitReview.php">
                 <label for="review-text">Leave a review:</label>
                 <textarea id="review-text" name="review-text" rows="4" placeholder="Write your review here..."></textarea>
