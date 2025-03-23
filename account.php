@@ -182,7 +182,7 @@ if (isset($_SESSION['aupdate5'])) {
     <?php } ?>
   </div>
 
-  <div style="width: 35%; padding-left: 20px; background-color: black;">
+  <div style="width: 35%; padding-left: 20px;">
     <h2>Delivery Address</h2>
     <?php if ($address): ?>
     <ul>
