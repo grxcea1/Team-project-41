@@ -1,3 +1,60 @@
+<?php
+session_start();
+require_once ("ffdbConn.php");
+
+if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["loginpassword"] = "You must be logged in or registered to change your password.";
+    header("Location: home.php");
+    exit;
+}
+
+if (isset($_POST['change_password'])) {
+    if (!isset($_POST['current_password'], $_POST['new_password'], $_POST['confirm_password'])) {
+        $_SESSION["passwordupdate1"] = "Please fill in all fields.";
+            header("Location: password.php");
+            exit;
+    }
+    
+    if ($_POST['new_password'] !== $_POST['confirm_password']) {
+        $_SESSION["passwordupdate2"] = "New password does not match.";
+            header("Location: password.php");
+            exit;
+    }
+    
+    try {
+        $stat = $pdo->prepare('SELECT password FROM customer WHERE email = ?');
+        $stat->execute(array($_SESSION['Email']));
+        
+        if ($stat->rowCount() > 0) {
+            $row = $stat->fetch();
+            
+            if (password_verify($_POST['current_password'], $row['password'])) {
+                $new_hashed_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+                
+                $updateStat = $pdo->prepare('UPDATE customer SET password = ? WHERE email = ?');
+                $updateStat->execute(array($new_hashed_password, $_SESSION['Email']));
+                
+                $_SESSION["passwordupdate3"] = "Password has been sucessfully changed.";
+                    header("Location: home.php");
+                    exit;
+            } else {
+                $_SESSION["passwordupdate4"] = "The current password is incorrect, please try again.";
+                    header("Location: password.php");
+                    exit;
+            }
+        } else {
+            $_SESSION["passwordupdate5"] = "This user is not found.";
+                header("Location: ffLoginPage.php");
+                exit;
+        }
+    } catch (PDOException $ex) {
+        $_SESSION["passwordupdate6"] = "Database is currently down, please try again later.";
+            header("Location: home.php");
+            exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,6 +68,61 @@
          <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
+<?php
+    if (isset($_SESSION['passwordupdate1'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['passwordupdate1'] . "
+            </div>
+          </div>";
+    unset($_SESSION['passwordupdate1']);
+}
+
+if (isset($_SESSION['passwordupdate2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['passwordupdate2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['passwordupdate2']);
+}
+
+if (isset($_SESSION['passwordupdate4'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['passwordupdate4'] . "
+            </div>
+          </div>";
+    unset($_SESSION['passwordupdate4']);
+}
+?>
      <!--link to js-->
     <script src="sscript.js"></script>
 
@@ -64,51 +176,6 @@
                 
             </form>
         </div>
-
-        <?php
-        session_start();
-        require_once ("ffdbConn.php");
-
-        if (!isset($_SESSION['Email'])) {
-            exit('Login to change your password.');
-        }
-
-        if (isset($_POST['change_password'])) {
-            if (!isset($_POST['current_password'], $_POST['new_password'], $_POST['confirm_password'])) {
-                exit('<p style="color:red">Please fill in all fields.</p>');
-            }
-            
-            if ($_POST['new_password'] !== $_POST['confirm_password']) {
-                exit('<p style="color:red">New passwords do not match.</p>');
-            }
-            
-            try {
-                $stat = $pdo->prepare('SELECT password FROM customer WHERE email = ?');
-                $stat->execute(array($_SESSION['Email']));
-                
-                if ($stat->rowCount() > 0) {
-                    $row = $stat->fetch();
-                    
-                    if (password_verify($_POST['current_password'], $row['password'])) {
-                        $new_hashed_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-                        
-                        $updateStat = $pdo->prepare('UPDATE customer SET password = ? WHERE email = ?');
-                        $updateStat->execute(array($new_hashed_password, $_SESSION['Email']));
-                        
-                        echo '<p style="color:green">Password successfully changed.</p>';
-                    } else {
-                        echo '<p style="color:red">Current password is incorrect.</p>';
-                    }
-                } else {
-                    echo '<p style="color:red">User not found.</p>';
-                }
-            } catch (PDOException $ex) {
-                echo 'Failed to connect to the database.<br>';
-                echo $ex->getMessage();
-            }
-        }
-        ?>
-
         <footer class="footer">
             <hr>
             <p>Join the Film Fuse community today, and let us bring the world of cinema to you.</p>

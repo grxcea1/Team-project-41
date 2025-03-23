@@ -74,12 +74,13 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
   
          
               <div id="search-container">
-                  <input type="text" id="search-bar" placeholder="Search...">
-                  <button id="search-button">Go</button>
+                    <form action="searchResults.php" method="GET">
+                        <input type="text" id="search-bar" placeholder="Search..." name="query">
+                        <button type="submit" id="search-button">Go</button>
+                    </form>
               </div>
-  
-          
-      </div>
+          </nav> 
+        </div>
   
 
         <!-- Movie grid -->
