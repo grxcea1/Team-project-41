@@ -129,23 +129,8 @@ if (isset($_SESSION['failure4'])) {
 
     </div>
 
-
-    <!-- Header section -->
-     <div id="categories">
-        <div class="container">
-           <div class="header">
-            <li><a href="comedyPage.php">Comedy</a></li>
-            <li><a href="romance.php">Romance</a></li>
-            <li><a href="horror.php">Horror</a></li>
-            <li><a href="thriller.php">Thriller</a></li>
-            <li><a href="action.php">Action</a></li>
-            <li><a href="animation.php">Animation</a></li>
-      
-          </div>
-        </div>
-     </div>
-    <!-- Slideshow container -->
-    <div class="slideshow-container">
+     <!-- Slideshow container -->
+     <div class="slideshow-container">
         <div class="mySlides">
             <div class="numbertext">1 / 5</div>
             <a href="movieinfo.php?movie=28">
@@ -192,6 +177,23 @@ if (isset($_SESSION['failure4'])) {
     </div>
     <br>
 
+
+
+    <!-- Header section -->
+     <div id="categories">
+        <div class="container">
+           <div class="header">
+            <li><a href="comedyPage.php">Comedy</a></li>
+            <li><a href="romance.php">Romance</a></li>
+            <li><a href="horror.php">Horror</a></li>
+            <li><a href="thriller.php">Thriller</a></li>
+            <li><a href="action.php">Action</a></li>
+            <li><a href="animation.php">Animation</a></li>
+      
+          </div>
+        </div>
+     </div>
+   
 <!-- Movie posters -->
 <div class="container mt-4">
 <h2>Popular Movies</h2>
