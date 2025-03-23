@@ -10,7 +10,6 @@ if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
 
 
 $email = $_SESSION['Email'];
-$uid = $_SESSION["uid"];
 ?>
 
 <!DOCTYPE html>
