@@ -86,8 +86,10 @@ p{
                 <a href="contact.html">Contact us</a>
 
                 <div id="search-container">
-                    <input type="text" id="search-bar" placeholder="Search...">
-                    <button id="search-button">Go</button>
+                    <form action="searchResults.php" method="GET">
+                    <input type="text" id="search-bar" placeholder="Search..." name="query">
+                    <button type="submit" id="search-button">Go</button>
+                    </form>
                 </div>
             </nav>
         </div>
@@ -132,7 +134,7 @@ p{
             ?>
 
             <div class="movie-pic">
-                <img src='<?php echo $imgpath; ?>' alt='movie 12' class='img-fluid'>
+                <img src="<?php echo $imgpath; ?>" alt='movie 12' class='img-fluid'>
             </div>
 
             <div id="description">
@@ -171,7 +173,7 @@ p{
                 </form>
                 <br><br>
                 <section id="trailer">
-                    <?php echo "<iframe src=https://www.youtube.com/embed/v=".$trailer." title='trailer'></iframe>" ?>
+                    <?php echo "<iframe src=https://www.youtube.com/embed/".$trailer." title='trailer'></iframe>" ?>
                 </section>
                 <form id="review-form" method="POST" action="submitReview.php">
                 <label for="review-text">Leave a review:</label>

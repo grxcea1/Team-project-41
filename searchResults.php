@@ -105,6 +105,7 @@ if (isset($_GET['query'])) {
             <?php foreach ($products as $row): ?>
                 <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                     <div class="poster-box text-center">
+                        <a href="movieinfo.php?movie=<?=$row['pid']?>">
                             <img src="<?= htmlspecialchars($row['p_Image']) ?>" alt="<?= htmlspecialchars($row['p_Name']) ?>" class="img-fluid movie-img">
                         </a>
                         <h3 class="movie-title"><?= htmlspecialchars($row['p_Name']) ?></h3>
