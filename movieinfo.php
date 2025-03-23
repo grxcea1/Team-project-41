@@ -180,7 +180,7 @@ p{
                 </button>
                 <br><br>
                 <section id="trailer">
-                    <?php echo "<iframe src=https://www.youtube.com/embed/".$trailer." title='trailer'></iframe>" ?>
+                    <?php echo "<iframe src=https://www.youtube.com/embed/".$trailer." title='trailer' frameborder='0' allowfullscreen></iframe>" ?>
                 </section>
                 <form id="review-form" method="POST" action="submitReview.php">
                 <label for="review-text">Leave a review:</label>
