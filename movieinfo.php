@@ -50,10 +50,11 @@ p{
     border-radius: 5px;
 }
 
-        </style>
+.A2Cbutton{
+    cursor: pointer;
+}
 
-        <!--link to js-->
-        <script src="sscript.js"></script>
+        </style>
 
         <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
 
@@ -81,7 +82,7 @@ p{
                 <a href="home.php">Home</a>
                 <a href="ffLoginPage.php">Login</a>
                 <a href="aboutus.html">About Us</a>
-                <a href="basket.php">Basket</a>
+                <a href="basket.php">Basket<span id="insideCart">0</span></a>
                 <a href="account.html">Accounts</a>
                 <a href="contact.html">Contact us</a>
 
@@ -165,10 +166,16 @@ p{
                     </p>
                 </section>
                 <br>
-                <form>
-                    <input type="checkbox" id="add-cart">
-                    <label for="add-cart">Add to cart</label>
-                </form>
+
+                <button class="A2Cbutton" 
+                    onclick="addToCart(
+                        <?php echo $result['pid']; ?>, 
+                        '<?php echo addslashes($result['p_Name']); ?>', 
+                        <?php echo $result['p_Price']; ?>, 
+                        'images/<?php echo addslashes($result['p_Image']); ?>'
+                     )">
+                    Add to Cart
+                </button>
                 <br><br>
                 <section id="trailer">
                     <?php echo "<iframe src=https://www.youtube.com/embed/v=".$trailer." title='trailer'></iframe>" ?>
@@ -211,4 +218,34 @@ p{
         </main>
         <footer></footer>
     </body>
+     <!--link to js-->
+    <script src="sscript.js"></script>
+    <script>
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || {};
+            let totalCount = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
+            document.getElementById("insideCart").innerText = totalCount;
+        }
+
+        function addToCart(productId, movieName, price, imageUrl) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+        if (cart[productId]) {
+            cart[productId].quantity += 1;
+        } else {
+            cart[productId] = { 
+                name: movieName, 
+                price: parseFloat(price),  
+                imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
+                quantity: 1 
+            };
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        alert(movieName + " added to cart!");
+        }
+
+        updateCartCount();
+    </script>
 </html>

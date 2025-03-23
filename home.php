@@ -18,6 +18,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <!-- Bootstrap CSS -->
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <!--css link for this page -->
+         <link rel="stylesheet" href="discountPOP.css">
          <link rel="stylesheet" href="home.css">
          <!--fav Icon -->
          <link rel="shortcut icon" href="fav">
@@ -51,6 +52,7 @@ if (isset($_SESSION['order_success'])) {
 ?>
     <!--link to js-->
     <script src="sscript.js"></script>
+    <script src="discountPOP.js"></script>
 
  
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
@@ -463,7 +465,15 @@ if (isset($_SESSION['order_success'])) {
         <span class="dot" onclick="currentSlide(4)"></span>
         <span class="dot" onclick="currentSlide(5)"></span>
       </div>
-
+      
+      <!-- Discount Pop Up -->
+      <div id="discount-popup" class="popup">
+        <div class="popup_dis">
+          <span class="close_btn">&times;</span>
+          <h2 class="pop_txt">🎉 Special Discount!</h2>
+          <p class="pop_txt">Register or Login and Get 10% off your purchase. Use code: <strong>FLIMFUSE10</strong></p>
+        </div>
+      </div>
 
    <footer class="footer">
     <hr>
