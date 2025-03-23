@@ -1,12 +1,21 @@
 <?php
 session_start();
-require_once("ffdbConn.php"); 
-
-if (!isset($_SESSION['uid'])) {
-    die("User not logged in");
-}
+require_once("ffdbConn.php");
 
 $uid = $_SESSION['uid'];
+
+if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["no_account"] = "You must be logged in or registered to view your account.";
+    header("Location: ffLoginPage.php");
+    exit;
+}
+
+if (isset($_POST['logout'])) {
+    session_unset(); 
+    session_destroy(); 
+    header("Location: home.php");
+    exit();
+}
 
 $customerQuery = "SELECT username, first_name, last_name, email FROM customer WHERE uid = ?";
 $stmt = $pdo->prepare($customerQuery);
@@ -39,10 +48,23 @@ $stmt->closeCursor();
     <link rel="stylesheet" href="account.css">
 </head>
 <body>
-    <video class="video-background" autoplay loop muted>
-        <source src="images/image4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<section>
+         <!--link to js-->
+    <script src="sscript.js"></script>
+
+<!-- Toggle Button to Switch Backgrounds -->
+  <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
+  <?php if (isset($_SESSION["uid"]) || isset($_SESSION["Email"])): ?>
+    <form method="POST" style="float: right;">
+        <button id="log-out" name="logout">Log Out</button>
+    </form>
+  <?php endif; ?>
+
+  <!-- Light Mode and Dark Mode Images -->
+  <div id="image-container">
+    <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
+    <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
+  </div>
 
     <header>
         <div class="logo-container">

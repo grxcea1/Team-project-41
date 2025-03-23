@@ -5,81 +5,53 @@ if (!isset($_SESSION["uid"])) {
     die("Error: User not logged in");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     require_once("ffdbConn.php");
-    
+
     $uid = $_SESSION["uid"];
-    $totalPrice = $_POST['totalPrice'];
-    $cartData = $_POST['cartData'];
+    $totalPrice = $_POST['totalPrice'] ?? 0;
+    $cartData = $_POST['cartData'] ?? '[]';
     $cartArray = json_decode($cartData, true);
 
-    $pdo->beginTransaction();
+    $addressLine1 = $_POST['addressLine1'] ?? '';
+    $city = $_POST['city'] ?? '';
+    $postCode = $_POST['postCode'] ?? '';
+    $country = $_POST['country'] ?? '';
+    $m_Number = $_POST['m_Number'] ?? '';
 
-    $stmt = $pdo->prepare("INSERT INTO orders (orderAmount, orderDate, uid) VALUES (?,?,?)");
-    $stmt->execute([$totalPrice,date("Y-m-d"),$uid]);
-    $orderID = $pdo->lastInsertId();
+    try {
+        $pdo->beginTransaction();
 
-    $stmt = $pdo->prepare("Insert INTO orderdetails (orderID, pid, quantity, price) VALUES (?,?,?,?)");
-    foreach ($cartArray as $key => $value) {
-        if (is_array($value)) {
-            $stmt->execute([$orderID,$key,$value['quantity'],$value['price']]);
+        $checkStmt = $pdo->prepare("SELECT aid FROM address WHERE uid = ?");
+        $checkStmt->execute([$uid]);
+
+        if ($checkStmt->rowCount() > 0) {
+            $updateStmt = $pdo->prepare("UPDATE address SET addressLine1 = ?, city = ?, postcode = ?, country = ?, m_Number = ? WHERE uid = ?");
+            $updateStmt->execute([$addressLine1, $city, $postCode, $country, $m_Number, $uid]);
+        } else {
+            $insertStmt = $pdo->prepare("INSERT INTO address (addressLine1, city, postcode, country, uid, m_Number) VALUES (?, ?, ?, ?, ?, ?)");
+            $insertStmt->execute([$addressLine1, $city, $postCode, $country, $uid, $m_Number]);
         }
+
+        $orderStmt = $pdo->prepare("INSERT INTO orders (orderAmount, orderDate, uid) VALUES (?, ?, ?)");
+        $orderStmt->execute([$totalPrice, date("Y-m-d"), $uid]);
+        $orderID = $pdo->lastInsertId();
+
+        $detailStmt = $pdo->prepare("INSERT INTO orderdetails (orderID, pid, quantity, price) VALUES (?, ?, ?, ?)");
+        foreach ($cartArray as $pid => $item) {
+            if (is_array($item)) {
+                $detailStmt->execute([$orderID, $pid, $item['quantity'], $item['price']]);
+            }
+        }
+
+        $pdo->commit();
+        $_SESSION['order_success'] = "Your order has been successful!";
+        header("Location: home.php");
+        exit;
+
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        echo "An error occurred, Please try again later, you have not been charged!";
     }
-
-    $pdo->commit();
-
-    echo "Order successful!";
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Movie info</title>
-        <link rel="stylesheet" href="home.css">
-        <link rel="stylesheet" href="movieinfo.css">
-    </head>
-    <body>
-        <script src="sscript.js"></script>
-        
-        <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
-
-       
-        <div id="image-container">
-            <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
-            <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
-        </div>
-
-        <!-- LOGO BAR -->
-        <header>
-            <div class="logo-container">
-                <div class="circle">
-                    <div class="text">
-                        <span class="initials">FF</span>
-                    </div>
-                </div>
-                <div class="logo-name">Film Fuse</div>
-            </div>
-        </header>
-
-        <!-- Navigation menu -->
-        <div class="sidebox">
-            <nav class="nav-bar">
-                <a href="home.php">Home</a>
-                <a href="ffLoginPage.php">Login</a>
-                <a href="aboutus.html">About Us</a>
-                <a href="basket.php">Basket</a>
-                <a href="account.html">Accounts</a>
-                <a href="contact.html">Contact us</a>
-
-                <div id="search-container">
-                    <input type="text" id="search-bar" placeholder="Search...">
-                    <button id="search-button">Go</button>
-                </div>
-            </nav>
-        </div>
-    </body>
-</html>
