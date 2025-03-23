@@ -2,6 +2,12 @@
 session_start();
 require_once("ffdbConn.php");
 
+if (!isset($_SESSION["aid"]) && !isset($_SESSION["Email"])) {
+    $_SESSION["noadminaccount"] = "You must be an Admin to interact with the inventory management.";
+    header("Location: home.php");
+    exit;
+}
+
 $categories = [
     1 => 'Action',
     2 => 'Animation',
@@ -10,10 +16,6 @@ $categories = [
     5 => 'Thriller',
     6 => 'Horror'
 ];
-
-if (!isset($_SESSION['Email'])) {
-    exit('Login to add a product.');
-}
 
 if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
     if ($_FILES['p_Image']['error'] === UPLOAD_ERR_OK) {
