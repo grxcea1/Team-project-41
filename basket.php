@@ -44,8 +44,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.html">About Us</a>
             <a href="checkOut.php">Checkout</a>
-            <a href="account.html">Accounts</a>
-            <a href="contact.html">Contact us</a>
+            <a href="account.php">Accounts</a>
+            <a href="contact.php">Contact us</a>
         </nav>
     </div>
 
