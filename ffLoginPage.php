@@ -103,6 +103,8 @@ if (isset($_POST['login'])) {
             $row = $stat->fetch();
             
             if (password_verify($_POST['password'], $row['password'])) {
+
+                session_regenerate_id(true);
                 $_SESSION["uid"] = $row['uid'];  
                 $_SESSION["Email"] = $_POST['email'];
 
@@ -115,8 +117,8 @@ if (isset($_POST['login'])) {
             echo "<p style='color:red'>Error logging in, email not found</p>";
         }
     } catch (PDOException $ex) {
-        echo "Failed to connect to the database.<br>";
-        echo $ex->getMessage();
+        error_log($ex->getMessage());
+        echo"An Internal Error Occured! Please try again later.";
         exit;
     }
 }
