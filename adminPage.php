@@ -141,6 +141,25 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <body>
 
     <?php
+
+if (isset($_SESSION['adminlogin'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['adminlogin'] . "
+            </div>
+          </div>";
+    unset($_SESSION['adminlogin']);
+}
+
     if (isset($_SESSION['success3'])) {
         echo "<div style='display: flex; 
                 justify-content: center; 

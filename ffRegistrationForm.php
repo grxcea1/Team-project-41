@@ -1,3 +1,52 @@
+<?php
+
+require_once('ffdbConn.php');
+
+if (isset($_POST['register'])) {
+    $email = isset($_POST['email']) ? $_POST['email'] : false;
+    $username = isset($_POST['username']) ? $_POST['username'] : false;
+    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : false;
+    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : false;
+    $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : false;
+
+    if (!($email && preg_match('/^[^@]+@[^@]+\.[^@]+$/', $email)) || !$username || !$first_name || !$last_name || !$password) {
+        echo "Invalid Email or missing fields!";
+        exit;
+    }
+
+    try {
+        $checkEmail = $pdo->prepare("SELECT * FROM customer WHERE email = ?");
+        $checkEmail->execute([$email]);
+
+        if ($checkEmail->rowCount() > 0) {
+            session_start();
+            $_SESSION["failedregistration2"] = "That email is already being used. Please use a different one or login.";
+            header("Location: ffLoginPage.php");
+            exit;
+        }
+      
+        $stat = $pdo->prepare("INSERT INTO customer(username, first_name, last_name, password, email) 
+                               VALUES (:username, :first_name, :last_name, :password, :email)");
+        $stat->bindParam(':username', $username);
+        $stat->bindParam(':first_name', $first_name);
+        $stat->bindParam(':last_name', $last_name);
+        $stat->bindParam(':password', $password);
+        $stat->bindParam(':email', $email);
+
+        $stat->execute();
+        $_SESSION["username"] = "Congratulations $username! You are now registered, now please login with your registered details";
+        header("Location: ffLoginPage.php");
+        exit;
+
+    } catch (PDOException $ex) {
+        session_start();
+        $_SESSION["failedregistration"] = "Sorry, your details couldn't be registered. Please try again later.";
+        header("Location: ffRegistrationForm.php");
+        exit;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,39 +147,3 @@
     </section>
 </body>
 </html>
-
-<?php
-
-require_once('ffdbConn.php');
-
-if (isset($_POST['register'])){
-    $email = isset($_POST['email']) ? $_POST['email'] : false;
-    $username = isset($_POST['username']) ? $_POST['username'] : false;
-    $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : false;
-    $last_name = isset($_POST['last_name']) ? $_POST['last_name'] : false;
-    $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : false;
-    
-    if (!($email && preg_match('/^[^@]+@[^@]+\.[^@]+$/', $email)) || !$username || !$first_name || !$last_name || !$password) {
-        echo "Invalid Email or missing fields!";
-        exit;
-    }
-    try {
-        $stat = $pdo->prepare("INSERT INTO customer(username, first_name, last_name, password, email) VALUES (:username, :first_name, :last_name, :password, :email)");
-        $stat->bindParam(':username', $username);
-        $stat->bindParam(':first_name', $first_name);
-        $stat->bindParam(':last_name', $last_name);
-        $stat->bindParam(':password', $password);
-        $stat->bindParam(':email', $email);
-        
-        $stat->execute();
-        echo "Congratulations $username! You are now registered.";
-        session_start();
-        $_SESSION["username"] = $username;
-        header("Location: ffLoginPage.php");
-        exit();
-    } catch (PDOException $ex) {
-        echo "Sorry, a database error occurred!<br>";
-        echo "Error details: <em>" . $ex->getMessage() . "</em>";
-    }
-}
-?>
