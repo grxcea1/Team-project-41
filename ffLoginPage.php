@@ -19,17 +19,22 @@ if (isset($_POST['login'])) {
                 $_SESSION["uid"] = $row['uid'];  
                 $_SESSION["Email"] = $_POST['email'];
 
-                header("Location: home.php");
-                exit();
+                $_SESSION["loggedin"] = "Successfully logged in, Enjoy!";
+            header("Location: home.php");
+            exit;
             } else {
-                echo "<p style='color:red'>Error logging in, password does not match</p>";
+                $_SESSION["failedloggin"] = "Incorect Password, please try again or click forgotten password.";
+            header("Location: ffLoginPage.php");
+            exit;
             }
         } else {
-            echo "<p style='color:red'>Error logging in, email not found</p>";
+            $_SESSION["failedloggin2"] = "Incorrect email, please try again.";
+            header("Location: ffLoginPage.php");
+            exit;
         }
     } catch (PDOException $ex) {
-        echo "Failed to connect to the database.<br>";
-        echo $ex->getMessage();
+        $_SESSION["systemFailure"] = "Failed to connect to the database ";
+        header("Location: ffLoginPage.php");
         exit;
     }
 }
@@ -54,7 +59,7 @@ if (isset($_SESSION['no_account'])) {
             align-items: center;'>
             <div style='background-color: red; 
             padding: 15px 30px; 
-            color: darkred; 
+            color: white; 
             border: 1px solid red; 
             margin: 20px 0; 
             font-weight: bold; 
@@ -72,7 +77,7 @@ if (isset($_SESSION['no_account2'])) {
             align-items: center;'>
             <div style='background-color: red; 
             padding: 15px 30px; 
-            color: darkred; 
+            color: white; 
             border: 1px solid red; 
             margin: 20px 0; 
             font-weight: bold; 
@@ -82,6 +87,132 @@ if (isset($_SESSION['no_account2'])) {
             </div>
           </div>";
     unset($_SESSION['no_account2']);
+}
+
+if (isset($_SESSION['no_account3'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['no_account3'] . "
+            </div>
+          </div>";
+    unset($_SESSION['no_account3']);
+}
+
+if (isset($_SESSION['username'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['username'] . "
+            </div>
+          </div>";
+    unset($_SESSION['username']);
+}
+
+if (isset($_SESSION['failedregistration'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedregistration'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedregistration']);
+}
+
+if (isset($_SESSION['failedregistration2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedregistration2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedregistration2']);
+}
+
+if (isset($_SESSION['failedloggin'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedloggin'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedloggin']);
+}
+
+if (isset($_SESSION['failedloggin2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedloggin2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedloggin2']);
+}
+
+if (isset($_SESSION['systemfailure'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['systemfailure'] . "
+            </div>
+          </div>";
+    unset($_SESSION['systemfailure']);
 }
 ?>
     
@@ -161,42 +292,3 @@ if (isset($_SESSION['no_account2'])) {
 
 </body>
 </html>
-
-<?php
-session_start();
-if (isset($_POST['login'])) {
-    if (!isset($_POST['email'], $_POST['password'])) {
-        exit('Please fill both the email and password fields!');
-    }
-    
-    require_once("ffdbConn.php");
-    
-    try {
-        $stat = $pdo->prepare('SELECT uid, password FROM customer WHERE email = ?');
-        $stat->execute(array($_POST['email']));
-        
-        if ($stat->rowCount() > 0) {
-            $row = $stat->fetch();
-            
-            if (password_verify($_POST['password'], $row['password'])) {
-                $_SESSION["uid"] = $row['uid'];  
-                $_SESSION["Email"] = $_POST['email'];
-
-                header("Location: home.php");
-                exit();
-            } else {
-                echo "<p style='color:red'>Error logging in, password does not match</p>";
-            }
-        } else {
-            echo "<p style='color:red'>Error logging in, email not found</p>";
-        }
-    } catch (PDOException $ex) {
-        echo "Failed to connect to the database.<br>";
-        echo $ex->getMessage();
-        exit;
-    }
-}
-?>
-
-
-

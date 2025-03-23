@@ -104,23 +104,23 @@ if (isset($_POST['update_account'])) {
         </nav>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <h2>Update Account Information</h2>
         <form method="POST" action="">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username" style="color: white;">Username:</label>
                 <input type="text" class="form-control" name="username" value="<?php echo htmlspecialchars($customer['username']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="first_name">First Name:</label>
+                <label for="first_name" style="color: white;">First Name:</label>
                 <input type="text" class="form-control" name="first_name" value="<?php echo htmlspecialchars($customer['first_name']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name:</label>
+                <label for="last_name" style="color: white;">Last Name:</label>
                 <input type="text" class="form-control" name="last_name" value="<?php echo htmlspecialchars($customer['last_name']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email" style="color: white;">Email:</label>
                 <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($customer['email']); ?>" required>
             </div>
             <button type="submit" name="update_account" class="btn btn-primary">Update</button>

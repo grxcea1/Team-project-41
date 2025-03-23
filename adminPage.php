@@ -18,20 +18,62 @@ $categories = [
     6 => 'Horror'
 ];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image']) && isset($_POST['pid'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     $pid = $_POST['pid'];
-    
-    if ($_FILES['new_image']['error'] === UPLOAD_ERR_OK) {
-        $imageData = file_get_contents($_FILES['new_image']['tmp_name']);
-        
+    $name = $_POST['p_Name'];
+    $price = $_POST['p_Price'];
+    $stock = $_POST['p_Stock'];
+    $description = $_POST['p_Description'];
+
+    try {
+        $updateQuery = "UPDATE product SET p_Name = ?, p_Price = ?, p_Stock = ?, p_Description = ? WHERE pid = ?";
+        $stmt = $pdo->prepare($updateQuery);
+        $stmt->execute([$name, $price, $stock, $description, $pid]);
+
+        $_SESSION["success3"] = "Successfully updated product in the inventory!";
+        header("Location: adminPage.php");
+        exit;
+    } catch (PDOException $e) {
+        $_SESSION["failure5"] = "Failed to connect to database, try again later.";
+        header("Location: adminPage.php");
+        exit;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_product'])) {
+    $pid = $_POST['pid'];
+
+    try {
+        $deleteQuery = "DELETE FROM product WHERE pid = ?";
+        $stmt = $pdo->prepare($deleteQuery);
+        $stmt->execute([$pid]);
+
+        $_SESSION["success4"] = "Successfully deleted product from the inventory!";
+        header("Location: adminPage.php");
+        exit;
+    } catch (PDOException $e) {
+        $_SESSION["failure6"] = "Failed to delete product, from the database, please try again later.";
+        header("Location: adminPage.php");
+        exit;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image']) && isset($_POST['pid']) && $_FILES['new_image']['error'] === UPLOAD_ERR_OK) {
+    $pid = $_POST['pid'];
+    $imageData = file_get_contents($_FILES['new_image']['tmp_name']);
+
+    try {
         $updateQuery = "UPDATE product SET p_Image = ? WHERE pid = ?";
         $stmt = $pdo->prepare($updateQuery);
         $stmt->execute([$imageData, $pid]);
 
-        header("Location: " . $_SERVER['PHP_SELF']);
+        $_SESSION["success5"] = "Successfully uploaded image to database!";
+        header("Location: adminPage.php");
         exit;
-    } else {
-        echo "Error uploading file.";
+    } catch (PDOException $e) {
+        $_SESSION["failure7"] = "Error uploading the image, please use a png, jpeg or jpg or try again later.";
+        header("Location: adminPage.php");
+        exit;
     }
 }
 
@@ -97,8 +139,138 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     </head>
     <body>
-            <!--link to js-->
-        <script src="sscript.js"></script>
+
+    <?php
+
+if (isset($_SESSION['adminlogin'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['adminlogin'] . "
+            </div>
+          </div>";
+    unset($_SESSION['adminlogin']);
+}
+
+    if (isset($_SESSION['success3'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: green; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid green; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['success3'] . "
+                </div>
+            </div>";
+        unset($_SESSION['success3']);
+    }
+
+    if (isset($_SESSION['success4'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: green; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid green; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['success4'] . "
+                </div>
+            </div>";
+        unset($_SESSION['success4']);
+    }
+
+    if (isset($_SESSION['success5'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: green; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid green; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['success5'] . "
+                </div>
+            </div>";
+        unset($_SESSION['success5']);
+    }
+
+    if (isset($_SESSION['failure5'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: red; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid red; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['failure5'] . "
+                </div>
+            </div>";
+        unset($_SESSION['failure5']);
+    }
+
+    if (isset($_SESSION['failure6'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: red; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid red; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['failure6'] . "
+                </div>
+            </div>";
+        unset($_SESSION['failure6']);
+    }
+
+    if (isset($_SESSION['failure7'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: red; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid red; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['failure7'] . "
+                </div>
+            </div>";
+        unset($_SESSION['failure7']);
+    }
+    ?>
+
+     <!--link to js-->
+    <script src="sscript.js"></script>
 
     
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
@@ -113,9 +285,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <img id="dark-image" src="images/dark.jpg"  alt="Dark Mode Image" class="mode-image">
     </div>
 
-
+        <header> 
             <div class="logo-container">
-                <a href="home.html" class="logo-link">
+                <a href="home.php" class="logo-link">
                     <div class="circle">
                         <div class="text">
                             <span class="initials">FF</span>
@@ -130,8 +302,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <nav class="nav-bar">
                 <a href="home.php">Home</a> 
                 <a href="orders.php">Orders</a>
-                <a href="password.php">Password</a>
+                <a href="customerDetails.php">Customer Management</a>
                 <a href="add_Product.php">Add Products</a>
+                <a href="password.php">Password</a>
             </nav>
         </div>
 
@@ -157,7 +330,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <button id="showMoreReport" class="btn btn-primary">More</button>
     </div>
 
         <div class="container mt-5 section">
@@ -222,7 +394,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
                                 <button type="submit" name="update_product" class="btn btn-success">Update</button>
-                                <a href="edit_Product.php?pid=<?= $product['pid'] ?>" class="btn btn-info">Edit</a>
                                 <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
                             </td>
                         </form>
@@ -231,20 +402,5 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tbody>
             </table>
         </div>
-        <script>
-            // $(document).ready(function() {
-            //     $('#productTable').DataTable();
-            // });
-
-            $("#showMoreManage").on("click", function() {
-                $(".manage-products-row:hidden").slice(0, 5).slideDown();
-                if ($(".manage-products-row:hidden").length === 0) {
-                    $(this).hide();
-                }
-            });
-        function selectImage(element) {
-            $(element).siblings('.image-input').click();
-        }
-        </script>
     </body>
 </html>

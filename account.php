@@ -2,13 +2,14 @@
 session_start();
 require_once("ffdbConn.php");
 
-$uid = $_SESSION['uid'];
 
 if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
     $_SESSION["no_account"] = "You must be logged in or registered to view your account.";
     header("Location: ffLoginPage.php");
     exit;
 }
+
+$uid = $_SESSION['uid'];
 
 if (isset($_POST['logout'])) {
     session_unset(); 
@@ -105,21 +106,23 @@ $stmt->closeCursor();
         }
         else {
         ?>
-        <table style="border-spacing: 20px 10px">
+        <table style="margin: 0 auto; text-align: center; border-spacing: 20px 10px">
             <tr>
-                <th>Order ID</th>
-                <th>Order Amount</th>
-                <th>Order Date</th>
-                <th>Order Status</th>
+                <th style="padding: 5px 10px;">Order ID</th>
+                <th style="padding: 5px 10px;">Order Amount</th>
+                <th style="padding: 5px 10px;">Order Date</th>
+                <th style="padding: 5px 10px;">Order Status</th>
             </tr>
             <?php foreach ($orders as $order) { ?>
+            <table style="margin: 0 auto; text-align: center;">
             <tr>
-                <td><?php echo htmlspecialchars($order['orderID']); ?></td>
-                <td>£<?php echo htmlspecialchars($order['orderAmount']); ?></td>
-                <td><?php echo htmlspecialchars($order['orderDate']); ?></td>
-                <td><?php echo htmlspecialchars($order['orderStatus']); ?></td>
-                <td><button type="button" class="details" onclick="toggleDetails(<?= $order['orderID'] ?>)">Details</button></td>
+                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderID']); ?></td>
+                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderAmount']); ?></td>
+                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderDate']); ?></td>
+                <td style="padding: 5px 10px;"><?php echo htmlspecialchars($order['orderStatus']); ?></td>
+                <td style="padding: 5px 10px;"><button type="button" class="details" onclick="toggleDetails(<?= $order['orderID'] ?>)">Details</button></td>
             </tr>
+            </table>
             <table id="movies-<?= $order['orderID'] ?>" class="movie-details" style="display: none">
                 <?php
                 $stmt = $pdo->prepare("SELECT * FROM orderdetails WHERE orderID = ?");

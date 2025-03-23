@@ -27,12 +27,18 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
                 $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'], $_POST['p_Director'], $imageData
             ]);
 
-            echo '<p style="color:green; text-align:center;">Movie successfully added to the database.</p>';
+            $_SESSION["success2"] = "Successfully added new product to inventory!";
+            header("Location: add_Product.php");
+            exit;
         } catch (PDOException $ex) {
-            echo '<p style="color:red; text-align:center;">Failed to add movie: ' . $ex->getMessage() . '</p>';
+            $_SESSION["failure2"] = "Failed to add product to system, Please ensure all fields are filled or try again later.";
+            header("Location: add_Product.php");
+            exit;
         }
     } else {
-        echo '<p style="color:red; text-align:center;">Error uploading image file.</p>';
+        $_SESSION["failure3"] = "Failed to upload image, please ensure image is png or jpg or try again later.";
+        header("Location: add_Product.php");
+        exit;
     }
 }
 ?>
@@ -50,6 +56,64 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+
+<?php
+    if (isset($_SESSION['success2'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: green; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid green; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['success2'] . "
+                </div>
+            </div>";
+        unset($_SESSION['success2']);
+    }
+
+    if (isset($_SESSION['failure2'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: red; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid red; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['failure2'] . "
+                </div>
+            </div>";
+        unset($_SESSION['failure2']);
+    }
+
+    if (isset($_SESSION['failure3'])) {
+        echo "<div style='display: flex; 
+                justify-content: center; 
+                align-items: center;'>
+                <div style='background-color: red; 
+                padding: 15px 30px; 
+                color: white; 
+                border: 1px solid red; 
+                margin: 20px 0; 
+                font-weight: bold; 
+                border-radius: 5px; 
+                text-align: center;'>
+                    " . $_SESSION['failure3'] . "
+                </div>
+            </div>";
+        unset($_SESSION['failure3']);
+    }
+
+    ?>
+
 <script src="sscript.js"></script>
 
 <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
@@ -73,36 +137,37 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
     <nav class="nav-bar">
         <a href="home.php">Home</a>
         <a href="adminPage.php">Inventory</a>
+        <a href="customerDetails.php">Customer Management</a>
         <a href="orders.php">Orders</a>
         <a href="password.php">Password</a>
     </nav>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <h2>Add a Movie</h2>
     <form method="POST" action="" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="p_Name">Title:</label>
+            <label for="p_Name" style="color: white;">Title:</label>
             <input type="text" class="form-control" name="p_Name" required>
         </div>
         <div class="form-group">
-            <label for="p_Description">Description:</label>
+            <label for="p_Description" style="color: white;">Description:</label>
             <textarea class="form-control" name="p_Description" required></textarea>
         </div>
         <div class="form-group">
-            <label for="p_Price">Price:</label>
+            <label for="p_Price" style="color: white;">Price:</label>
             <input type="number" step="0.01" class="form-control" name="p_Price" required>
         </div>
         <div class="form-group">
-            <label for="p_RentPrice">Rent Price:</label>
+            <label for="p_RentPrice" style="color: white;">Rent Price:</label>
             <input type="number" step="0.01" class="form-control" name="p_RentPrice" required>
         </div>
         <div class="form-group">
-            <label for="p_ReleaseDate">Release Date:</label>
+            <label for="p_ReleaseDate" style="color: white;">Release Date:</label>
             <input type="date" class="form-control" name="p_ReleaseDate" required>
         </div>
         <div class="form-group">
-            <label for="categoryID">Category:</label>
+            <label for="categoryID" style="color: white;">Category:</label>
             <select class="form-control" name="categoryID" required>
                 <?php foreach ($categories as $id => $name): ?>
                     <option value="<?= $id ?>"><?= htmlspecialchars($name) ?></option>
@@ -110,27 +175,27 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
             </select>
         </div>
         <div class="form-group">
-            <label for="p_Stock">Stock:</label>
+            <label for="p_Stock" style="color: white;">Stock:</label>
             <input type="number" class="form-control" name="p_Stock" required>
         </div>
         <div class="form-group">
-            <label for="p_ageRating">Age Rating:</label>
+            <label for="p_ageRating" style="color: white;">Age Rating:</label>
             <input type="text" class="form-control" name="p_ageRating" required>
         </div>
         <div class="form-group">
-            <label for="p_Duration">Duration:</label>
+            <label for="p_Duration" style="color: white;">Duration:</label>
             <input type="text" class="form-control" name="p_Duration" required>
         </div>
         <div class="form-group">
-            <label for="p_Starring">Starring:</label>
+            <label for="p_Starring" style="color: white;">Starring:</label>
             <input type="text" class="form-control" name="p_Starring" required>
         </div>
         <div class="form-group">
-            <label for="p_Director">Director:</label>
+            <label for="p_Director" style="color: white;">Director:</label>
             <input type="text" class="form-control" name="p_Director" required>
         </div>
         <div class="form-group">
-            <label for="p_Image">Movie Image:</label>
+            <label for="p_Image" style="color: white;">Movie Image:</label>
             <input type="file" class="form-control-file" name="p_Image" accept="image/*" required>
         </div>
         <button type="submit" name="add_product" class="btn btn-primary">Add</button>
