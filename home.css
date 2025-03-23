@@ -198,17 +198,19 @@
     padding: 20px;
     position: center;
     z-index: 2;
+    margin-top:  50px;
   }
 
-  .nav-bar {
+  
+  .nav-bar{
     display: flex;
     column-gap: 5rem;
     justify-content: center; 
     gap: 5rem; 
-    list-style: none; 
   }
 
   .nav-bar li{
+    position: fixed;
     position: center;
   }
   
