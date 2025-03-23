@@ -110,6 +110,7 @@ try {
     }
 
 } catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
+    error_log($ex->getMessage());
+    echo"An Internal Error Occured! Please try again later.";
 }
 ?>
