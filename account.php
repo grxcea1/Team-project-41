@@ -2,6 +2,8 @@
 session_start();
 require_once("ffdbConn.php");
 
+$uid = $_SESSION['uid'];
+
 if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
     $_SESSION["no_account"] = "You must be logged in or registered to view your account.";
     header("Location: ffLoginPage.php");
@@ -14,8 +16,6 @@ if (isset($_POST['logout'])) {
     header("Location: home.php");
     exit();
 }
-
-$uid = $_SESSION['uid'];
 
 $customerQuery = "SELECT username, first_name, last_name, email FROM customer WHERE uid = ?";
 $stmt = $pdo->prepare($customerQuery);
