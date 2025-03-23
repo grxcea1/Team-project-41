@@ -8,7 +8,65 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    
+
+<?php
+session_start();
+require_once("ffdbConn.php");
+if (isset($_SESSION['adminlogin'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['adminlogin'] . "
+            </div>
+          </div>";
+    unset($_SESSION['adminlogin']);
+}
+
+if (isset($_SESSION['failedadminlogin1'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedadminlogin1'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedadminlogin1']);
+}
+
+if (isset($_SESSION['failedadminlogin2'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failedadminlogin2'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedadminlogin2']);
+}
+?>
+
     <section>
          <!--link to js-->
     <script src="sscript.js"></script>
@@ -44,7 +102,7 @@
     
             <div class="form-value">
                 <!-- Form submits to PHP script -->
-                <form method="post" action="ffLoginPageAdministrator.php">
+                <form method="post" action="adminProcess.php">
                     <h2>Admin-Login</h2>
 
                     <!-- Email Field -->
@@ -83,33 +141,3 @@
 
 </body>
 </html>
-
-<?php
-session_start();
-require_once("ffdbConn.php"); 
-$email = $_POST['email'] ?? '';
-$plainPassword = $_POST['password'] ?? '';
-$hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
-
-try {
-    $stat = $pdo->prepare("SELECT aid FROM admin WHERE email = ?");
-    $stat->execute([$email]);
-
-    if ($stat->rowCount() > 0) {
-        $admin = $stat->fetch();
-
-        $updateStmt = $pdo->prepare("UPDATE admin SET password = ? WHERE email = ?");
-        $updateStmt->execute([$hashedPassword, $email]);
-        $_SESSION["aid"] = $admin['aid'];
-        $_SESSION["Email"] = $email;
-
-        header("Location: adminPage.php");
-        exit();
-    } else {
-        
-    }
-
-} catch (PDOException $ex) {
-    echo "Error: " . $ex->getMessage();
-}
-?>

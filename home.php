@@ -18,6 +18,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <!-- Bootstrap CSS -->
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <!--css link for this page -->
+         <link rel="stylesheet" href="discountPOP.css">
          <link rel="stylesheet" href="home.css">
          <!--fav Icon -->
          <link rel="shortcut icon" href="fav">
@@ -31,13 +32,31 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php
 require_once("ffdbConn.php");
 
+if (isset($_SESSION['loggedin'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['loggedin'] . "
+            </div>
+          </div>";
+    unset($_SESSION['loggedin']);
+}
+
 if (isset($_SESSION['order_success'])) {
     echo "<div style='display: flex; 
             justify-content: center; 
             align-items: center;'>
-            <div style='background-color: lightgreen; 
+            <div style='background-color: green; 
             padding: 15px 30px; 
-            color: darkgreen; 
+            color: white; 
             border: 1px solid green; 
             margin: 20px 0; 
             font-weight: bold; 
@@ -48,9 +67,28 @@ if (isset($_SESSION['order_success'])) {
           </div>";
     unset($_SESSION['order_success']);
 }
+
+if (isset($_SESSION['failure4'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failure4'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failure4']);
+}
 ?>
     <!--link to js-->
     <script src="sscript.js"></script>
+    <script src="discountPOP.js"></script>
 
  
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
@@ -463,7 +501,15 @@ if (isset($_SESSION['order_success'])) {
         <span class="dot" onclick="currentSlide(4)"></span>
         <span class="dot" onclick="currentSlide(5)"></span>
       </div>
-
+      
+      <!-- Discount Pop Up -->
+      <div id="discount-popup" class="popup">
+        <div class="popup_dis">
+          <span class="close_btn">&times;</span>
+          <h2 class="pop_txt">🎉 Special Discount!</h2>
+          <p class="pop_txt">Register or Login and Get 10% off your purchase. Use code: <strong>FLIMFUSE10</strong></p>
+        </div>
+      </div>
 
    <footer class="footer">
     <hr>

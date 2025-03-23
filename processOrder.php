@@ -2,7 +2,9 @@
 session_start();
 
 if (!isset($_SESSION["uid"])) {
-    die("Error: User not logged in");
+    $_SESSION["no_account3"] = "You must be logged in or registered to check out.";
+    header("Location: ffLoginPage.php");
+    exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -45,13 +47,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         $pdo->commit();
-        $_SESSION['order_success'] = "Your order has been successful!";
+        $_SESSION['order_success'] = "Your order has been successful, please check your Order history for any updates!";
         header("Location: home.php");
         exit;
 
     } catch (PDOException $e) {
         $pdo->rollBack();
-        echo "An error occurred, Please try again later, you have not been charged!";
+        $_SESSION['failure4'] = "Couldn't process your order, please try again later, You have not been charged!";
+        header("Location: home.php");
+        exit;
     }
 }
 ?>

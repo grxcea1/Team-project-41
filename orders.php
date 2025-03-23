@@ -17,14 +17,20 @@ if (isset($_POST['action']) && isset($_POST['orderID'])) {
             }
         } elseif ($_POST['action'] === "decline") {
             $newStatus = "Declined";
+            $_SESSION["failedOrder"] = "Order has been declined!";
+            header("Location: orders.php");
+            exit;
         }
         $stmt = $pdo->prepare("UPDATE orders SET orderStatus = ? WHERE orderID = ?");
         $stmt->execute([$newStatus, $orderID]);
         
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+        $_SESSION["ordered"] = "Movie has been dispatched!";
+        header("Location: orders.php");
+        exit;
     } catch (PDOException $e) {
-        die("Database error: " . $e->getMessage());
+        $_SESSION["failedOrder"] = "Failed to authorise order, please try again later.";
+        header("Location: orders.php");
+        exit;
     }
 }
 
@@ -39,7 +45,9 @@ try {
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    $_SESSION["failed_system"] = "Failed to connect to the database, please try again later.";
+    header("Location: orders.php");
+    exit;
 }
 ?>
 
@@ -54,6 +62,62 @@ try {
     <script src="sscript.js"></script>
 </head>
 <body>
+<?php
+require_once("ffdbConn.php");
+if (isset($_SESSION['ordered'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['ordered'] . "
+            </div>
+          </div>";
+    unset($_SESSION['ordered']);
+}
+
+if (isset($_SESSION['failedOrder'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION["failedOrder"] . "
+            </div>
+          </div>";
+    unset($_SESSION['failedOrder']);
+}
+
+if (isset($_SESSION['failed_system'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: red; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid red; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['failed_system'] . "
+            </div>
+          </div>";
+    unset($_SESSION['failed_system']);
+}
+?>
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
     <div id="image-container">
         <img id="light-image" src="images/light.jpg" alt="Light Mode Image" class="mode-image" style="display: none;">
@@ -75,6 +139,7 @@ try {
      <nav class="nav-bar">
         <a href="home.php">Home</a>
         <a href="adminPage.php">Inventory</a>
+        <a href="customerDetails.php">Customer Management</a>
         <a href="add_Product.php">Add Products</a>
         <a href="password.php">Password</a>
      </nav>
