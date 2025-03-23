@@ -36,7 +36,7 @@
      <!-- Navigation menu -->
      <div class="sidebox">
         <nav class="nav-bar">
-            <a href="home.css">Home</a>
+            <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
             </section>
 

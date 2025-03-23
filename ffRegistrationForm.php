@@ -39,7 +39,7 @@
             <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
             <a href="aboutus.php">About Us</a>
-            <a href="contact.html">Contact us</a>
+            <a href="contact.php">Contact us</a>
 
     </div>
     

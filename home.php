@@ -77,7 +77,7 @@ if (isset($_SESSION['order_success'])) {
         <nav class="nav-bar">
             <a href="home.php">Home</a>
             <a href="ffLoginPage.php">Login</a>
-            <a href="aboutus.html">About Us</a>
+            <a href="aboutus.php">About Us</a>
             <a href="basket.php">Basket<span id="insideCart">0</span></a>
             <a href="account.php">Accounts</a>
             <a href="contact.php">Contact us</a>
