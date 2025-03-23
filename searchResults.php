@@ -8,17 +8,20 @@ if (isset($_GET['query'])) {
     $search = strtolower($_GET['query']);
 
 
-   
-    $query = "SELECT p.* FROM product p JOIN category c ON p.categoryID = c.categoryID
-       WHERE p.p_Name LIKE :search_name OR c.Name LIKE :search_category";
-   
-   
+    $query = "SELECT p.* FROM product p 
+              JOIN category c ON p.categoryID = c.categoryID
+              WHERE p.p_Name LIKE :search_name 
+              OR c.Name LIKE :search_category
+              OR CAST(p.p_Price AS CHAR) LIKE :search_price";  // Allow price search
+
     $statement = $filmfuse_db->prepare($query);
     $statement->execute(array(
         ':search_name' => '%' . $search . '%',
-        ':search_category' => $search . '%'
+        ':search_category' => '%' . $search . '%',
+        ':search_price' => '%' . $search . '%'  // Convert price to text for search
     ));
-
+   
+ 
 
  
     $products = $statement->fetchAll(PDO::FETCH_ASSOC);
