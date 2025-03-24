@@ -15,6 +15,7 @@ if (!isset($_SESSION["faileddatabaseconn"])) {
         <title>Movie info</title>
         <link rel="stylesheet" href="home.css">
         <link rel="stylesheet" href="movieinfo.css">
+        <link rel="shortcut icon" href="fav">
     </head>
     <body>
         <div id="image-container">

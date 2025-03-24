@@ -118,6 +118,7 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <link rel="stylesheet" href="home.css">
         <link rel="stylesheet" href="styles.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="shortcut icon" href="fav">
     </head>
     <body>
     <?php

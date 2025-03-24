@@ -120,7 +120,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo $result['pid']; ?>, 
                                 '<?php echo addslashes($result['p_Name']); ?>', 
                                 <?php echo $result['p_Price']; ?>, 
-                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                                'images/<?php echo addslashes($result['p_Image']); ?>',
+                                <?php echo $result['p_Stock']; ?>
                             )">
                             Add to Cart
                     </button>
@@ -143,7 +144,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo $result['pid']; ?>, 
                                 '<?php echo addslashes($result['p_Name']); ?>', 
                                 <?php echo $result['p_Price']; ?>, 
-                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                                'images/<?php echo addslashes($result['p_Image']); ?>',
+                                <?php echo $result['p_Stock']; ?>
                             )">
                             Add to Cart
                     </button>
@@ -166,7 +168,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo $result['pid']; ?>, 
                                 '<?php echo addslashes($result['p_Name']); ?>', 
                                 <?php echo $result['p_Price']; ?>, 
-                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                                'images/<?php echo addslashes($result['p_Image']); ?>',
+                                <?php echo $result['p_Stock']; ?>
                             )">
                             Add to Cart
                     </button>
@@ -189,7 +192,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo $result['pid']; ?>, 
                                 '<?php echo addslashes($result['p_Name']); ?>', 
                                 <?php echo $result['p_Price']; ?>, 
-                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                                'images/<?php echo addslashes($result['p_Image']); ?>',
+                                <?php echo $result['p_Stock']; ?>
                             )">
                             Add to Cart
                     </button>
@@ -212,7 +216,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php echo $result['pid']; ?>, 
                                 '<?php echo addslashes($result['p_Name']); ?>', 
                                 <?php echo $result['p_Price']; ?>, 
-                                'images/<?php echo addslashes($result['p_Image']); ?>'
+                                'images/<?php echo addslashes($result['p_Image']); ?>',
+                                <?php echo $result['p_Stock']; ?>
                             )">
                             Add to Cart
                     </button>
@@ -236,7 +241,11 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
         document.getElementById("insideCart").innerText = totalCount;
     }
 
-    function addToCart(productId, movieName, price, imageUrl) {
+    function addToCart(productId, movieName, price, imageUrl, stock) {
+    if (stock < 1) {
+        alert('This movie is out of stock!');
+        return;
+    }
     let cart = JSON.parse(localStorage.getItem("cart")) || {};
 
     if (cart[productId]) {
@@ -246,7 +255,8 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             name: movieName, 
             price: parseFloat(price),  
             imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
-            quantity: 1 
+            quantity: 1,
+            stock: stock
         };
     }
 

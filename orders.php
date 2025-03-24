@@ -78,7 +78,7 @@ if (!empty($lastName)) {
     $params[] = "%$lastName%";
 }
 
-$filterConditions = "orders.orderStatus NOT IN ('Dispatched', 'Declined', Delivered)" . $filterSQL;
+$filterConditions = "orders.orderStatus NOT IN ('Dispatched', 'Declined', 'Delivered')" . $filterSQL;
 
 try {
     $query = "SELECT orders.orderID, orders.orderAmount, orders.orderDate, orders.orderStatus, 
@@ -116,6 +116,7 @@ try {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="home.css">
     <script src="sscript.js"></script>
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 <?php
@@ -270,7 +271,7 @@ if (isset($_SESSION['failed_system'])) {
         </table>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 section">
         <h2 class="mb-4">Dispatched Orders</h2>
         <table class="table table-dark table-striped">
             <thead>

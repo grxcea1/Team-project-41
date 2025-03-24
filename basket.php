@@ -15,6 +15,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Movie Basket - Film Fuse</title>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="basket.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 
@@ -98,7 +99,7 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 listItem.innerHTML = `
                     <img src="${imgSrc}" alt="${item.name}" width="50" height="70" onerror="this.onerror=null; this.src='images/default.png';">
                     <span>${item.name} - £${item.price.toFixed(2)} x </span>
-                    <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity('${productId}', this.value)">
+                    <input type="number" min="1" max="${item.stock}" value="${item.quantity}" onchange="updateQuantity('${productId}', this.value)">
                     <button onclick="removeFromBasket('${productId}')">Remove</button>
                 `;
                 basketItems.appendChild(listItem);

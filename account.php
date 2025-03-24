@@ -66,6 +66,7 @@ if (isset($_POST['return']) && isset($_POST['orderID']) && isset($_POST['pid']))
     <title>Film Fuse - Account Page</title>
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="account.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 

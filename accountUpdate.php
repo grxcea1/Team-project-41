@@ -79,6 +79,7 @@ if (isset($_POST['update_account'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film Fuse - Update Account</title>
     <link rel="stylesheet" href="home.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 <?php

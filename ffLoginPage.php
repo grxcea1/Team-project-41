@@ -48,6 +48,7 @@ if (isset($_POST['login'])) {
     <title>Login | Page</title>
     <link rel="stylesheet" href="ffRegistrationForm.css"> <!-- Linking CSS file -->
     <link rel="stylesheet" href="home.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 

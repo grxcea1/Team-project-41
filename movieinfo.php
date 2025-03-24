@@ -7,6 +7,7 @@
         <title>Movie info</title>
         <link rel="stylesheet" href="home.css">
         <link rel="stylesheet" href="movieinfo.css">
+        <link rel="shortcut icon" href="fav">
     </head>
     <body>
         <style>
@@ -124,8 +125,10 @@
                     6 => 'Horror',
                 ];
 
-                if ($stock == 0) {
-                    echo '<script>alert("This movie is out of stock")</script>';
+                if ($stock <= 0) {
+                    echo '<script>alert("This movie is out of stock!")</script>';
+                } elseif ($stock <= 5) {
+                    echo '<script>alert("This movie is in low stock!")</script>';
                 }
             ?>
 
@@ -169,7 +172,8 @@
                         <?php echo $result['pid']; ?>, 
                         '<?php echo addslashes($result['p_Name']); ?>', 
                         <?php echo $result['p_Price']; ?>, 
-                        'images/<?php echo addslashes($result['p_Image']); ?>'
+                        'images/<?php echo addslashes($result['p_Image']); ?>',
+                        <?php echo $result['p_Stock']; ?>
                      )">
                     Add to Cart
                 </button>
@@ -235,7 +239,11 @@
             document.getElementById("insideCart").innerText = totalCount;
         }
 
-        function addToCart(productId, movieName, price, imageUrl) {
+        function addToCart(productId, movieName, price, imageUrl, stock) {
+            if (stock < 1) {
+                alert('This movie is out of stock!');
+                return;
+            }
             let cart = JSON.parse(localStorage.getItem("cart")) || {};
 
             if (cart[productId]) {
@@ -245,7 +253,8 @@
                     name: movieName, 
                     price: parseFloat(price),  
                     imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
-                    quantity: 1 
+                    quantity: 1,
+                    stock: stock
                 };
             }
 

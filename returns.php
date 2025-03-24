@@ -56,10 +56,11 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order List</title>
+    <title>Return List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="home.css">
     <script src="sscript.js"></script>
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
 <?php
@@ -131,7 +132,7 @@ if (isset($_SESSION['failed_system'])) {
                     <span class="initials">FF</span>
                 </div>
             </div>
-            <div class="logo-name">Film Fuse - Orders</div>
+            <div class="logo-name">Film Fuse - Returns</div>
         </div>
     </header>
 
@@ -147,7 +148,7 @@ if (isset($_SESSION['failed_system'])) {
 
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 section">
         <h2 class="mb-4">Return List</h2>
         <table class="table table-dark table-striped">
             <thead>

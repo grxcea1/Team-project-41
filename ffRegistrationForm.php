@@ -55,6 +55,7 @@ if (isset($_POST['register'])) {
     <title>Register | Page</title>
     <link rel="stylesheet" href="ffRegistrationForm.css">
     <link rel="stylesheet" href="home.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
     

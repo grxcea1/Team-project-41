@@ -18,6 +18,7 @@ if (!isset($_SESSION["uid"]) && !isset($_SESSION["Email"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Form</title>
     <link rel="stylesheet" href="checkOut.css">
+    <link rel="shortcut icon" href="fav">
 </head>
 <body>
     
