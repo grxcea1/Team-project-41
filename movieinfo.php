@@ -9,51 +9,46 @@
         <link rel="stylesheet" href="movieinfo.css">
     </head>
     <body>
-    <style>
+        <style>
             #reviews {
-    margin-top: 20px;
-    padding: 10px;
-    border-top: 2px solid #ddd;
-}
+                margin-top: 20px;
+                padding: 10px;
+                border-top: 2px solid #ddd;
+            }
 
+            h3 {
+            text-align: left;
+            } 
 
-h3{
-    text-align: left;
-} 
+            p {
+                text-align:left;
+            }
 
+            #review-form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
 
-p{
-    text-align:left;
-}
-#review-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+            #review-text {
+                width: 100%;
+                padding: 8px;
+            }
 
+            #rating {
+                width: 150px;
+            }
 
-#review-text {
-    width: 100%;
-    padding: 8px;
-}
+            .review-item {
+                margin-top: 10px;
+                padding: 8px;
+                background:rgb(12, 12, 12);
+                border-radius: 5px;
+            }
 
-
-#rating {
-    width: 150px;
-}
-
-
-.review-item {
-    margin-top: 10px;
-    padding: 8px;
-    background:rgb(12, 12, 12);
-    border-radius: 5px;
-}
-
-.A2Cbutton{
-    cursor: pointer;
-}
-
+            .A2Cbutton{
+                cursor: pointer;
+            }
         </style>
 
         <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
@@ -81,15 +76,15 @@ p{
             <nav class="nav-bar">
                 <a href="home.php">Home</a>
                 <a href="ffLoginPage.php">Login</a>
-                <a href="aboutus.html">About Us</a>
+                <a href="aboutus.php">About Us</a>
                 <a href="basket.php">Basket<span id="insideCart">0</span></a>
-                <a href="account.html">Accounts</a>
-                <a href="contact.html">Contact us</a>
+                <a href="account.php">Accounts</a>
+                <a href="contact.php">Contact us</a>
 
                 <div id="search-container">
                     <form action="searchResults.php" method="GET">
                         <input type="text" id="search-bar" placeholder="Search..." name="query">
-                        <button type="submit" id="search-button">Go</button>
+                    <button type="submit" id="search-button">Go</button>
                     </form>
                 </div>
             </nav>
@@ -118,7 +113,7 @@ p{
                 $age = $result['p_ageRating'];
                 $director = $result['p_Director'];
                 $starring = $result['p_Starring'];
-                $trailer = $result['p_Trailer'];
+                $trailer = $result['p_Trailer']; 
 
                 $genreList = [
                     1 => 'Action',
@@ -224,6 +219,16 @@ p{
      <!--link to js-->
     <script src="sscript.js"></script>
     <script>
+        let age = <?php echo $age; ?>;
+        if (age >= 15) {
+            window.onload = function() {
+                let isOld = confirm(`This movie is for ages ${age} and over.\nAre you at least ${age} years old?\n\nClick "OK" if yes or "Cancel" if no.`);
+                if (!isOld) {
+                    window.location.href = "home.php";
+                }
+            }
+        }
+
         function updateCartCount() {
             let cart = JSON.parse(localStorage.getItem("cart")) || {};
             let totalCount = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
@@ -231,22 +236,22 @@ p{
         }
 
         function addToCart(productId, movieName, price, imageUrl) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+            let cart = JSON.parse(localStorage.getItem("cart")) || {};
 
-        if (cart[productId]) {
-            cart[productId].quantity += 1;
-        } else {
-            cart[productId] = { 
-                name: movieName, 
-                price: parseFloat(price),  
-                imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
-                quantity: 1 
-            };
-        }
+            if (cart[productId]) {
+                cart[productId].quantity += 1;
+            } else {
+                cart[productId] = { 
+                    name: movieName, 
+                    price: parseFloat(price),  
+                    imageUrl: imageUrl.replace("images/", ""),// To Pass the name to the basket page to show when adding
+                    quantity: 1 
+                };
+            }
 
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartCount();
-        alert(movieName + " added to cart!");
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartCount();
+            alert(movieName + " added to cart!");
         }
 
         updateCartCount();
