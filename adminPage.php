@@ -126,6 +126,17 @@ if (!empty($searchName)) {
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stockAlerts = [];
+foreach ($products as $product) {
+    $stock = $product['p_Stock'];
+    $p_Name = $product['p_Name'];
+    if ($stock == 0) {
+        $stockAlerts[] = ["p_Stock" => $stock, "p_Name" => $p_Name, "message" => "is out of stock!"];
+    } elseif ($stock < 5) {
+        $stockAlerts[] = ["p_Stock" => $stock, "p_Name" => $p_Name, "message" => "is low on stock (less than 5 left)!"];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -277,6 +288,14 @@ if (isset($_SESSION['adminlogin'])) {
 
      <!--link to js-->
     <script src="sscript.js"></script>
+    <script>
+    window.onload = function () {
+        const stockAlerts = <?php echo json_encode($stockAlerts); ?>;
+        stockAlerts.forEach(product => {
+            alert(product.p_Name + " " + product.message);
+        });
+    };
+    </script>
 
     
     <button id="mode-toggle" onclick="toggleMode()">Switch Mode</button>
