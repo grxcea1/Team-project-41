@@ -47,6 +47,15 @@ $stmt->bindParam(1, $uid, PDO::PARAM_INT);
 $stmt->execute();
 $address = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt->closeCursor();
+
+if (isset($_POST['return']) && isset($_POST['orderID']) && isset($_POST['pid'])) {
+    $stmt = $pdo->prepare("UPDATE orderdetails SET returnStatus = ? WHERE orderID = ? AND pid = ?");
+    $stmt->execute(['Returning',$_POST['orderID'],$_POST['pid']]);
+    $_SESSION['returnStart'] = "You have successfully started a return! Please deliver to the address: Aston University, Birmingham, B4 7ET.";
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +86,24 @@ if (isset($_SESSION['aupdate5'])) {
             </div>
           </div>";
     unset($_SESSION['aupdate5']);
+}
+
+if (isset($_SESSION['returnStart'])) {
+    echo "<div style='display: flex; 
+            justify-content: center; 
+            align-items: center;'>
+            <div style='background-color: green; 
+            padding: 15px 30px; 
+            color: white; 
+            border: 1px solid green; 
+            margin: 20px 0; 
+            font-weight: bold; 
+            border-radius: 5px; 
+            text-align: center;'>
+                " . $_SESSION['returnStart'] . "
+            </div>
+          </div>";
+    unset($_SESSION['returnStart']);
 }
 ?>
 <section>
@@ -154,6 +181,12 @@ if (isset($_SESSION['aupdate5'])) {
       <tr>
         <td colspan="5">
           <table id="movies-<?= $order['orderID'] ?>" class="movie-details" style="display: none; margin: 10px auto; width: 90%; border: 1px solid #ccc;">
+            <tr>
+                <th>Movie Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            
             <?php
               $stmt = $pdo->prepare("SELECT * FROM orderdetails WHERE orderID = ?");
               $stmt->execute([$order['orderID']]);
@@ -167,10 +200,28 @@ if (isset($_SESSION['aupdate5'])) {
             ?>
             <tr id="movies-<?= $order['orderID'] ?>-<?= $movie['pid'] ?>">
               <td><?= htmlspecialchars($name['p_Name']) ?></td>
-              <td>x<?= $movie['quantity'] ?></td>
+              <td><?= $movie['quantity'] ?></td>
               <td>£<?= number_format($wholeprice, 2) ?></td>
               <td>
-                <button class="movie-return" onclick="returnMovie(<?= $order['orderID'] ?>, <?= $movie['pid'] ?>)">Return</button>
+                <?php
+                    if ($order['orderStatus'] == 'Delivered' && is_null($movie['returnStatus'])) {
+                ?>
+                    <form method="POST">
+                        <input type="hidden" name="orderID" value="<?= $order['orderID'] ?>">
+                        <input type="hidden" name="pid" value="<?= $movie['pid'] ?>">
+                        <button type="submit" name="return" value="return" class="movie-return">Return</button>
+                    </form>
+                <?php
+                    } elseif ($order['orderStatus'] == 'Delivered' && $movie['returnStatus'] == 'Returning') {
+                        echo "<button style='background-color: #555555;'>Returning</button>";
+                    } elseif ($order['orderStatus'] == 'Delivered' && $movie['returnStatus'] == 'Recieved') {
+                        echo "<button style='background-color: #555555;'>Returned</button>";        
+                    } else {
+                ?>
+                        <button class="movie-return" onclick="alert('Cannot return, order has not been delivered yet!')">Return</button>
+                <?php
+                    }
+                ?>
               </td>
             </tr>
             <?php } ?>
@@ -207,10 +258,5 @@ function toggleDetails(orderID) {
   } else {
     moviesDiv.style.display = "none";
   }
-}
-
-function returnMovie(orderID, pid) {
-    let movieRow = document.getElementById("movies-"+orderID+"-"+pid);
-    movieRow.remove();
 }
 </script>
