@@ -314,7 +314,7 @@ if (isset($_SESSION['adminlogin'])) {
             </nav>
         </div>
 
-        <div class="container mt-5">
+    <div class="container mt-5 section">
         <h2>Product Report</h2>
         <table class="table table-dark table-bordered">
             <thead>

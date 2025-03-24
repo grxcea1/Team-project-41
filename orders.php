@@ -152,7 +152,7 @@ if (isset($_SESSION['failed_system'])) {
 
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 section">
         <h2 class="mb-4">Order List</h2>
         <table class="table table-dark table-striped">
             <thead>

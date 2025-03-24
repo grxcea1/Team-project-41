@@ -262,7 +262,7 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="password.php">Password</a>
             </nav>
         </div>
-    <div class="container mt-5">
+    <div class="container mt-5 section">
         <h2>Add New Customer</h2>
         <form method="POST" action="">
             <div class="form-row">
@@ -296,7 +296,10 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <button type="submit" name="add_customer" class="btn btn-primary">Add</button>
         </form>
+    </div>
 
+
+    <div class="container mt-5 section">
         <h2 class="mt-5">Manage Customers</h2>
         <form method="GET" class="mb-4">
             <input type="text" class="form-control" name="search_email" placeholder="Search by Email" value="<?= htmlspecialchars($searchEmail) ?>">
