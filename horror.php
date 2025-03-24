@@ -26,6 +26,16 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </head>
     
 <body>
+<style>
+    .center-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    height: 100%;            
+    text-align: center;      
+    }
+
+    </style>
 
       <!--link to js-->
       <script src="sscript.js"></script>
@@ -72,22 +82,25 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </nav>
       </div>
   
-     <!-- Header section --> 
-     <div id="categories">
-        <div class="container">
-           <div class="header">
-            <li><a href="romance.php">Romance</a></li>
-            <li><a href="comedyPage.php">Comedy</a></li>
-            <li><a href="thriller.php">Thriller</a></li>
-            <li><a href="action.php">Action</a></li>
-            <li><a href="animation.php">Animation</a></li>
-           
-          </div>
-        </div>
 
         <!-- Movie grid -->
         <div class="movie-grid container">
             <h2>Horror Movies</h2>
+            <div class="center-container">
+                <h6>Check out the best horror movies and shows, from slasher, Ghost in the dead of night , Horror will always leave u feeling uneasy and at a lost for words </h6>
+            </div>
+             <!-- Header section -->
+            <div id="categories">
+                <div class="container">
+                <div class="header">
+                    <li><a href="romance.php">Romance</a></li>
+                    <li><a href="comedyPage.php">Comedy</a></li>
+                    <li><a href="thriller.php">Thriller</a></li>
+                    <li><a href="action.php">Action</a></li>
+                    <li><a href="animation.php">Animation</a></li>
+                
+                </div>
+                </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="poster-box">

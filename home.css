@@ -198,17 +198,19 @@
     padding: 20px;
     position: center;
     z-index: 2;
+    margin-top:  50px;
   }
 
-  .nav-bar {
+  
+  .nav-bar{
     display: flex;
     column-gap: 5rem;
     justify-content: center; 
     gap: 5rem; 
-    list-style: none; 
   }
 
   .nav-bar li{
+    position: fixed;
     position: center;
   }
   
@@ -271,13 +273,6 @@
     position: absolute;
     z-index: 2;
 }
-
-
-  /* Movie Poster Boxes */
-  /* .container {
-    margin-top: 40px;
-  } */
-  
   .poster-box {
     overflow: hidden; 
     border-radius: 10px; 
@@ -291,11 +286,6 @@
     border-radius: 5px;
     position: relative;
   }
-
-  /* .img-fluid{
-    width: auto;
-    height: 270px;
-  } */
   
   .img-fluid {
     max-width: 100%;
@@ -593,13 +583,6 @@ input:focus ~label,
 input:valid ~ label {
   top: -5px;
 }
-
-/** .product-card{
-  background-color: #7209b7;
-  border: 2px solid#1d0e16;
-  border-radius: 8px;
-  box-shadow: 0
-**/
   .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 6px 12px;
     margin: 3px;

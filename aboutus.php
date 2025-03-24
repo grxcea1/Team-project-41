@@ -51,12 +51,6 @@
             <a href="ffLoginPage.php">Login</a>
             <a href="basket.php">Basket</a>
             <a href="account.php">Accounts</a>
-
-        <div id="search-container">
-            <input type="text" id="search-bar" placeholder="Search...">
-            <button id="search-button">Go</button>
-        </div>
-
     </div>
 
 <br>
