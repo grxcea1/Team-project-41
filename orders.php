@@ -21,18 +21,26 @@ if (isset($_POST['action']) && isset($_POST['orderID'])) {
                 $stmt = $pdo->prepare("UPDATE product SET p_Stock = p_Stock - ? WHERE pid = ?");
                 $stmt->execute([$detail['quantity'], $detail['pid']]);
             }
+            $stmt = $pdo->prepare("UPDATE orders SET orderStatus = ? WHERE orderID = ?");
+            $stmt->execute([$newStatus, $orderID]);
+            
+            $_SESSION["ordered"] = "Movie has been dispatched!";
+            header("Location: orders.php");
+            exit;
         } elseif ($_POST['action'] === "decline") {
             $newStatus = "Declined";
             $_SESSION["failedOrder"] = "Order has been declined!";
             header("Location: orders.php");
             exit;
+        } elseif ($_POST['action'] === "delivered") {
+            $newStatus = "Delivered";
+            $stmt = $pdo->prepare("UPDATE orders SET orderStatus = ? WHERE orderID = ?");
+            $stmt->execute([$newStatus, $orderID]);
+            
+            $_SESSION["ordered"] = "Movie has been delivered!";
+            header("Location: orders.php");
+            exit;
         }
-        $stmt = $pdo->prepare("UPDATE orders SET orderStatus = ? WHERE orderID = ?");
-        $stmt->execute([$newStatus, $orderID]);
-
-        $_SESSION["ordered"] = "Movie has been dispatched!";
-        header("Location: orders.php");
-        exit;
     } catch (PDOException $e) {
         $_SESSION["failedOrder"] = "Failed to authorise order, please try again later.";
         header("Location: orders.php");
@@ -70,7 +78,7 @@ if (!empty($lastName)) {
     $params[] = "%$lastName%";
 }
 
-$filterConditions = "orders.orderStatus NOT IN ('Dispatched', 'Declined')" . $filterSQL;
+$filterConditions = "orders.orderStatus NOT IN ('Dispatched', 'Declined', Delivered)" . $filterSQL;
 
 try {
     $query = "SELECT orders.orderID, orders.orderAmount, orders.orderDate, orders.orderStatus, 
@@ -82,6 +90,16 @@ try {
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $dispatchedQuery = "SELECT orders.orderID, orders.orderAmount, orders.orderDate, orders.orderStatus, 
+                     customer.first_name, customer.last_name 
+              FROM orders
+              JOIN customer ON orders.uid = customer.uid
+              WHERE orders.orderStatus NOT IN ('Authorisation Required', 'Declined', 'Delivered')"; 
+
+    $stmt = $pdo->prepare($dispatchedQuery);
+    $stmt->execute();
+    $dispatchedOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $_SESSION["failed_system"] = "Failed to connect to the database, please try again later.";
     header("Location: orders.php");
@@ -177,6 +195,7 @@ if (isset($_SESSION['failed_system'])) {
      <nav class="nav-bar">
         <a href="home.php">Home</a>
         <a href="adminPage.php">Inventory</a>
+        <a href="returns.php">Returns</a>
         <a href="customerDetails.php">Customer Management</a>
         <a href="add_Product.php">Add Products</a>
         <a href="password.php">Password</a>
@@ -247,6 +266,41 @@ if (isset($_SESSION['failed_system'])) {
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Dispatched Orders</h2>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Amount</th>
+                    <th>Order Date</th>
+                    <th>Customer First Name</th>
+                    <th>Customer Last Name</th>
+                    <th>Order Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($dispatchedOrders as $order): ?>
+                <tr>
+                    <td><?= htmlspecialchars($order['orderID']) ?></td>
+                    <td><?= htmlspecialchars($order['orderAmount']) ?></td>
+                    <td><?= htmlspecialchars($order['orderDate']) ?></td>
+                    <td><?= htmlspecialchars($order['first_name']) ?></td>
+                    <td><?= htmlspecialchars($order['last_name']) ?></td>
+                    <td><?= htmlspecialchars($order['orderStatus']) ?></td>
+                    <td>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="orderID" value="<?= $order['orderID'] ?>">
+                            <button type="submit" name="action" value="delivered" class="btn btn-success">Delivered</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

@@ -258,6 +258,7 @@ $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="home.php">Home</a> 
                 <a href="adminPage.php">Inventory</a>
                 <a href="orders.php">Orders</a>
+                <a href="returns.php">Returns</a>
                 <a href="add_Product.php">Add Products</a>
                 <a href="password.php">Password</a>
             </nav>

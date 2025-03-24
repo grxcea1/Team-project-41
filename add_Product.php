@@ -139,8 +139,9 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
     <nav class="nav-bar">
         <a href="home.php">Home</a>
         <a href="adminPage.php">Inventory</a>
-        <a href="customerDetails.php">Customer Management</a>
         <a href="orders.php">Orders</a>
+        <a href="returns.php">Returns</a>
+        <a href="customerDetails.php">Customer Management</a>
         <a href="password.php">Password</a>
     </nav>
 </div>
