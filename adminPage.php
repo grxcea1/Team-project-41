@@ -284,52 +284,6 @@ if (isset($_SESSION['adminlogin'])) {
             </div>";
         unset($_SESSION['failure7']);
     }
-
-    $stmt = $pdo->prepare("SELECT p_Name FROM product WHERE p_Stock = 0");
-    $stmt->execute();
-    $noStock = $stmt->fetchAll();
-    $noStockMsg = "";
-
-    $stmt = $pdo->prepare("SELECT p_Name FROM product WHERE p_Stock < 6 AND p_Stock > 0");
-    $stmt->execute();
-    $lowStock = $stmt->fetchAll();
-    $lowStockMsg = "";
-    
-    if (!empty($noStock)) {
-        $noStockList = "";
-        foreach($noStock as $movie) {
-            if ($noStockList == "") {
-                $noStockList .= $movie['p_Name'];
-            }
-            else {
-                $noStockList .= ", ".$movie['p_Name'];
-            }
-        }
-        $noStockMsg = "The following movie(s) are out of stock: ".$noStockList;
-    }
-    if (!empty($lowStock)) {
-        $lowStockList = "";
-        foreach($lowStock as $movie) {
-            if ($lowStockList == "") {
-                $lowStockList .= $movie['p_Name'];
-            }
-            else {
-                $lowStockList .= ", ".$movie['p_Name'];
-            }
-        }
-        $lowStockMsg = "The following movie(s) are low in stock: ".$lowStockList;
-    }
-
-    if (!empty($noStock) && !empty($lowStock)) {
-    ?>
-        <script>alert('<?=$noStockMsg?>\n\n<?=$lowStockMsg?>')</script>
-    <?php
-    } elseif (empty($noStock) && empty($lowStock)) {} 
-    else {
-    ?>
-        <script>alert('<?=$noStockMsg?><?=$lowStockMsg?>')</script>
-    <?php
-    }
     ?>
 
      <!--link to js-->
