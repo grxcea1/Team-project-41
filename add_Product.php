@@ -22,11 +22,11 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
         $imageData = file_get_contents($_FILES['p_Image']['tmp_name']);
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO product (p_Name, p_Price, p_RentPrice, p_Description, p_ReleaseDate, categoryID, p_Stock, p_ageRating, p_Duration, p_Starring, p_Director, p_Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO product (p_Name, p_Price, p_RentPrice, p_Description, p_ReleaseDate, categoryID, p_Stock, p_ageRating, p_Duration, p_Starring, p_Director, p_Image, p_Trailer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $_POST['p_Name'], $_POST['p_Price'], $_POST['p_RentPrice'], $_POST['p_Description'],
                 $_POST['p_ReleaseDate'], $_POST['categoryID'], $_POST['p_Stock'],
-                $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'], $_POST['p_Director'], $imageData
+                $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'], $_POST['p_Director'], $imageData, $_POST['p_Trailer']
             ]);
 
             $_SESSION["success2"] = "Successfully added new product to inventory!";
@@ -196,6 +196,10 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
         <div class="form-group">
             <label for="p_Director" style="color: white;">Director:</label>
             <input type="text" class="form-control" name="p_Director" required>
+        </div>
+        <div class="form-group">
+            <label for="p_Trailer" style="color: white;">Trailer URL:</label>
+            <input type="text" class="form-control" name="p_Trailer" required>
         </div>
         <div class="form-group">
             <label for="p_Image" style="color: white;">Movie Image:</label>
