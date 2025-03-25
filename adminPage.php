@@ -32,15 +32,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     $description = $_POST['p_Description'];
 
     try {
-        $updateQuery = "UPDATE product SET p_Name = ?, p_Price = ?, p_Stock = ?, p_Description = ? WHERE pid = ?";
-        $stmt = $pdo->prepare($updateQuery);
-        $stmt->execute([$name, $price, $stock, $description, $pid]);
+        if (isset($_FILES['new_image']) && is_uploaded_file($_FILES['new_image']['tmp_name'])) {
+            $imageName = basename($_FILES['new_image']['name']);
+            $uploadDir = 'images/';
+            $targetPath = $uploadDir . $imageName;
+
+            if (move_uploaded_file($_FILES['new_image']['tmp_name'], $targetPath)) {
+                $imagePathToStore = $targetPath;
+                $updateQuery = "UPDATE product 
+                                SET p_Name = ?, p_Price = ?, p_Stock = ?, p_Description = ?, p_Image = ? 
+                                WHERE pid = ?";
+                $stmt = $pdo->prepare($updateQuery);
+                $stmt->execute([$name, $price, $stock, $description, $imagePathToStore, $pid]);
+            } else {
+                $_SESSION["failure5"] = "Failed to move uploaded image to server.";
+                header("Location: adminPage.php");
+                exit;
+            }
+        } else {
+            $updateQuery = "UPDATE product 
+                            SET p_Name = ?, p_Price = ?, p_Stock = ?, p_Description = ? 
+                            WHERE pid = ?";
+            $stmt = $pdo->prepare($updateQuery);
+            $stmt->execute([$name, $price, $stock, $description, $pid]);
+        }
 
         $_SESSION["success3"] = "Successfully updated product in the inventory!";
         header("Location: adminPage.php");
         exit;
+
     } catch (PDOException $e) {
-        $_SESSION["failure5"] = "Failed to connect to database, try again later.";
+        $_SESSION["failure5"] = "Failed to update product: " . $e->getMessage();
         header("Location: adminPage.php");
         exit;
     }
@@ -58,26 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_product'])) {
         header("Location: adminPage.php");
         exit;
     } catch (PDOException $e) {
-        $_SESSION["failure6"] = "Failed to delete product, from the database, please try again later.";
-        header("Location: adminPage.php");
-        exit;
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image']) && isset($_POST['pid']) && $_FILES['new_image']['error'] === UPLOAD_ERR_OK) {
-    $pid = $_POST['pid'];
-    $imageData = file_get_contents($_FILES['new_image']['tmp_name']);
-
-    try {
-        $updateQuery = "UPDATE product SET p_Image = ? WHERE pid = ?";
-        $stmt = $pdo->prepare($updateQuery);
-        $stmt->execute([$imageData, $pid]);
-
-        $_SESSION["success5"] = "Successfully uploaded image to database!";
-        header("Location: adminPage.php");
-        exit;
-    } catch (PDOException $e) {
-        $_SESSION["failure7"] = "Error uploading the image, please use a png, jpeg or jpg or try again later.";
+        $_SESSION["failure6"] = "Failed to delete product, please try again later.";
         header("Location: adminPage.php");
         exit;
     }
@@ -444,32 +447,31 @@ if (isset($_SESSION['adminlogin'])) {
                 </thead>
                 <tbody>
                 <?php foreach ($products as $product): ?>
-                    <tr>
-                        <form action="" method="POST" enctype="multipart/form-data">
-                            <td><?= htmlspecialchars($product['pid']) ?></td>
-                            <td><input type="text" class="form-control" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
-                            <td>
-                                <?php 
-                                if (!empty($product['p_Image'])) {
-                                    $imageData = base64_encode($product['p_Image']);
-                                    echo '<img src="data:image/jpeg;base64,' . $imageData . '" width="100" height="100"/>';
-                                } else {
-                                    echo 'No Image';
-                                }
-                                ?>
-                                <input type="file" name="new_image" class="form-control mt-2">
-                            </td>
-                            <td><input type="number" class="form-control" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
-                            <td><input type="number" class="form-control" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
-                            <td><?= htmlspecialchars($categories[$product['categoryID']] ?? 'Unknown') ?></td>
-                            <td><textarea class="form-control" name="p_Description" required><?= htmlspecialchars($product['p_Description'] ?? '') ?></textarea></td>
-                            <td>
-                                <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
-                                <button type="submit" name="update_product" class="btn btn-success">Update</button>
-                                <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
-                            </td>
-                        </form>
-                    </tr>
+                <tr>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <td><?= htmlspecialchars($product['pid']) ?></td>
+                        <td><input type="text" class="form-control" name="p_Name" value="<?= htmlspecialchars($product['p_Name']) ?>" required></td>
+                        <td>
+                            <?php 
+                            if (!empty($product['p_Image']) && file_exists($product['p_Image'])) {
+                                echo '<img src="' . htmlspecialchars($product['p_Image']) . '" width="100" height="100"/>';
+                            } else {
+                                echo 'No Image';
+                            }
+                            ?>
+                            <input type="file" name="new_image" class="form-control mt-2">
+                        </td>
+                        <td><input type="number" class="form-control" name="p_Price" step="0.01" value="<?= htmlspecialchars($product['p_Price']) ?>" required></td>
+                        <td><input type="number" class="form-control" name="p_Stock" value="<?= htmlspecialchars($product['p_Stock']) ?>" required></td>
+                        <td><?= htmlspecialchars($categories[$product['categoryID']] ?? 'Unknown') ?></td>
+                        <td><textarea class="form-control" name="p_Description" required><?= htmlspecialchars($product['p_Description'] ?? '') ?></textarea></td>
+                        <td>
+                            <input type="hidden" name="pid" value="<?= $product['pid'] ?>">
+                            <button type="submit" name="update_product" class="btn btn-success">Update</button>
+                            <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
+                        </td>
+                    </form>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
             </table>

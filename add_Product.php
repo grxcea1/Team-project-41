@@ -19,21 +19,34 @@ $categories = [
 
 if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
     if ($_FILES['p_Image']['error'] === UPLOAD_ERR_OK) {
-        $imageData = file_get_contents($_FILES['p_Image']['tmp_name']);
+        $imageName = basename($_FILES['p_Image']['name']);
+        $uploadDir = 'images/';
+        $targetPath = $uploadDir . $imageName;
 
-        try {
-            $stmt = $pdo->prepare("INSERT INTO product (p_Name, p_Price, p_RentPrice, p_Description, p_ReleaseDate, categoryID, p_Stock, p_ageRating, p_Duration, p_Starring, p_Director, p_Image, p_Trailer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $_POST['p_Name'], $_POST['p_Price'], $_POST['p_RentPrice'], $_POST['p_Description'],
-                $_POST['p_ReleaseDate'], $_POST['categoryID'], $_POST['p_Stock'],
-                $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'], $_POST['p_Director'], $imageData, $_POST['p_Trailer']
-            ]);
+        if (move_uploaded_file($_FILES['p_Image']['tmp_name'], $targetPath)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO product (
+                    p_Name, p_Price, p_RentPrice, p_Description, p_ReleaseDate, categoryID, 
+                    p_Stock, p_ageRating, p_Duration, p_Starring, p_Director, p_Image, p_Trailer
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $_SESSION["success2"] = "Successfully added new product to inventory!";
-            header("Location: add_Product.php");
-            exit;
-        } catch (PDOException $ex) {
-            $_SESSION["failure2"] = "Failed to add product to system, Please ensure all fields are filled or try again later.";
+                $stmt->execute([
+                    $_POST['p_Name'], $_POST['p_Price'], $_POST['p_RentPrice'], $_POST['p_Description'],
+                    $_POST['p_ReleaseDate'], $_POST['categoryID'], $_POST['p_Stock'],
+                    $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'],
+                    $_POST['p_Director'], $targetPath, $_POST['p_Trailer']
+                ]);
+
+                $_SESSION["success2"] = "Successfully added new product to inventory!";
+                header("Location: add_Product.php");
+                exit;
+            } catch (PDOException $ex) {
+                $_SESSION["failure2"] = "Failed to add product to system, Please ensure all fields are filled or try again later.";
+                header("Location: add_Product.php");
+                exit;
+            }
+        } else {
+            $_SESSION["failure3"] = "Failed to move uploaded image to server.";
             header("Location: add_Product.php");
             exit;
         }
