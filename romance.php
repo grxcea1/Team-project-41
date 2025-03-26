@@ -222,6 +222,37 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             Add to Cart
                     </button>
                 </div>
+
+                <?php
+                    $stmt = $pdo->prepare("SELECT * FROM product WHERE pid > 30 AND categoryID = 3");
+                    $stmt->execute();
+                    $movies = $stmt->fetchAll();
+                    foreach ($movies as $movie) {
+                ?>
+                <div class="col-md-3">
+                    <div class="poster-box">
+                    <a href="movieinfo.php?movie=<?=$movie['pid']?>">
+                        <img src=<?=$movie['p_Image']?> alt="movie <?=$movie['pid']?>" class="img-fluid">
+                    </a>
+                    </div>
+                    <?php
+                        $buyprice = $movie['p_Price'];
+                        echo "<p>£".$buyprice."</p>";
+                    ?>
+                    <button class="A2Cbutton" 
+                            onclick="addToCart(
+                                <?php echo $movie['pid']; ?>, 
+                                '<?php echo addslashes($movie['p_Name']); ?>', 
+                                <?php echo $movie['p_Price']; ?>, 
+                                'images/<?php echo addslashes($movie['p_Image']); ?>',
+                                <?php echo $movie['p_Stock']; ?>
+                            )">
+                            Add to Cart
+                    </button>
+                </div>
+                <?php
+                    }
+                ?>
             </div>
             </div>
 

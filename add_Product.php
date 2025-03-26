@@ -18,6 +18,24 @@ $categories = [
 ];
 
 if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
+    
+    function getTrailerID($url) {
+        $pattern = "/^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/";
+        if (preg_match($pattern, $url, $matches)) {
+            return $matches[1];
+        }
+        return false;
+    }
+    $trailerURL = trim($_POST['p_Trailer']);
+    $trailerID = getTrailerID($trailerURL);
+
+    if (!$trailerID) {
+        $_SESSION["failure3"] = "Invalid Trailer URL, please enter a valid Youtube link.";
+        header("Location: add_Product.php");
+        exit;
+    }
+
+
     if ($_FILES['p_Image']['error'] === UPLOAD_ERR_OK) {
         $imageName = basename($_FILES['p_Image']['name']);
         $uploadDir = 'images/';
@@ -34,7 +52,7 @@ if (isset($_POST['add_product']) && isset($_FILES['p_Image'])) {
                     $_POST['p_Name'], $_POST['p_Price'], $_POST['p_RentPrice'], $_POST['p_Description'],
                     $_POST['p_ReleaseDate'], $_POST['categoryID'], $_POST['p_Stock'],
                     $_POST['p_ageRating'], $_POST['p_Duration'], $_POST['p_Starring'],
-                    $_POST['p_Director'], $targetPath, $_POST['p_Trailer']
+                    $_POST['p_Director'], $targetPath, $trailerID
                 ]);
 
                 $_SESSION["success2"] = "Successfully added new product to inventory!";
