@@ -280,16 +280,10 @@ if (isset($_SESSION['systemfailure'])) {
 
                     <!-- Registration & Guest Links -->
                     <div class="register">
-                        <p>Not Already Registered?<a href="ffRegistrationForm.php">Register here</a></p>
-                        <a href="ffLoginPageAdministrator.php">Administrator?</a></p>
+                        <p>Not Already Registered? <a href="ffRegistrationForm.php">Register here</a></p>
+                        <a style="padding-left: 36px;" href="ffLoginPageAdministrator.php">Administrator?</a></p>
                     </div>
                 </form>
             </div>
-        
-   
-    <!-- Ionicons Scripts -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
 </body>
 </html>

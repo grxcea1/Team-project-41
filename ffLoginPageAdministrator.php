@@ -129,16 +129,9 @@ if (isset($_SESSION['failedadminlogin2'])) {
 
                     <!-- Registration & Guest Links -->
                     <div class="register">
-                        <p>Not an Adminintrator?<a href="ffLoginPage.php">Customer</a></p>
-                        <a href="home.php">Home</a></p>
+                        <p>Not an Adminintrator? <a href="ffLoginPage.php">Customers</a></p>
                     </div>
                 </form>
             </div>
-        
-   
-    <!-- Ionicons Scripts -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
 </body>
 </html>
