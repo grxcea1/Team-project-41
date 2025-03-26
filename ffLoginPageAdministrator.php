@@ -31,7 +31,7 @@ if (isset($_SESSION['adminlogin'])) {
     unset($_SESSION['adminlogin']);
 }
 
-if (isset($_SESSION['failedadminlogin1'])) {
+if (isset($_SESSION['failedadminlogin'])) {
     echo "<div style='display: flex; 
             justify-content: center; 
             align-items: center;'>
@@ -43,10 +43,10 @@ if (isset($_SESSION['failedadminlogin1'])) {
             font-weight: bold; 
             border-radius: 5px; 
             text-align: center;'>
-                " . $_SESSION['failedadminlogin1'] . "
+                " . $_SESSION['failedadminlogin'] . "
             </div>
           </div>";
-    unset($_SESSION['failedadminlogin1']);
+    unset($_SESSION['failedadminlogin']);
 }
 
 if (isset($_SESSION['failedadminlogin2'])) {

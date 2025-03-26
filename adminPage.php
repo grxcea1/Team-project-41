@@ -94,9 +94,14 @@ $reportQuery = "SELECT
     r.rating AS Review_Rating 
 FROM orderdetails od 
 JOIN product p ON od.pid = p.pid 
-LEFT JOIN reviews r ON p.pid = r.product_id 
-GROUP BY p.pid, p.p_Name, r.description, r.rating 
-ORDER BY Total_Orders DESC";
+LEFT JOIN reviews r ON r.rid = (
+    SELECT MAX(rid)
+    FROM reviews
+    WHERE product_id = p.pid
+)
+GROUP BY p.pid, p.p_Name, r.description, r.rating
+ORDER BY Total_Orders DESC
+LIMIT 6";
 $reportStmt = $pdo->prepare($reportQuery);
 $reportStmt->execute();
 $popularProducts = $reportStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -333,7 +338,7 @@ if (isset($_SESSION['adminlogin'])) {
                 <a href="returns.php">Returns</a>
                 <a href="customerDetails.php">Customer Management</a>
                 <a href="add_Product.php">Add Products</a>
-                <a href="password.php">Password</a>
+                <a href="adminPassword.php">Password</a>
             </nav>
         </div>
 
